@@ -18,10 +18,16 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       <div></div>
       <nav className="hidden md:flex items-center gap-6">
         <Link 
-          to="/upload" 
+          to="/marketing" 
           className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
         >
-          Upload
+          About
+        </Link>
+        <Link 
+          to="/previous-uploads" 
+          className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
+        >
+          Previous Uploads
         </Link>
         <Link 
           to="/dashboard" 
