@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Progress } from "@/components/ui/progress";
@@ -32,7 +33,7 @@ const Upload: React.FC = () => {
       ...acceptedFiles.map(file => ({
         file: file,
         progress: 0,
-        status: 'uploading'
+        status: 'uploading' as const
       }))
     ]);
 
@@ -56,7 +57,7 @@ const Upload: React.FC = () => {
             clearInterval(interval);
             setFiles(prevFiles =>
               prevFiles.map(f =>
-                f.file === file ? { ...f, status: 'success', progress: 100 } : f
+                f.file === file ? { ...f, status: 'success' as const, progress: 100 } : f
               )
             );
             setTimeout(() => {
