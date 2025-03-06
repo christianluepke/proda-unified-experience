@@ -11,7 +11,7 @@ interface ProjectAssignmentProps {
   projectId: string | null;
   projects: Project[];
   onFileProjectChange: (file: File, projectId: string) => void;
-  onCreateProject: (name: string) => void;
+  onCreateProject: (name: string) => Project;
 }
 
 const ProjectAssignment: React.FC<ProjectAssignmentProps> = ({

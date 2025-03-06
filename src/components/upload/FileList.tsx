@@ -13,7 +13,7 @@ interface FileListProps {
   onFileProjectChange: (file: File, projectId: string) => void;
   onFileTypeChange: (file: File, fileType: 'rent_roll' | 'operating_statement') => void;
   onStartUpload: () => void;
-  onCreateProject: (name: string) => void;
+  onCreateProject: (name: string) => Project;
 }
 
 const FileList: React.FC<FileListProps> = ({

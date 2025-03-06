@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Index from "./pages/Index";
 import Upload from "./pages/Upload";
+import Projects from "./pages/Projects";
 import PreviousUploads from "./pages/PreviousUploads";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/" element={<Navigate to="/upload" replace />} />
           <Route path="/marketing" element={<Layout><Index /></Layout>} />
           <Route path="/upload" element={<Layout><Upload /></Layout>} />
+          <Route path="/projects" element={<Layout><Projects /></Layout>} />
           <Route path="/previous-uploads" element={<Layout><PreviousUploads /></Layout>} />
           <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

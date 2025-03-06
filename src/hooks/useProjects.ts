@@ -13,7 +13,7 @@ const MOCK_PROJECTS: Project[] = [
 export function useProjects() {
   const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
 
-  const handleCreateProject = (name: string) => {
+  const handleCreateProject = (name: string): Project => {
     const newId = (projects.length + 1).toString();
     const newProject: Project = { id: newId, name };
     

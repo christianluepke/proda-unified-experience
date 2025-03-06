@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -45,14 +46,14 @@ const Sidebar: React.FC<SidebarProps> = ({
       section: true
     },
     { 
+      label: 'Projects', 
+      icon: Building2, 
+      path: '/projects'
+    },
+    { 
       label: 'Files', 
       icon: FolderOpen, 
       path: '/files'
-    },
-    { 
-      label: 'Properties', 
-      icon: Building2, 
-      path: '/properties'
     },
     { 
       label: 'Analyse',
