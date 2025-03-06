@@ -1,8 +1,7 @@
-
 import React, { useState, useRef, useCallback } from 'react';
 import { toast } from "sonner";
 import { 
-  Upload, 
+  Upload as UploadIcon, 
   Files, 
   FilePlus, 
   FileText, 
@@ -62,7 +61,7 @@ const Upload: React.FC = () => {
       const newFiles = Array.from(event.target.files).map(file => ({
         id: Math.random().toString(36).substring(2, 9),
         file,
-        type: '',
+        type: '' as FileType | '',
         progress: 0,
         status: 'idle' as const,
       }));
@@ -88,7 +87,7 @@ const Upload: React.FC = () => {
       const newFiles = Array.from(e.dataTransfer.files).map(file => ({
         id: Math.random().toString(36).substring(2, 9),
         file,
-        type: '',
+        type: '' as FileType | '',
         progress: 0,
         status: 'idle' as const,
       }));
@@ -233,7 +232,7 @@ const Upload: React.FC = () => {
               "w-16 h-16 mb-4 rounded-full flex items-center justify-center bg-primary/10 text-primary transition-transform duration-300",
               isDragging ? "scale-110" : "hover:scale-105"
             )}>
-              <Upload size={28} className={isDragging ? "animate-bounce" : ""} />
+              <UploadIcon size={28} className={isDragging ? "animate-bounce" : ""} />
             </div>
             <h3 className="text-xl font-medium mb-2">Drag & Drop Files</h3>
             <p className="text-muted-foreground text-center max-w-md mb-4">
@@ -265,7 +264,7 @@ const Upload: React.FC = () => {
                   >
                     <span>Upload All</span>
                     {canUpload && (
-                      <Upload size={14} className="ml-2" />
+                      <UploadIcon size={14} className="ml-2" />
                     )}
                   </Button>
                 )}
@@ -434,7 +433,7 @@ const Upload: React.FC = () => {
                   >
                     <span>Upload All Files</span>
                     {canUpload && (
-                      <Upload size={16} className="ml-2" />
+                      <UploadIcon size={16} className="ml-2" />
                     )}
                   </Button>
                 </div>
