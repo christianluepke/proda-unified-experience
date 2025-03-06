@@ -10,9 +10,12 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ className }) => {
   return (
     <header className={cn('w-full py-4 px-6 flex items-center justify-between', className)}>
-      <Link to="/" className="flex items-center gap-2">
-        <span className="text-xl font-medium tracking-tight">PRODA</span>
-      </Link>
+      <div className="hidden">
+        <Link to="/" className="flex items-center gap-2">
+          <span className="text-xl font-medium tracking-tight">PRODA</span>
+        </Link>
+      </div>
+      <div></div>
       <nav className="hidden md:flex items-center gap-6">
         <Link 
           to="/upload" 
