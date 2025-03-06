@@ -1,117 +1,31 @@
-import React, { useState, useCallback } from 'react';
+
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { History } from 'lucide-react';
-import { UploadedFile, Project, FileType } from '@/components/upload/models';
+import { FileType } from '@/components/upload/models';
 import FileDropzone from '@/components/upload/FileDropzone';
 import FileList from '@/components/upload/FileList';
-import { toast } from "@/components/ui/use-toast";
+import { useFileUpload } from '@/hooks/useFileUpload';
+import { useProjects } from '@/hooks/useProjects';
 
-const MOCK_PROJECTS: Project[] = [
-  { id: '1', name: 'Project A' },
-  { id: '2', name: 'Project B' },
-  { id: '3', name: 'Project C' },
-];
-
+// Constants
 const FILE_TYPES: FileType[] = [
   { id: 'rent_roll', name: 'Rent Roll' },
   { id: 'operating_statement', name: 'Operating Statement' },
 ];
 
 const Upload: React.FC = () => {
-  const [files, setFiles] = useState<UploadedFile[]>([]);
-  const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
-
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles(prevFiles => [
-      ...prevFiles,
-      ...acceptedFiles.map(file => ({
-        file: file,
-        progress: 0,
-        status: 'uploading' as const,
-        projectId: null,
-        fileType: null
-      }))
-    ]);
-
-    acceptedFiles.forEach(file => {
-      const reader = new FileReader();
-
-      reader.onabort = () => console.log('file reading was aborted');
-      reader.onerror = () => console.log('file reading has failed');
-      reader.onload = () => {
-        let progress = 0;
-        const interval = setInterval(() => {
-          progress += 10;
-          setFiles(prevFiles =>
-            prevFiles.map(f =>
-              f.file === file ? { ...f, progress: Math.min(progress, 100) } : f
-            )
-          );
-
-          if (progress >= 100) {
-            clearInterval(interval);
-            setFiles(prevFiles =>
-              prevFiles.map(f =>
-                f.file === file ? { ...f, status: 'success' as const, progress: 100 } : f
-              )
-            );
-            setTimeout(() => {
-              setFiles(prevFiles =>
-                prevFiles.map(f =>
-                  f.file === file ? { ...f, progress: 0 } : f
-                )
-              );
-            }, 2000);
-          }
-        }, 200);
-      };
-      reader.readAsArrayBuffer(file);
-    });
-  }, []);
-
-  const handleRemoveFile = (fileToRemove: File) => {
-    setFiles(prevFiles => prevFiles.filter(file => file.file !== fileToRemove));
-  };
-
-  const handleFileProjectChange = (file: File, projectId: string) => {
-    setFiles(prevFiles => 
-      prevFiles.map(f => 
-        f.file === file ? { ...f, projectId } : f
-      )
-    );
-  };
-
-  const handleFileTypeChange = (file: File, fileType: 'rent_roll' | 'operating_statement') => {
-    setFiles(prevFiles => 
-      prevFiles.map(f => 
-        f.file === file ? { ...f, fileType } : f
-      )
-    );
-  };
-
-  const handleCreateProject = (name: string) => {
-    const newId = (projects.length + 1).toString();
-    const newProject: Project = { id: newId, name };
-    
-    setProjects(prevProjects => [...prevProjects, newProject]);
-    
-    toast({
-      title: "Project Created",
-      description: `Project "${name}" has been created.`,
-    });
-  };
-
-  const startUpload = () => {
-    const hasUnassignedFiles = files.some(file => !file.projectId || !file.fileType);
-    
-    if (hasUnassignedFiles) {
-      alert("Please assign a project and file type to all files");
-      return;
-    }
-    
-    console.log("Starting upload for all files");
-  };
+  const { 
+    files, 
+    onDrop, 
+    handleRemoveFile, 
+    handleFileProjectChange, 
+    handleFileTypeChange, 
+    startUpload 
+  } = useFileUpload();
+  
+  const { projects, createProject } = useProjects();
 
   return (
     <div className="container mx-auto py-10">
@@ -137,7 +51,7 @@ const Upload: React.FC = () => {
             onFileProjectChange={handleFileProjectChange}
             onFileTypeChange={handleFileTypeChange}
             onStartUpload={startUpload}
-            onCreateProject={handleCreateProject}
+            onCreateProject={createProject}
           />
         )}
       </div>
