@@ -2,14 +2,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { File as LucideFile, ChevronLeft, Calendar, Building2 } from 'lucide-react';
+import { File as LucideFile, ChevronLeft, Calendar, Building2, FileText } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 
 interface UploadRecord {
   id: string;
   fileName: string;
-  fileType: string;
+  fileType: 'rent_roll' | 'operating_statement' | 'other';
   uploadDate: string;
   project: string;
   status: 'success' | 'error' | 'processing';
@@ -20,7 +20,7 @@ const MOCK_UPLOADS: UploadRecord[] = [
   {
     id: '1',
     fileName: 'rent-roll-2023-q1.xlsx',
-    fileType: 'spreadsheet',
+    fileType: 'rent_roll',
     uploadDate: '2023-04-15',
     project: 'Project A',
     status: 'success',
@@ -29,7 +29,7 @@ const MOCK_UPLOADS: UploadRecord[] = [
   {
     id: '2',
     fileName: 'property-valuation.pdf',
-    fileType: 'document',
+    fileType: 'other',
     uploadDate: '2023-03-22',
     project: 'Project B',
     status: 'success',
@@ -38,7 +38,7 @@ const MOCK_UPLOADS: UploadRecord[] = [
   {
     id: '3',
     fileName: 'operating-statement-2023.xlsx',
-    fileType: 'spreadsheet',
+    fileType: 'operating_statement',
     uploadDate: '2023-05-10',
     project: 'Project A',
     status: 'processing',
@@ -47,7 +47,7 @@ const MOCK_UPLOADS: UploadRecord[] = [
   {
     id: '4',
     fileName: 'property-photos.zip',
-    fileType: 'archive',
+    fileType: 'other',
     uploadDate: '2023-02-28',
     project: 'Project C',
     status: 'error',
@@ -65,6 +65,17 @@ const getStatusBadge = (status: UploadRecord['status']) => {
       return <Badge variant="secondary" className="bg-blue-100 text-blue-800 hover:bg-blue-200">Processing</Badge>;
     default:
       return null;
+  }
+};
+
+const getFileTypeName = (fileType: UploadRecord['fileType']) => {
+  switch (fileType) {
+    case 'rent_roll':
+      return 'Rent Roll';
+    case 'operating_statement':
+      return 'Operating Statement';
+    default:
+      return 'Other';
   }
 };
 
@@ -94,6 +105,7 @@ const PreviousUploads: React.FC = () => {
           <div className="flex gap-4 text-sm font-medium text-muted-foreground">
             <span className="w-24 text-right">Date</span>
             <span className="w-24 text-right">Project</span>
+            <span className="w-32 text-right">File Type</span>
             <span className="w-24 text-right">Status</span>
             <span className="w-20 text-right">Size</span>
           </div>
@@ -115,6 +127,10 @@ const PreviousUploads: React.FC = () => {
                 <div className="flex items-center gap-1 w-24 justify-end text-sm text-muted-foreground">
                   <Building2 className="h-3.5 w-3.5" />
                   <span>{upload.project}</span>
+                </div>
+                <div className="flex items-center gap-1 w-32 justify-end text-sm text-muted-foreground">
+                  <FileText className="h-3.5 w-3.5" />
+                  <span>{getFileTypeName(upload.fileType)}</span>
                 </div>
                 <div className="w-24 flex justify-end">
                   {getStatusBadge(upload.status)}
