@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -100,16 +99,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       collapsed ? "w-[60px]" : "w-[250px]",
       className
     )}>
-      <div className="flex items-center h-16 px-4 border-b bg-background">
-        <Link to="/" className="flex items-center gap-2 overflow-hidden">
+      <div className="flex items-center justify-center h-16 px-4 border-b bg-background">
+        <Link to="/" className="flex items-center overflow-hidden">
           <img 
             src="/lovable-uploads/ff312c1a-15a4-4831-a6f3-378a86fda5a4.png" 
             alt="PRODA Logo" 
             className="h-8"
           />
-          {!collapsed && (
-            <span className="text-xl font-medium tracking-tight">PRODA</span>
-          )}
         </Link>
       </div>
       
