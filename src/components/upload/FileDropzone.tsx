@@ -1,39 +1,39 @@
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { File as LucideFile } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { UploadCloud } from 'lucide-react';
 
-interface FileDropzoneProps {
+export interface FileDropzoneProps {
   onDrop: (acceptedFiles: File[]) => void;
-  className?: string; // Added className as an optional prop
+  className?: string;
 }
 
 const FileDropzone: React.FC<FileDropzoneProps> = ({ onDrop, className }) => {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const onDropCallback = useCallback((acceptedFiles: File[]) => {
+    onDrop(acceptedFiles);
+  }, [onDrop]);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop: onDropCallback });
 
   return (
-    <div className={className}>
-      <h2 className="text-lg font-medium mb-3">Drop or Select Files</h2>
-      <div
-        {...getRootProps()}
-        className={cn(
-          "border-2 border-dashed rounded-md p-8 flex flex-col items-center justify-center",
-          "bg-muted/50 hover:bg-muted/80 transition-colors duration-200",
-          isDragActive ? "border-primary" : "border-muted"
-        )}
-      >
-        <input {...getInputProps()} />
-        <LucideFile className="h-12 w-12 text-muted-foreground mb-4" />
-        <p className="text-base text-muted-foreground">
-          {isDragActive
-            ? "Drop the files here..."
-            : "Drag 'n' drop some files here, or click to select files"}
-        </p>
-        <p className="text-sm text-muted-foreground mt-2">
-          After uploading, you'll be able to assign projects and file types to each file.
-        </p>
-      </div>
+    <div 
+      {...getRootProps()} 
+      className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors ${
+        isDragActive ? 'border-primary bg-primary/5' : 'border-muted-foreground/20'
+      } ${className || ''}`}
+    >
+      <input {...getInputProps()} />
+      <UploadCloud className="mx-auto h-10 w-10 text-muted-foreground/80 mb-2" />
+      {isDragActive ? (
+        <p className="text-sm text-muted-foreground">Drop the files here...</p>
+      ) : (
+        <div>
+          <p className="text-sm font-medium">Drag and drop files here, or click to select files</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Supported formats: XLS, XLSX, CSV, PDF
+          </p>
+        </div>
+      )}
     </div>
   );
 };

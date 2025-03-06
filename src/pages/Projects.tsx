@@ -1,24 +1,20 @@
 
 import React, { useState } from 'react';
-import { Plus, Search, Upload, ArrowRight, FileText, FileSpreadsheet, LayoutGrid, List } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { useProjects, ViewMode } from '@/hooks/useProjects';
+import { useProjects } from '@/hooks/useProjects';
 import { useFileUpload } from '@/hooks/useFileUpload';
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/components/ui/use-toast";
-import FileDropzone from '@/components/upload/FileDropzone';
 import ProjectList from '@/components/projects/ProjectList';
+import ProjectsGrid from '@/components/projects/ProjectsGrid';
 import CreateProjectDialog from '@/components/projects/CreateProjectDialog';
+import ViewSelector from '@/components/projects/ViewSelector';
+import UploadToProjectDialog from '@/components/projects/UploadToProjectDialog';
 
 const Projects: React.FC = () => {
   const { projects, createProject, viewMode, setViewMode } = useProjects();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
-  const [fileType, setFileType] = useState<'rent_roll' | 'operating_statement'>('rent_roll');
-  const [openUploadDialog, setOpenUploadDialog] = useState(false);
 
   const { 
     files, 
@@ -35,72 +31,19 @@ const Projects: React.FC = () => {
       )
     : projects;
 
-  const handleUpload = () => {
-    if (!selectedProject || files.length === 0) {
-      toast({
-        title: "Missing Information",
-        description: "Please select a project and add files",
-        variant: "destructive"
-      });
-      return;
-    }
-
+  const handleUpload = (projectId: string, fileType: 'rent_roll' | 'operating_statement') => {
     // Set project and file type for all files
     files.forEach(fileObj => {
-      handleFileProjectChange(fileObj.file, selectedProject);
+      handleFileProjectChange(fileObj.file, projectId);
       handleFileTypeChange(fileObj.file, fileType);
     });
 
     startUpload();
-    setOpenUploadDialog(false);
   };
 
   const openUploadForProject = (projectId: string) => {
     setSelectedProject(projectId);
-    setOpenUploadDialog(true);
   };
-
-  const FileTypeSelect = () => (
-    <div className="space-y-2">
-      <h4 className="text-sm font-medium">File Type</h4>
-      <RadioGroup 
-        value={fileType} 
-        onValueChange={(value) => setFileType(value as 'rent_roll' | 'operating_statement')}
-        className="flex gap-4"
-      >
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="rent_roll" id="rent_roll" />
-          <label htmlFor="rent_roll" className="text-sm cursor-pointer">Rent Roll</label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="operating_statement" id="operating_statement" />
-          <label htmlFor="operating_statement" className="text-sm cursor-pointer">Operating Statement</label>
-        </div>
-      </RadioGroup>
-    </div>
-  );
-
-  // View selector component
-  const ViewSelector = () => (
-    <div className="flex items-center space-x-2 border rounded-md">
-      <Button
-        variant={viewMode === 'cards' ? 'default' : 'ghost'}
-        size="sm"
-        className="rounded-r-none"
-        onClick={() => setViewMode('cards')}
-      >
-        <LayoutGrid className="h-4 w-4 mr-1" /> Cards
-      </Button>
-      <Button
-        variant={viewMode === 'list' ? 'default' : 'ghost'}
-        size="sm"
-        className="rounded-l-none"
-        onClick={() => setViewMode('list')}
-      >
-        <List className="h-4 w-4 mr-1" /> List
-      </Button>
-    </div>
-  );
 
   return (
     <div className="container mx-auto py-10">
@@ -108,81 +51,18 @@ const Projects: React.FC = () => {
         <h1 className="text-2xl font-bold">Projects</h1>
         
         <div className="flex items-center space-x-3">
-          <ViewSelector />
+          <ViewSelector viewMode={viewMode} setViewMode={setViewMode} />
           
           <CreateProjectDialog onCreateProject={createProject} />
           
-          <Dialog open={openUploadDialog} onOpenChange={setOpenUploadDialog}>
-            <DialogTrigger asChild>
-              <Button className="flex items-center gap-2">
-                <Upload className="h-4 w-4" />
-                Upload to Project
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>Upload Files to Project</DialogTitle>
-                <DialogDescription>
-                  Select a project and file type, then upload your files.
-                </DialogDescription>
-              </DialogHeader>
-              
-              <div className="space-y-4 py-4">
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium">Project</h4>
-                  <select 
-                    className="w-full p-2 border rounded-md"
-                    value={selectedProject || ''}
-                    onChange={(e) => setSelectedProject(e.target.value)}
-                  >
-                    <option value="">Select a project</option>
-                    {projects.map(project => (
-                      <option key={project.id} value={project.id}>
-                        {project.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                
-                <FileTypeSelect />
-                
-                <FileDropzone 
-                  onDrop={onDrop} 
-                  className="h-32"
-                />
-                
-                {files.length > 0 && (
-                  <div className="mt-2">
-                    <h4 className="text-sm font-medium mb-2">Files to upload ({files.length})</h4>
-                    <ul className="max-h-40 overflow-y-auto space-y-2 text-sm">
-                      {files.map((fileObj, index) => (
-                        <li key={index} className="flex items-center justify-between">
-                          <span className="truncate max-w-xs">{fileObj.file.name}</span>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleRemoveFile(fileObj.file)}
-                            className="h-6 w-6 p-0"
-                          >
-                            &times;
-                          </Button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-              
-              <DialogFooter>
-                <Button variant="outline" onClick={() => setOpenUploadDialog(false)}>
-                  Cancel
-                </Button>
-                <Button onClick={handleUpload} disabled={!selectedProject || files.length === 0}>
-                  Upload
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <UploadToProjectDialog
+            projects={projects}
+            selectedProject={selectedProject}
+            onUpload={handleUpload}
+            files={files}
+            onDrop={onDrop}
+            handleRemoveFile={handleRemoveFile}
+          />
         </div>
       </div>
 
@@ -208,43 +88,10 @@ const Projects: React.FC = () => {
           onSelectUpload={openUploadForProject}
         />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map(project => (
-            <Card key={project.id} className="overflow-hidden">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg">{project.name}</CardTitle>
-                <CardDescription className="truncate">
-                  {project.description || `Project ID: ${project.id}`}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pb-2">
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center">
-                    <FileText className="mr-1 h-4 w-4 text-primary/70" />
-                    <span>Rent Rolls: 0</span>
-                  </div>
-                  <div className="flex items-center">
-                    <FileSpreadsheet className="mr-1 h-4 w-4 text-primary/70" />
-                    <span>Op Statements: 0</span>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-between pt-3 border-t">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => openUploadForProject(project.id)}
-                >
-                  <Upload className="mr-2 h-3 w-3" /> 
-                  Upload
-                </Button>
-                <Button variant="ghost" size="sm">
-                  View Details <ArrowRight className="ml-1 h-3 w-3" />
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+        <ProjectsGrid
+          projects={filteredProjects}
+          onSelectUpload={openUploadForProject}
+        />
       )}
     </div>
   );
