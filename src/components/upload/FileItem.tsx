@@ -1,11 +1,10 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Progress } from "@/components/ui/progress";
 import { Button } from '@/components/ui/button';
-import { X, CheckCircle, LucideFile, Plus, Search } from 'lucide-react';
+import { X, CheckCircle, LucideFile } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Input } from "@/components/ui/input";
 import { UploadedFile, Project, FileType } from './models';
 import ProjectAssignment from './ProjectAssignment';
 
@@ -17,7 +16,7 @@ interface FileItemProps {
   onRemoveFile: (file: File) => void;
   onFileProjectChange: (file: File, projectId: string) => void;
   onFileTypeChange: (file: File, fileType: 'rent_roll' | 'operating_statement') => void;
-  onCreateProject: (name: string) => void;
+  onCreateProject: (name: string) => Project;
 }
 
 const FileItem: React.FC<FileItemProps> = ({
