@@ -47,7 +47,7 @@ const FileList: React.FC<FileListProps> = ({
 
   return (
     <div>
-      <h2 className="text-lg font-medium mb-3">3. Assign Projects and File Types</h2>
+      <h2 className="text-lg font-medium mb-3">Assign Projects and File Types</h2>
       <div className="border rounded-md overflow-hidden">
         <div className="bg-muted/40 p-3 font-medium text-sm">
           Files to Upload ({files.length})
