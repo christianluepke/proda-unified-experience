@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Index from "./pages/Index";
 import Upload from "./pages/Upload";
+import PreviousUploads from "./pages/PreviousUploads";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
@@ -21,6 +22,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Layout><Index /></Layout>} />
           <Route path="/upload" element={<Layout><Upload /></Layout>} />
+          <Route path="/previous-uploads" element={<Layout><PreviousUploads /></Layout>} />
           <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<Layout><NotFound /></Layout>} />
