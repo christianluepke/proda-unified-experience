@@ -6,13 +6,14 @@ import { cn } from '@/lib/utils';
 
 interface FileDropzoneProps {
   onDrop: (acceptedFiles: File[]) => void;
+  className?: string; // Added className as an optional prop
 }
 
-const FileDropzone: React.FC<FileDropzoneProps> = ({ onDrop }) => {
+const FileDropzone: React.FC<FileDropzoneProps> = ({ onDrop, className }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <div>
+    <div className={className}>
       <h2 className="text-lg font-medium mb-3">Drop or Select Files</h2>
       <div
         {...getRootProps()}
