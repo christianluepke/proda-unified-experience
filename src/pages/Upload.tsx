@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -6,6 +5,7 @@ import { History } from 'lucide-react';
 import { UploadedFile, Project, FileType } from '@/components/upload/models';
 import FileDropzone from '@/components/upload/FileDropzone';
 import FileList from '@/components/upload/FileList';
+import { toast } from "@/components/ui/use-toast";
 
 const MOCK_PROJECTS: Project[] = [
   { id: '1', name: 'Project A' },
@@ -20,6 +20,7 @@ const FILE_TYPES: FileType[] = [
 
 const Upload: React.FC = () => {
   const [files, setFiles] = useState<UploadedFile[]>([]);
+  const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(prevFiles => [
@@ -39,7 +40,6 @@ const Upload: React.FC = () => {
       reader.onabort = () => console.log('file reading was aborted');
       reader.onerror = () => console.log('file reading has failed');
       reader.onload = () => {
-        // Simulate upload progress
         let progress = 0;
         const interval = setInterval(() => {
           progress += 10;
@@ -90,8 +90,19 @@ const Upload: React.FC = () => {
     );
   };
 
+  const handleCreateProject = (name: string) => {
+    const newId = (projects.length + 1).toString();
+    const newProject: Project = { id: newId, name };
+    
+    setProjects(prevProjects => [...prevProjects, newProject]);
+    
+    toast({
+      title: "Project Created",
+      description: `Project "${name}" has been created.`,
+    });
+  };
+
   const startUpload = () => {
-    // Check if all files have project assignments and file types
     const hasUnassignedFiles = files.some(file => !file.projectId || !file.fileType);
     
     if (hasUnassignedFiles) {
@@ -99,7 +110,6 @@ const Upload: React.FC = () => {
       return;
     }
     
-    // Pretend to start the upload
     console.log("Starting upload for all files");
   };
 
@@ -121,12 +131,13 @@ const Upload: React.FC = () => {
         {files.length > 0 && (
           <FileList 
             files={files}
-            projects={MOCK_PROJECTS}
+            projects={projects}
             fileTypes={FILE_TYPES}
             onRemoveFile={handleRemoveFile}
             onFileProjectChange={handleFileProjectChange}
             onFileTypeChange={handleFileTypeChange}
             onStartUpload={startUpload}
+            onCreateProject={handleCreateProject}
           />
         )}
       </div>
