@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Sidebar from './sidebar';
+import Header from './Header';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -28,9 +29,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         collapsed={sidebarCollapsed} 
         onToggle={toggleSidebar} 
       />
-      <main className="flex-1 transition-all duration-300 overflow-auto w-full">
-        {children}
-      </main>
+      <div className="flex-1 flex flex-col">
+        <Header />
+        <main className="flex-1 transition-all duration-300 overflow-auto w-full">
+          {children}
+        </main>
+      </div>
     </div>
   );
 };
