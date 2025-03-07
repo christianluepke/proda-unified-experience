@@ -14,3 +14,8 @@ export interface SidebarProps {
   collapsed?: boolean;
   onToggle?: () => void;
 }
+
+export interface Database {
+  id: string;
+  name: string;
+}

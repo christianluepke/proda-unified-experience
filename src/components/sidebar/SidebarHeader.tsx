@@ -11,7 +11,7 @@ const SidebarHeader: React.FC<SidebarHeaderProps> = ({ collapsed }) => {
   return (
     <div className={cn(
       "flex items-center justify-center h-16 px-4 border-b bg-background",
-      collapsed && "h-16"
+      collapsed ? "h-16" : ""
     )}>
       {!collapsed && (
         <Link to="/" className="flex items-center overflow-hidden">
