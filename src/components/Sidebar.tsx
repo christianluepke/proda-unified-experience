@@ -52,14 +52,19 @@ const Sidebar: React.FC<SidebarProps> = ({
       section: true
     },
     { 
+      label: 'Files', 
+      icon: FolderOpen, 
+      path: '/files'
+    },
+    { 
       label: 'Projects', 
       icon: Building2, 
       path: '/projects'
     },
     { 
-      label: 'Files', 
-      icon: FolderOpen, 
-      path: '/files'
+      label: 'Properties', 
+      icon: Building2, 
+      path: '/properties'
     },
     { 
       label: 'Analyse',
