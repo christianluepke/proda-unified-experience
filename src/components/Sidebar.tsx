@@ -16,6 +16,12 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { 
+  Tooltip, 
+  TooltipContent, 
+  TooltipProvider, 
+  TooltipTrigger 
+} from '@/components/ui/tooltip';
 
 interface SidebarProps {
   className?: string;
@@ -111,37 +117,61 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
       
       <div className="flex-1 overflow-y-auto py-4">
-        <nav className="space-y-1 px-2">
-          {sidebarItems.map((item, index) => 
-            item.section ? (
-              <div 
-                key={`section-${index}`} 
-                className={cn(
-                  "text-xs font-medium text-muted-foreground pt-4 pb-2",
-                  collapsed && "sr-only"
-                )}
-              >
-                {item.label}
-              </div>
-            ) : (
-              <div key={`item-${index}`} className={item.dividerAfter ? "pb-4 border-b mb-4" : ""}>
-                <Link 
-                  to={item.path || "#"} 
+        <TooltipProvider delayDuration={300}>
+          <nav className="space-y-1 px-2">
+            {sidebarItems.map((item, index) => 
+              item.section ? (
+                <div 
+                  key={`section-${index}`} 
                   className={cn(
-                    "flex items-center py-2 px-3 rounded-md text-sm font-medium transition-colors",
-                    isActive(item.path || "") 
-                      ? "bg-primary/10 text-primary" 
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                    collapsed && "justify-center"
+                    "text-xs font-medium text-muted-foreground pt-4 pb-2",
+                    collapsed && "sr-only"
                   )}
                 >
-                  {item.icon && <item.icon size={collapsed ? 20 : 18} className={cn("shrink-0", !collapsed && "mr-2")} />}
-                  {!collapsed && <span>{item.label}</span>}
-                </Link>
-              </div>
-            )
-          )}
-        </nav>
+                  {item.label}
+                </div>
+              ) : (
+                <div key={`item-${index}`} className={item.dividerAfter ? "pb-4 border-b mb-4" : ""}>
+                  {item.icon && collapsed ? (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link 
+                          to={item.path || "#"} 
+                          className={cn(
+                            "flex items-center py-2 px-3 rounded-md text-sm font-medium transition-colors",
+                            isActive(item.path || "") 
+                              ? "bg-primary/10 text-primary" 
+                              : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                            "justify-center"
+                          )}
+                        >
+                          <item.icon size={22} />
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        {item.label}
+                      </TooltipContent>
+                    </Tooltip>
+                  ) : (
+                    <Link 
+                      to={item.path || "#"} 
+                      className={cn(
+                        "flex items-center py-2 px-3 rounded-md text-sm font-medium transition-colors",
+                        isActive(item.path || "") 
+                          ? "bg-primary/10 text-primary" 
+                          : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                        collapsed && "justify-center"
+                      )}
+                    >
+                      {item.icon && <item.icon size={collapsed ? 22 : 18} className={cn("shrink-0", !collapsed && "mr-2")} />}
+                      {!collapsed && <span>{item.label}</span>}
+                    </Link>
+                  )}
+                </div>
+              )
+            )}
+          </nav>
+        </TooltipProvider>
       </div>
       
       <div className="p-2 border-t">
@@ -150,6 +180,8 @@ const Sidebar: React.FC<SidebarProps> = ({
           size="sm" 
           className="w-full justify-center"
           onClick={onToggle}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
         </Button>
