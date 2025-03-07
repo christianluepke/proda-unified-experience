@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 
   return (
     <header className={cn('w-full py-4 px-6 flex items-center justify-between gap-4', className)}>
-      <div className="hidden">
+      <div className="flex items-center gap-2">
         <Link to="/" className="flex items-center gap-2">
           <span className="text-xl font-medium tracking-tight">PRODA</span>
         </Link>
