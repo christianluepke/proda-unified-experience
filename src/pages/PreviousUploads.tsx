@@ -97,50 +97,52 @@ const PreviousUploads: React.FC = () => {
         </Link>
       </div>
 
-      <div className="rounded-md border bg-card">
-        <div className="p-4 flex items-center justify-between bg-muted/40">
-          <div className="flex gap-4 text-sm font-medium text-muted-foreground">
-            <span>File Name</span>
-          </div>
-          <div className="flex gap-4 text-sm font-medium text-muted-foreground">
-            <span className="w-24 text-right">Date</span>
-            <span className="w-24 text-right">Project</span>
-            <span className="w-32 text-right">File Type</span>
-            <span className="w-24 text-right">Status</span>
-            <span className="w-20 text-right">Size</span>
-          </div>
-        </div>
-        <Separator />
-        
-        <div className="divide-y">
-          {MOCK_UPLOADS.map(upload => (
-            <div key={upload.id} className="p-4 flex items-center justify-between hover:bg-muted/30">
-              <div className="flex items-center gap-3">
-                <LucideFile className="h-5 w-5 text-muted-foreground" />
-                <span className="font-medium">{upload.fileName}</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-1 w-24 justify-end text-sm text-muted-foreground">
-                  <Calendar className="h-3.5 w-3.5" />
-                  <span>{upload.uploadDate}</span>
-                </div>
-                <div className="flex items-center gap-1 w-24 justify-end text-sm text-muted-foreground">
-                  <Building2 className="h-3.5 w-3.5" />
-                  <span>{upload.project}</span>
-                </div>
-                <div className="flex items-center gap-1 w-32 justify-end text-sm text-muted-foreground">
-                  <FileText className="h-3.5 w-3.5" />
-                  <span>{getFileTypeName(upload.fileType)}</span>
-                </div>
-                <div className="w-24 flex justify-end">
-                  {getStatusBadge(upload.status)}
-                </div>
-                <div className="w-20 text-right text-sm text-muted-foreground">
-                  {upload.fileSize}
-                </div>
-              </div>
+      <div className="w-full rounded-md border bg-card overflow-hidden">
+        <div className="overflow-x-auto">
+          <div className="p-4 flex items-center justify-between bg-muted/40 min-w-[800px]">
+            <div className="flex gap-4 text-sm font-medium text-muted-foreground">
+              <span className="min-w-[200px]">File Name</span>
             </div>
-          ))}
+            <div className="flex gap-4 text-sm font-medium text-muted-foreground">
+              <span className="w-24 text-right">Date</span>
+              <span className="w-24 text-right">Project</span>
+              <span className="w-32 text-right">File Type</span>
+              <span className="w-24 text-right">Status</span>
+              <span className="w-20 text-right">Size</span>
+            </div>
+          </div>
+          <Separator />
+          
+          <div className="divide-y min-w-[800px]">
+            {MOCK_UPLOADS.map(upload => (
+              <div key={upload.id} className="p-4 flex items-center justify-between hover:bg-muted/30">
+                <div className="flex items-center gap-3 min-w-[200px]">
+                  <LucideFile className="h-5 w-5 text-muted-foreground" />
+                  <span className="font-medium">{upload.fileName}</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1 w-24 justify-end text-sm text-muted-foreground">
+                    <Calendar className="h-3.5 w-3.5" />
+                    <span>{upload.uploadDate}</span>
+                  </div>
+                  <div className="flex items-center gap-1 w-24 justify-end text-sm text-muted-foreground">
+                    <Building2 className="h-3.5 w-3.5" />
+                    <span>{upload.project}</span>
+                  </div>
+                  <div className="flex items-center gap-1 w-32 justify-end text-sm text-muted-foreground">
+                    <FileText className="h-3.5 w-3.5" />
+                    <span>{getFileTypeName(upload.fileType)}</span>
+                  </div>
+                  <div className="w-24 flex justify-end">
+                    {getStatusBadge(upload.status)}
+                  </div>
+                  <div className="w-20 text-right text-sm text-muted-foreground">
+                    {upload.fileSize}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

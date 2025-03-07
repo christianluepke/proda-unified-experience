@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         collapsed={sidebarCollapsed} 
         onToggle={toggleSidebar} 
       />
-      <main className="flex-1 transition-all duration-300">
+      <main className="flex-1 transition-all duration-300 w-0 min-w-0 overflow-hidden">
         {children}
       </main>
     </div>
