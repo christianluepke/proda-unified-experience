@@ -13,7 +13,8 @@ import {
   HelpCircle, 
   Settings,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Briefcase
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { 
@@ -58,7 +59,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     },
     { 
       label: 'Projects', 
-      icon: Building2, 
+      icon: Briefcase, 
       path: '/projects'
     },
     { 
@@ -111,14 +112,19 @@ const Sidebar: React.FC<SidebarProps> = ({
       collapsed ? "w-[60px]" : "w-[250px]",
       className
     )}>
-      <div className="flex items-center justify-center h-16 px-4 border-b bg-background">
-        <Link to="/" className="flex items-center overflow-hidden">
-          <img 
-            src="/lovable-uploads/ff312c1a-15a4-4831-a6f3-378a86fda5a4.png" 
-            alt="PRODA Logo" 
-            className="h-8"
-          />
-        </Link>
+      <div className={cn(
+        "flex items-center justify-center h-16 px-4 border-b bg-background",
+        collapsed && "h-16"
+      )}>
+        {!collapsed && (
+          <Link to="/" className="flex items-center overflow-hidden">
+            <img 
+              src="/lovable-uploads/ff312c1a-15a4-4831-a6f3-378a86fda5a4.png" 
+              alt="PRODA Logo" 
+              className="h-8"
+            />
+          </Link>
+        )}
       </div>
       
       <div className="flex-1 overflow-y-auto py-4">
