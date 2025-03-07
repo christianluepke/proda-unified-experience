@@ -10,7 +10,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   // Get initial collapsed state from localStorage or default to true (collapsed)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
     const saved = localStorage.getItem('sidebarCollapsed');
-    return saved ? JSON.parse(saved) : true;
+    return saved !== null ? JSON.parse(saved) : true;
   });
   
   // Save collapsed state to localStorage when it changes
@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         collapsed={sidebarCollapsed} 
         onToggle={toggleSidebar} 
       />
-      <main className="flex-1 transition-all duration-300 w-0 min-w-0 overflow-hidden">
+      <main className="flex-1 transition-all duration-300 overflow-auto w-full">
         {children}
       </main>
     </div>

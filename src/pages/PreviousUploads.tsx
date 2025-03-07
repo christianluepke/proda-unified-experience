@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { File as LucideFile, ChevronLeft, Calendar, Building2, FileText } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 
 interface UploadRecord {
   id: string;
@@ -97,53 +98,53 @@ const PreviousUploads: React.FC = () => {
         </Link>
       </div>
 
-      <div className="w-full rounded-md border bg-card overflow-hidden">
-        <div className="overflow-x-auto">
-          <div className="p-4 flex items-center justify-between bg-muted/40 min-w-[800px]">
-            <div className="flex gap-4 text-sm font-medium text-muted-foreground">
-              <span className="min-w-[200px]">File Name</span>
-            </div>
-            <div className="flex gap-4 text-sm font-medium text-muted-foreground">
-              <span className="w-24 text-right">Date</span>
-              <span className="w-24 text-right">Project</span>
-              <span className="w-32 text-right">File Type</span>
-              <span className="w-24 text-right">Status</span>
-              <span className="w-20 text-right">Size</span>
-            </div>
-          </div>
-          <Separator />
-          
-          <div className="divide-y min-w-[800px]">
+      <div className="w-full rounded-md border bg-card">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[30%]">File Name</TableHead>
+              <TableHead className="w-[15%]">Date</TableHead>
+              <TableHead className="w-[15%]">Project</TableHead>
+              <TableHead className="w-[15%]">File Type</TableHead>
+              <TableHead className="w-[15%]">Status</TableHead>
+              <TableHead className="w-[10%]">Size</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {MOCK_UPLOADS.map(upload => (
-              <div key={upload.id} className="p-4 flex items-center justify-between hover:bg-muted/30">
-                <div className="flex items-center gap-3 min-w-[200px]">
-                  <LucideFile className="h-5 w-5 text-muted-foreground" />
+              <TableRow key={upload.id}>
+                <TableCell className="flex items-center gap-3">
+                  <LucideFile className="h-5 w-5 text-muted-foreground shrink-0" />
                   <span className="font-medium">{upload.fileName}</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-1 w-24 justify-end text-sm text-muted-foreground">
-                    <Calendar className="h-3.5 w-3.5" />
+                </TableCell>
+                <TableCell className="text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Calendar className="h-3.5 w-3.5 shrink-0" />
                     <span>{upload.uploadDate}</span>
                   </div>
-                  <div className="flex items-center gap-1 w-24 justify-end text-sm text-muted-foreground">
-                    <Building2 className="h-3.5 w-3.5" />
+                </TableCell>
+                <TableCell className="text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Building2 className="h-3.5 w-3.5 shrink-0" />
                     <span>{upload.project}</span>
                   </div>
-                  <div className="flex items-center gap-1 w-32 justify-end text-sm text-muted-foreground">
-                    <FileText className="h-3.5 w-3.5" />
+                </TableCell>
+                <TableCell className="text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <FileText className="h-3.5 w-3.5 shrink-0" />
                     <span>{getFileTypeName(upload.fileType)}</span>
                   </div>
-                  <div className="w-24 flex justify-end">
-                    {getStatusBadge(upload.status)}
-                  </div>
-                  <div className="w-20 text-right text-sm text-muted-foreground">
-                    {upload.fileSize}
-                  </div>
-                </div>
-              </div>
+                </TableCell>
+                <TableCell>
+                  {getStatusBadge(upload.status)}
+                </TableCell>
+                <TableCell className="text-sm text-muted-foreground">
+                  {upload.fileSize}
+                </TableCell>
+              </TableRow>
             ))}
-          </div>
-        </div>
+          </TableBody>
+        </Table>
       </div>
     </div>
   );
