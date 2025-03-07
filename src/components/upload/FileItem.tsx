@@ -29,6 +29,9 @@ const FileItem: React.FC<FileItemProps> = ({
   onFileTypeChange,
   onCreateProject
 }) => {
+  const isProjectRequired = fileObj.fileType === 'operating_statement';
+  const showProjectSelection = fileObj.fileType === 'operating_statement' || fileObj.fileType === 'rent_roll';
+
   return (
     <li className="p-3">
       <div className="flex items-center justify-between mb-3">
@@ -64,14 +67,7 @@ const FileItem: React.FC<FileItemProps> = ({
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ProjectAssignment 
-          file={fileObj.file}
-          projectId={fileObj.projectId}
-          projects={projects}
-          onFileProjectChange={onFileProjectChange}
-          onCreateProject={onCreateProject}
-        />
-        
+        {/* File Type Selection - Now First */}
         <div>
           <label className="text-sm font-medium mb-1.5 block">File Type</label>
           <RadioGroup 
@@ -92,6 +88,18 @@ const FileItem: React.FC<FileItemProps> = ({
             ))}
           </RadioGroup>
         </div>
+        
+        {/* Project Selection - Only show after file type is selected */}
+        {showProjectSelection && (
+          <ProjectAssignment 
+            file={fileObj.file}
+            projectId={fileObj.projectId}
+            projects={projects}
+            onFileProjectChange={onFileProjectChange}
+            onCreateProject={onCreateProject}
+            required={isProjectRequired}
+          />
+        )}
       </div>
     </li>
   );

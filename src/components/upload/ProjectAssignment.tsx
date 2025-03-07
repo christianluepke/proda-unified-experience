@@ -12,6 +12,7 @@ interface ProjectAssignmentProps {
   projects: Project[];
   onFileProjectChange: (file: File, projectId: string) => void;
   onCreateProject: (name: string) => Project;
+  required?: boolean;
 }
 
 const ProjectAssignment: React.FC<ProjectAssignmentProps> = ({
@@ -19,7 +20,8 @@ const ProjectAssignment: React.FC<ProjectAssignmentProps> = ({
   projectId,
   projects,
   onFileProjectChange,
-  onCreateProject
+  onCreateProject,
+  required = false
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isCreatingProject, setIsCreatingProject] = useState<boolean>(false);
@@ -53,7 +55,10 @@ const ProjectAssignment: React.FC<ProjectAssignmentProps> = ({
 
   return (
     <div>
-      <label className="text-sm font-medium mb-1 block">Project</label>
+      <label className="text-sm font-medium mb-1 block">
+        Project {required && <span className="text-red-500">*</span>}
+        {!required && <span className="text-muted-foreground text-xs ml-1">(optional for rent rolls)</span>}
+      </label>
       
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>

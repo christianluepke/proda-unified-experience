@@ -75,12 +75,27 @@ export function useFileUpload() {
   };
 
   const startUpload = () => {
-    const hasUnassignedFiles = files.some(file => !file.projectId || !file.fileType);
+    // Check for missing file types
+    const hasUnassignedFileTypes = files.some(file => !file.fileType);
     
-    if (hasUnassignedFiles) {
+    if (hasUnassignedFileTypes) {
       toast({
         title: "Missing Information",
-        description: "Please assign a project and file type to all files",
+        description: "Please select a file type for all files",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Check for operating statements without projects
+    const hasOperatingStatementsWithoutProjects = files.some(
+      file => file.fileType === 'operating_statement' && !file.projectId
+    );
+    
+    if (hasOperatingStatementsWithoutProjects) {
+      toast({
+        title: "Missing Information",
+        description: "Please assign a project to all operating statement files",
         variant: "destructive"
       });
       return;
