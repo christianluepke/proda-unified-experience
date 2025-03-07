@@ -41,8 +41,8 @@ const Upload: React.FC = () => {
 
       <div className="grid gap-8">
         {files.length === 0 ? (
-          <div className="mx-auto w-full max-w-2xl">
-            <FileDropzone onDrop={onDrop} size="large" />
+          <div className="mx-auto w-full max-w-3xl py-8">
+            <FileDropzone onDrop={onDrop} size="large" className="shadow-md" />
           </div>
         ) : (
           <FileDropzone onDrop={onDrop} size="small" />

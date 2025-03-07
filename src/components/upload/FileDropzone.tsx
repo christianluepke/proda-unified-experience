@@ -19,20 +19,20 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ onDrop, className, size = '
   return (
     <div 
       {...getRootProps()} 
-      className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer hover:bg-blue-50/50 transition-colors ${
-        isDragActive ? 'border-primary bg-primary/5' : 'border-muted-foreground/30 bg-slate-50/50'
-      } ${size === 'large' ? 'py-16' : 'py-4'} ${className || ''}`}
+      className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors ${
+        isDragActive ? 'border-primary bg-primary/10' : 'border-muted-foreground/40 bg-blue-50/50'
+      } ${size === 'large' ? 'py-20' : 'py-4'} ${className || ''} hover:bg-blue-100/50`}
     >
       <input {...getInputProps()} />
-      <UploadCloud className={`mx-auto text-muted-foreground/80 mb-2 ${size === 'large' ? 'h-16 w-16' : 'h-10 w-10'}`} />
+      <UploadCloud className={`mx-auto text-primary/80 mb-4 ${size === 'large' ? 'h-20 w-20' : 'h-10 w-10'}`} />
       {isDragActive ? (
-        <p className="text-sm text-muted-foreground">Drop the files here...</p>
+        <p className={`${size === 'large' ? 'text-lg' : 'text-sm'} text-primary font-medium`}>Drop the files here...</p>
       ) : (
         <div>
-          <p className={`font-medium ${size === 'large' ? 'text-lg' : 'text-sm'}`}>
+          <p className={`font-medium ${size === 'large' ? 'text-xl' : 'text-sm'} text-foreground`}>
             Drag and drop files here, or click to select files
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className={`${size === 'large' ? 'text-sm' : 'text-xs'} text-muted-foreground mt-2`}>
             Supported formats: XLS, XLSX, CSV, PDF
           </p>
         </div>

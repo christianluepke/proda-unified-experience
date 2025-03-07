@@ -97,7 +97,7 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
           <FileDropzone 
             onDrop={onDrop} 
             size="small"
-            className="h-32"
+            className="h-32 shadow-sm"
           />
           
           {files.length > 0 && (
