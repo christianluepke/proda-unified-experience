@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Database, ChevronDown } from 'lucide-react';
+import { Search, Database as DatabaseIcon, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
         <Popover>
           <PopoverTrigger asChild>
             <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium bg-background border rounded-md hover:bg-muted transition-colors">
-              <Database className="h-4 w-4 text-muted-foreground" />
+              <DatabaseIcon className="h-4 w-4 text-muted-foreground" />
               <span className="truncate max-w-[150px]">{selectedDatabase.name}</span>
               <ChevronDown className="h-4 w-4 text-muted-foreground ml-1" />
             </button>

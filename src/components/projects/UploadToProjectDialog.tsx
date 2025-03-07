@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Upload, Database } from 'lucide-react';
+import { Upload, Database as DatabaseIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
