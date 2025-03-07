@@ -174,7 +174,7 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
                 <div key={db.id} className="flex items-center space-x-2 p-2 border rounded-md hover:bg-muted">
                   <RadioGroupItem value={db.id} id={`db-${db.id}`} />
                   <label htmlFor={`db-${db.id}`} className="flex items-center gap-2 text-sm cursor-pointer flex-grow">
-                    <Database className="h-4 w-4 text-muted-foreground" />
+                    <DatabaseIcon className="h-4 w-4 text-muted-foreground" />
                     {db.name}
                   </label>
                 </div>
