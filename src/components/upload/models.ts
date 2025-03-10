@@ -1,3 +1,4 @@
+
 export interface UploadedFile {
   file: File;
   progress: number;
@@ -16,11 +17,31 @@ export interface Project {
   createdBy?: string;
   modifiedAt?: string | null;
   modifiedBy?: string | null;
+  properties?: Property[];
+}
+
+export interface Property {
+  id: string;
+  name: string;
+  streetNo?: string;
+  streetName?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  state?: string;
+  zip?: string;
+  units?: number;
+  sqft?: number;
+  createdAt?: string;
 }
 
 export interface PropertyData {
+  name?: string;
+  streetNo?: string;
+  streetName?: string;
   address?: string;
   city?: string;
+  country?: string;
   state?: string;
   zip?: string;
   units?: number;

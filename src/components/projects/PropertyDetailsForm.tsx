@@ -2,27 +2,76 @@
 import React from 'react';
 import { Input } from '@/components/ui/input';
 import { PropertyData } from '@/components/upload/models';
+import { Search } from 'lucide-react';
 
 interface PropertyDetailsFormProps {
   propertyData: PropertyData;
   onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onPropertySearch?: (searchTerm: string) => void;
 }
 
 const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({ 
   propertyData, 
-  onInputChange 
+  onInputChange,
+  onPropertySearch
 }) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (onPropertySearch) {
+      onPropertySearch(e.target.value);
+    }
+  };
+
   return (
     <div className="space-y-4 py-4">
+      {/* Property Search */}
       <div className="space-y-2">
-        <label htmlFor="address" className="text-sm font-medium">Address</label>
+        <label htmlFor="propertySearch" className="text-sm font-medium">Search Property</label>
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            id="propertySearch"
+            name="propertySearch"
+            placeholder="Start typing to search..."
+            className="pl-9"
+            onChange={handleSearchChange}
+          />
+        </div>
+      </div>
+
+      {/* Property Name */}
+      <div className="space-y-2">
+        <label htmlFor="name" className="text-sm font-medium">Property Name</label>
         <Input
-          id="address"
-          name="address"
-          value={propertyData.address}
+          id="name"
+          name="name"
+          value={propertyData.name || ''}
           onChange={onInputChange}
-          placeholder="Enter property address"
+          placeholder="Enter property name"
         />
+      </div>
+      
+      {/* Street Details */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <label htmlFor="streetNo" className="text-sm font-medium">Street No.</label>
+          <Input
+            id="streetNo"
+            name="streetNo"
+            value={propertyData.streetNo || ''}
+            onChange={onInputChange}
+            placeholder="Street number"
+          />
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="streetName" className="text-sm font-medium">Street Name</label>
+          <Input
+            id="streetName"
+            name="streetName"
+            value={propertyData.streetName || ''}
+            onChange={onInputChange}
+            placeholder="Street name"
+          />
+        </div>
       </div>
       
       <div className="grid grid-cols-2 gap-4">
@@ -31,19 +80,19 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
           <Input
             id="city"
             name="city"
-            value={propertyData.city}
+            value={propertyData.city || ''}
             onChange={onInputChange}
             placeholder="City"
           />
         </div>
         <div className="space-y-2">
-          <label htmlFor="state" className="text-sm font-medium">State</label>
+          <label htmlFor="country" className="text-sm font-medium">Country</label>
           <Input
-            id="state"
-            name="state"
-            value={propertyData.state}
+            id="country"
+            name="country"
+            value={propertyData.country || ''}
             onChange={onInputChange}
-            placeholder="State"
+            placeholder="Country"
           />
         </div>
       </div>
@@ -54,7 +103,7 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
           <Input
             id="zip"
             name="zip"
-            value={propertyData.zip}
+            value={propertyData.zip || ''}
             onChange={onInputChange}
             placeholder="ZIP Code"
           />

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Progress } from "@/components/ui/progress";
 import { Button } from '@/components/ui/button';
-import { X, CheckCircle, LucideFile } from 'lucide-react';
+import { X, CheckCircle, LucideFile, Upload } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { UploadedFile, Project, FileType } from './models';
@@ -17,6 +17,7 @@ interface FileItemProps {
   onFileProjectChange: (file: File, projectId: string) => void;
   onFileTypeChange: (file: File, fileType: 'rent_roll' | 'operating_statement') => void;
   onCreateProject: (name: string) => Project;
+  onStartUpload: (file: File) => void;
 }
 
 const FileItem: React.FC<FileItemProps> = ({
@@ -27,10 +28,13 @@ const FileItem: React.FC<FileItemProps> = ({
   onRemoveFile,
   onFileProjectChange,
   onFileTypeChange,
-  onCreateProject
+  onCreateProject,
+  onStartUpload
 }) => {
   const isProjectRequired = fileObj.fileType === 'operating_statement';
   const showProjectSelection = fileObj.fileType === 'operating_statement' || fileObj.fileType === 'rent_roll';
+  
+  const isUploadDisabled = !fileObj.fileType || (isProjectRequired && !fileObj.projectId);
 
   return (
     <li className="p-3">
@@ -100,6 +104,19 @@ const FileItem: React.FC<FileItemProps> = ({
             required={isProjectRequired}
           />
         )}
+      </div>
+      
+      {/* Upload button for individual file */}
+      <div className="mt-4 flex justify-end">
+        <Button 
+          onClick={() => onStartUpload(fileObj.file)} 
+          disabled={isUploadDisabled}
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          <Upload className="h-4 w-4" />
+          Upload File
+        </Button>
       </div>
     </li>
   );

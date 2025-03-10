@@ -1,44 +1,60 @@
 
 import { useState } from 'react';
-import { Project } from '@/components/upload/models';
+import { Project, Property } from '@/components/upload/models';
 import { toast } from "@/components/ui/use-toast";
 
+// Sample properties for the projects
+const generateProperties = (count: number, projectName: string): Property[] => {
+  const properties: Property[] = [];
+  
+  for (let i = 1; i <= count; i++) {
+    properties.push({
+      id: `property-${Math.random().toString(36).substr(2, 9)}`,
+      name: `${projectName} Property ${i}`,
+      streetNo: `${Math.floor(Math.random() * 1000) + 1}`,
+      streetName: ['Main St', 'Oak Ave', 'Maple Rd', 'Broadway', 'Park Ave'][Math.floor(Math.random() * 5)],
+      city: ['New York', 'Chicago', 'Los Angeles', 'San Francisco', 'Miami'][Math.floor(Math.random() * 5)],
+      state: ['NY', 'IL', 'CA', 'CA', 'FL'][Math.floor(Math.random() * 5)],
+      country: 'USA',
+      zip: `${Math.floor(Math.random() * 90000) + 10000}`,
+      units: Math.floor(Math.random() * 200) + 10,
+      sqft: Math.floor(Math.random() * 100000) + 5000,
+      createdAt: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString()
+    });
+  }
+  
+  return properties;
+};
+
+// Generate 10 sample projects
+const generateSampleProjects = (): Project[] => {
+  const projectTypes = ['Multi-Family', 'Office', 'Retail', 'Industrial', 'Mixed-Use'];
+  const projects: Project[] = [];
+  
+  for (let i = 1; i <= 10; i++) {
+    const assetType = projectTypes[Math.floor(Math.random() * projectTypes.length)];
+    const createdAt = new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString();
+    const propertyCount = Math.floor(Math.random() * 3) + 1; // 1-3 properties
+    
+    projects.push({
+      id: i.toString(),
+      name: `Project ${i}`,
+      description: `Sample ${assetType} project with ${propertyCount} properties`,
+      assetType,
+      address: `${Math.floor(Math.random() * 1000) + 1} ${['Main St', 'Oak Ave', 'Maple Rd'][Math.floor(Math.random() * 3)]}, ${['New York', 'Chicago', 'Los Angeles'][Math.floor(Math.random() * 3)]}`,
+      createdAt,
+      createdBy: Math.random() > 0.5 ? 'John Doe' : 'Jane Smith',
+      modifiedAt: Math.random() > 0.3 ? new Date(Date.now() - Math.floor(Math.random() * 5000000000)).toISOString() : null,
+      modifiedBy: Math.random() > 0.3 ? (Math.random() > 0.5 ? 'John Doe' : 'Jane Smith') : null,
+      properties: generateProperties(propertyCount, `Project ${i}`)
+    });
+  }
+  
+  return projects;
+};
+
 // Mock projects for initial state with additional fields
-const MOCK_PROJECTS: Project[] = [
-  { 
-    id: '1', 
-    name: 'Project A', 
-    description: 'A sample project for demonstration',
-    assetType: 'Multi-Family',
-    address: '123 Main St, New York, NY',
-    createdAt: new Date('2023-10-15').toISOString(),
-    createdBy: 'John Doe',
-    modifiedAt: new Date('2023-12-20').toISOString(),
-    modifiedBy: 'Jane Smith'
-  },
-  { 
-    id: '2', 
-    name: 'Project B', 
-    description: 'Another sample project with different data',
-    assetType: 'Office',
-    address: '456 Oak Ave, Chicago, IL',
-    createdAt: new Date('2024-01-05').toISOString(),
-    createdBy: 'John Doe',
-    modifiedAt: new Date('2024-02-10').toISOString(),
-    modifiedBy: 'John Doe'
-  },
-  { 
-    id: '3', 
-    name: 'Project C', 
-    description: 'A third sample project for testing',
-    assetType: 'Retail',
-    address: '789 Pine Blvd, San Francisco, CA',
-    createdAt: new Date('2024-03-01').toISOString(),
-    createdBy: 'Jane Smith',
-    modifiedAt: null,
-    modifiedBy: null
-  },
-];
+const MOCK_PROJECTS: Project[] = generateSampleProjects();
 
 export type ViewMode = 'cards' | 'list';
 
@@ -58,7 +74,8 @@ export function useProjects() {
       createdAt: now,
       createdBy: 'Current User', // In a real app, this would come from auth
       modifiedAt: null,
-      modifiedBy: null
+      modifiedBy: null,
+      properties: []
     };
     
     setProjects(prevProjects => [...prevProjects, newProject]);

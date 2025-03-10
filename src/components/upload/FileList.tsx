@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
 import { Separator } from "@/components/ui/separator";
 import { UploadedFile, Project, FileType } from './models';
 import FileItem from './FileItem';
@@ -12,7 +11,7 @@ interface FileListProps {
   onRemoveFile: (file: File) => void;
   onFileProjectChange: (file: File, projectId: string) => void;
   onFileTypeChange: (file: File, fileType: 'rent_roll' | 'operating_statement') => void;
-  onStartUpload: () => void;
+  onStartUpload: (file: File) => void;
   onCreateProject: (name: string) => Project;
 }
 
@@ -47,16 +46,11 @@ const FileList: React.FC<FileListProps> = ({
               onRemoveFile={onRemoveFile}
               onFileProjectChange={onFileProjectChange}
               onFileTypeChange={onFileTypeChange}
+              onStartUpload={onStartUpload}
               onCreateProject={onCreateProject}
             />
           ))}
         </ul>
-      </div>
-
-      <div className="mt-6 flex justify-end">
-        <Button onClick={onStartUpload} className="flex items-center gap-2">
-          Start Upload
-        </Button>
       </div>
     </div>
   );
