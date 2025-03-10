@@ -12,8 +12,10 @@ interface CreateProjectDialogProps {
   onCreateProject: (name: string, description: string) => Project;
 }
 
+type Step = 1 | 2;
+
 const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({ onCreateProject }) => {
-  const [step, setStep] = useState<1 | 2>(1);
+  const [step, setStep] = useState<Step>(1);
   const [open, setOpen] = useState(false);
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
@@ -25,6 +27,7 @@ const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({ onCreateProje
     units: undefined,
     sqft: undefined
   });
+  const [properties, setProperties] = useState<PropertyData[]>([]);
   const { toast } = useToast();
 
   const handleNext = () => {
@@ -49,6 +52,28 @@ const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({ onCreateProje
     resetForm();
   };
 
+  const handleAddProperty = () => {
+    if (propertyData.address || propertyData.city || propertyData.state || propertyData.zip) {
+      setProperties([...properties, propertyData]);
+      setPropertyData({
+        address: '',
+        city: '',
+        state: '',
+        zip: '',
+        units: undefined,
+        sqft: undefined
+      });
+      
+      // Ask user if they want to add another property
+      const wantsToAddMore = window.confirm("Property added! Would you like to add another property?");
+      if (!wantsToAddMore) {
+        handleCreate();
+      }
+    } else {
+      handleCreate();
+    }
+  };
+
   const resetForm = () => {
     setProjectName('');
     setProjectDescription('');
@@ -60,6 +85,7 @@ const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({ onCreateProje
       units: undefined,
       sqft: undefined
     });
+    setProperties([]);
     setStep(1);
   };
 
@@ -98,7 +124,7 @@ const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({ onCreateProje
           <DialogDescription>
             {step === 1 
               ? "Enter the basic information for your new project." 
-              : "Add property details for this project (optional)."}
+              : `Add property details for this project${properties.length > 0 ? ` (${properties.length} added)` : ''}.`}
           </DialogDescription>
         </DialogHeader>
         
@@ -129,7 +155,11 @@ const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({ onCreateProje
           {step === 1 ? (
             <Button onClick={handleNext}>Next</Button>
           ) : (
-            <Button onClick={handleCreate}>Create Project</Button>
+            <Button onClick={handleAddProperty}>
+              {propertyData.address || propertyData.city || propertyData.state || propertyData.zip
+                ? "Add Property"
+                : "Skip & Create Project"}
+            </Button>
           )}
         </DialogFooter>
       </DialogContent>
@@ -138,3 +168,4 @@ const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({ onCreateProje
 };
 
 export default CreateProjectDialog;
+
