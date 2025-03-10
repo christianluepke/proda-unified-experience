@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
-import { Plus, Search, ChevronDown } from 'lucide-react';
+import { Plus, Search, ChevronDown, X } from 'lucide-react';
 import { Project } from './models';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -10,7 +10,7 @@ interface ProjectAssignmentProps {
   file: File;
   projectId: string | null;
   projects: Project[];
-  onFileProjectChange: (file: File, projectId: string) => void;
+  onFileProjectChange: (file: File, projectId: string | null) => void;
   onCreateProject: (name: string) => Project;
   required?: boolean;
 }
@@ -53,6 +53,10 @@ const ProjectAssignment: React.FC<ProjectAssignmentProps> = ({
     setNewProjectName('');
   };
 
+  const handleClearProject = () => {
+    onFileProjectChange(file, null);
+  };
+
   return (
     <div>
       <label className="text-sm font-medium mb-1 block">
@@ -67,7 +71,13 @@ const ProjectAssignment: React.FC<ProjectAssignmentProps> = ({
             className="w-full justify-between font-normal"
             role="combobox"
           >
-            {selectedProject ? selectedProject.name : "Select project"}
+            {selectedProject ? (
+              <div className="flex items-center justify-between w-full">
+                <span>{selectedProject.name}</span>
+              </div>
+            ) : (
+              "Select project"
+            )}
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -114,6 +124,22 @@ const ProjectAssignment: React.FC<ProjectAssignmentProps> = ({
               </div>
             ) : (
               <>
+                {selectedProject && (
+                  <div className="mb-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full justify-start text-sm text-red-500 hover:text-red-600 hover:bg-red-50"
+                      onClick={() => {
+                        handleClearProject();
+                        setIsOpen(false);
+                      }}
+                    >
+                      <X className="mr-2 h-4 w-4" /> 
+                      Clear Selection
+                    </Button>
+                  </div>
+                )}
                 <div className="max-h-[200px] overflow-y-auto">
                   {filteredProjects.length > 0 ? (
                     <div className="py-1">

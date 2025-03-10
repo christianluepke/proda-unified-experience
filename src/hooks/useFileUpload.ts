@@ -58,7 +58,7 @@ export function useFileUpload() {
     setFiles(prevFiles => prevFiles.filter(file => file.file !== fileToRemove));
   };
 
-  const handleFileProjectChange = (file: File, projectId: string) => {
+  const handleFileProjectChange = (file: File, projectId: string | null) => {
     setFiles(prevFiles => 
       prevFiles.map(f => 
         f.file === file ? { ...f, projectId } : f

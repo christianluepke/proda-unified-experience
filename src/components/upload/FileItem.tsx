@@ -14,7 +14,7 @@ interface FileItemProps {
   projects: Project[];
   fileTypes: FileType[];
   onRemoveFile: (file: File) => void;
-  onFileProjectChange: (file: File, projectId: string) => void;
+  onFileProjectChange: (file: File, projectId: string | null) => void;
   onFileTypeChange: (file: File, fileType: 'rent_roll' | 'operating_statement') => void;
   onCreateProject: (name: string) => Project;
   onStartUpload: (file: File) => void;

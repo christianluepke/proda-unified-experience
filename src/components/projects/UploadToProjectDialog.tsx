@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Upload, Database as DatabaseIcon } from 'lucide-react';
+import { Upload, Database as DatabaseIcon, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -63,6 +63,10 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
     setShowDatabaseSelector(false);
   };
 
+  const clearProjectSelection = () => {
+    setSelectedProject(null);
+  };
+
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -83,18 +87,30 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <h4 className="text-sm font-medium">Project</h4>
-              <select 
-                className="w-full p-2 border rounded-md"
-                value={selectedProject || ''}
-                onChange={(e) => setSelectedProject(e.target.value)}
-              >
-                <option value="">Select a project</option>
-                {projects.map(project => (
-                  <option key={project.id} value={project.id}>
-                    {project.name}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select 
+                  className="w-full p-2 border rounded-md"
+                  value={selectedProject || ''}
+                  onChange={(e) => setSelectedProject(e.target.value || null)}
+                >
+                  <option value="">Select a project</option>
+                  {projects.map(project => (
+                    <option key={project.id} value={project.id}>
+                      {project.name}
+                    </option>
+                  ))}
+                </select>
+                {selectedProject && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 h-auto text-muted-foreground hover:text-red-500"
+                    onClick={clearProjectSelection}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
             </div>
             
             <div className="space-y-2">
