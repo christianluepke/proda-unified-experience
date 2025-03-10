@@ -3,6 +3,7 @@ import React from 'react';
 import { Separator } from "@/components/ui/separator";
 import { UploadedFile, Project, FileType } from './models';
 import FileItem from './FileItem';
+import { FileStack } from 'lucide-react';
 
 interface FileListProps {
   files: UploadedFile[];
@@ -29,26 +30,36 @@ const FileList: React.FC<FileListProps> = ({
 
   return (
     <div>
-      <h2 className="text-lg font-medium mb-3">Assign Projects and File Types</h2>
+      <div className="flex items-center gap-2 mb-3">
+        <h2 className="text-lg font-medium">Assign Projects and File Types</h2>
+        <div className="flex items-center bg-primary/10 text-primary rounded-full px-2.5 py-0.5 text-xs font-medium">
+          <FileStack className="w-3.5 h-3.5 mr-1" />
+          {files.length} {files.length === 1 ? 'file' : 'files'}
+        </div>
+      </div>
       <div className="border rounded-md overflow-hidden">
-        <div className="bg-muted/40 p-3 font-medium text-sm">
-          Files to Upload ({files.length})
+        <div className="bg-muted/40 p-3 font-medium text-sm flex justify-between items-center">
+          <span>Files to Upload ({files.length})</span>
+          {files.length > 1 && (
+            <span className="text-xs text-muted-foreground">Scroll to see all files</span>
+          )}
         </div>
         <Separator />
-        <ul className="divide-y">
+        <ul className={`divide-y ${files.length > 3 ? 'max-h-[600px] overflow-y-auto' : ''}`}>
           {files.map((fileObj, index) => (
-            <FileItem
-              key={index}
-              fileObj={fileObj}
-              index={index}
-              projects={projects}
-              fileTypes={fileTypes}
-              onRemoveFile={onRemoveFile}
-              onFileProjectChange={onFileProjectChange}
-              onFileTypeChange={onFileTypeChange}
-              onStartUpload={onStartUpload}
-              onCreateProject={onCreateProject}
-            />
+            <li key={index} className={`${index % 2 === 0 ? 'bg-muted/5' : ''}`}>
+              <FileItem
+                fileObj={fileObj}
+                index={index}
+                projects={projects}
+                fileTypes={fileTypes}
+                onRemoveFile={onRemoveFile}
+                onFileProjectChange={onFileProjectChange}
+                onFileTypeChange={onFileTypeChange}
+                onStartUpload={onStartUpload}
+                onCreateProject={onCreateProject}
+              />
+            </li>
           ))}
         </ul>
       </div>

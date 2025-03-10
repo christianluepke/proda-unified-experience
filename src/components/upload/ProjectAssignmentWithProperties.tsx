@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Project } from './models';
 import ProjectSelector from './ProjectSelector';
 import PropertyList from './PropertyList';
+import { Badge } from "@/components/ui/badge";
 
 interface ProjectAssignmentWithPropertiesProps {
   file: File;
@@ -31,8 +32,20 @@ const ProjectAssignmentWithProperties: React.FC<ProjectAssignmentWithPropertiesP
     onFileProjectChange(file, newProjectId);
   };
 
+  // Extract filename for the badge
+  const fileName = file.name.length > 20 
+    ? file.name.substring(0, 20) + '...' 
+    : file.name;
+
   return (
     <div className="space-y-3">
+      <div className="flex items-center justify-between mb-1">
+        <label className="text-sm font-medium">Project Assignment</label>
+        <Badge variant="outline" className="text-xs bg-muted/40">
+          For: {fileName}
+        </Badge>
+      </div>
+      
       <ProjectSelector
         selectedProject={selectedProject}
         projectId={projectId}

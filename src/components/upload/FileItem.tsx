@@ -2,7 +2,7 @@
 import React from 'react';
 import { Progress } from "@/components/ui/progress";
 import { Button } from '@/components/ui/button';
-import { X, CheckCircle, LucideFile, Upload } from 'lucide-react';
+import { X, CheckCircle, LucideFile, Upload, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { UploadedFile, Project, FileType } from './models';
@@ -36,16 +36,27 @@ const FileItem: React.FC<FileItemProps> = ({
   
   const isUploadDisabled = !fileObj.fileType || (isProjectRequired && !fileObj.projectId);
 
+  // Determine file extension for better visual cue
+  const fileExtension = fileObj.file.name.split('.').pop()?.toUpperCase();
+  const fileIcon = getFileIcon(fileExtension);
+
   return (
     <li className="p-3">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">
-          {fileObj.status === 'success' ? (
-            <CheckCircle className="w-5 h-5 text-green-500" />
-          ) : (
-            <LucideFile className="w-5 h-5 text-muted-foreground" />
-          )}
-          <span className="text-sm font-medium truncate max-w-xs">{fileObj.file.name}</span>
+          <div className="flex items-center justify-center h-8 w-8 rounded-md bg-primary/10 text-primary">
+            {fileObj.status === 'success' ? (
+              <CheckCircle className="w-5 h-5 text-green-500" />
+            ) : (
+              fileIcon
+            )}
+          </div>
+          <div>
+            <span className="text-sm font-medium truncate max-w-xs block">{fileObj.file.name}</span>
+            <span className="text-xs text-muted-foreground">
+              {formatFileSize(fileObj.file.size)} • {fileExtension}
+            </span>
+          </div>
         </div>
         <div className="flex items-center gap-3">
           {fileObj.progress > 0 && (
@@ -70,7 +81,7 @@ const FileItem: React.FC<FileItemProps> = ({
         </div>
       </div>
       
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-4 ml-11">
         {/* File Type Selection - Now First */}
         <div>
           <label className="text-sm font-medium mb-1.5 block">File Type</label>
@@ -121,5 +132,28 @@ const FileItem: React.FC<FileItemProps> = ({
     </li>
   );
 };
+
+// Helper function to get appropriate icon based on file extension
+function getFileIcon(extension?: string) {
+  switch (extension?.toLowerCase()) {
+    case 'pdf':
+      return <FileText className="w-4 h-4" />;
+    case 'csv':
+    case 'xls':
+    case 'xlsx':
+      return <FileText className="w-4 h-4" />;
+    default:
+      return <LucideFile className="w-4 h-4" />;
+  }
+}
+
+// Helper function to format file size
+function formatFileSize(bytes: number): string {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
 
 export default FileItem;
