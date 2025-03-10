@@ -6,7 +6,7 @@ import { X, CheckCircle, LucideFile, Upload } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { UploadedFile, Project, FileType } from './models';
-import ProjectAssignment from './ProjectAssignment';
+import ProjectAssignmentWithProperties from './ProjectAssignmentWithProperties';
 
 interface FileItemProps {
   fileObj: UploadedFile;
@@ -70,7 +70,7 @@ const FileItem: React.FC<FileItemProps> = ({
         </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         {/* File Type Selection - Now First */}
         <div>
           <label className="text-sm font-medium mb-1.5 block">File Type</label>
@@ -93,9 +93,9 @@ const FileItem: React.FC<FileItemProps> = ({
           </RadioGroup>
         </div>
         
-        {/* Project Selection - Only show after file type is selected */}
+        {/* Project Selection with Properties Panel */}
         {showProjectSelection && (
-          <ProjectAssignment 
+          <ProjectAssignmentWithProperties 
             file={fileObj.file}
             projectId={fileObj.projectId}
             projects={projects}

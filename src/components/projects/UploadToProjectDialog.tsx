@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Upload, Database as DatabaseIcon, X } from 'lucide-react';
+import { Upload, Database as DatabaseIcon, X, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -8,6 +8,8 @@ import { toast } from "@/components/ui/use-toast";
 import FileDropzone from '@/components/upload/FileDropzone';
 import { Project } from '@/components/upload/models';
 import { Database } from '@/components/sidebar/types';
+import { Card } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 // Example databases for demonstration
 const mockDatabases: Database[] = [
@@ -67,6 +69,11 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
     setSelectedProject(null);
   };
 
+  // Get the selected project details
+  const projectDetails = selectedProject 
+    ? projects.find(project => project.id === selectedProject) 
+    : null;
+
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -76,7 +83,7 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
             Upload to Project
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>Upload Files to Project</DialogTitle>
             <DialogDescription>
@@ -84,27 +91,30 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
             </DialogDescription>
           </DialogHeader>
           
-          <div className="space-y-4 py-4">
+          <div className="grid gap-4 py-4">
             <div className="space-y-2">
               <h4 className="text-sm font-medium">Project</h4>
-              <div className="relative">
-                <select 
-                  className="w-full p-2 border rounded-md"
-                  value={selectedProject || ''}
-                  onChange={(e) => setSelectedProject(e.target.value || null)}
-                >
-                  <option value="">Select a project</option>
-                  {projects.map(project => (
-                    <option key={project.id} value={project.id}>
-                      {project.name}
-                    </option>
-                  ))}
-                </select>
+              <div className="flex space-x-2">
+                <div className="relative flex-1">
+                  <select 
+                    className="w-full p-2 border rounded-md"
+                    value={selectedProject || ''}
+                    onChange={(e) => setSelectedProject(e.target.value || null)}
+                  >
+                    <option value="">Select a project</option>
+                    {projects.map(project => (
+                      <option key={project.id} value={project.id}>
+                        {project.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
                 {selectedProject && (
                   <Button
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 h-auto text-muted-foreground hover:text-red-500"
+                    variant="outline" 
+                    size="icon"
+                    className="text-red-500 hover:text-red-600 hover:bg-red-50"
                     onClick={clearProjectSelection}
                   >
                     <X className="h-4 w-4" />
@@ -112,6 +122,33 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
                 )}
               </div>
             </div>
+            
+            {/* Project properties overview */}
+            {projectDetails && projectDetails.properties && projectDetails.properties.length > 0 && (
+              <Card className="p-3 bg-muted/20 border">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-sm font-medium">Properties in this project</h4>
+                  <span className="text-xs text-muted-foreground bg-background px-2 py-0.5 rounded-full">
+                    {projectDetails.properties.length} propert{projectDetails.properties.length === 1 ? 'y' : 'ies'}
+                  </span>
+                </div>
+                <ScrollArea className="h-[100px]">
+                  <div className="space-y-2">
+                    {projectDetails.properties.map(property => (
+                      <div key={property.id} className="p-2 text-sm bg-background rounded-md">
+                        <div className="flex items-center gap-2">
+                          <Building2 className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                          <div className="font-medium truncate">{property.name}</div>
+                        </div>
+                        <div className="ml-5.5 text-xs text-muted-foreground mt-1">
+                          {property.streetNo} {property.streetName}, {property.city}, {property.state} {property.zip}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </Card>
+            )}
             
             <div className="space-y-2">
               <h4 className="text-sm font-medium">File Type</h4>
