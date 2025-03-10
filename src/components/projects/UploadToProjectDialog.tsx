@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Upload, Database as DatabaseIcon, X, Building2 } from 'lucide-react';
+import { Upload, Database as DatabaseIcon, X, Building2, ChevronRight, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -10,6 +10,7 @@ import { Project } from '@/components/upload/models';
 import { Database } from '@/components/sidebar/types';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 // Example databases for demonstration
 const mockDatabases: Database[] = [
@@ -40,6 +41,7 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
   const [fileType, setFileType] = useState<'rent_roll' | 'operating_statement'>('rent_roll');
   const [showDatabaseSelector, setShowDatabaseSelector] = useState(false);
   const [selectedDatabase, setSelectedDatabase] = useState<string>(mockDatabases[0].id);
+  const [isPropertiesExpanded, setIsPropertiesExpanded] = useState(false);
 
   const handleDrop = (acceptedFiles: File[]) => {
     onDrop(acceptedFiles);
@@ -123,31 +125,45 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
               </div>
             </div>
             
-            {/* Project properties overview */}
+            {/* Project properties overview - collapsed by default */}
             {projectDetails && projectDetails.properties && projectDetails.properties.length > 0 && (
-              <Card className="p-3 bg-muted/20 border">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-sm font-medium">Properties in this project</h4>
-                  <span className="text-xs text-muted-foreground bg-background px-2 py-0.5 rounded-full">
-                    {projectDetails.properties.length} propert{projectDetails.properties.length === 1 ? 'y' : 'ies'}
-                  </span>
-                </div>
-                <ScrollArea className="h-[100px]">
-                  <div className="space-y-2">
-                    {projectDetails.properties.map(property => (
-                      <div key={property.id} className="p-2 text-sm bg-background rounded-md">
-                        <div className="flex items-center gap-2">
-                          <Building2 className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
-                          <div className="font-medium truncate">{property.name}</div>
-                        </div>
-                        <div className="ml-5.5 text-xs text-muted-foreground mt-1">
-                          {property.streetNo} {property.streetName}, {property.city}, {property.state} {property.zip}
-                        </div>
+              <Collapsible open={isPropertiesExpanded} onOpenChange={setIsPropertiesExpanded}>
+                <CollapsibleTrigger asChild>
+                  <Button variant="outline" size="sm" className="w-full flex justify-between items-center">
+                    <span className="flex items-center">
+                      <Building2 className="h-4 w-4 mr-2 text-muted-foreground" /> 
+                      Properties in this project
+                      <span className="ml-2 text-xs bg-muted px-2 py-0.5 rounded-full">
+                        {projectDetails.properties.length}
+                      </span>
+                    </span>
+                    {isPropertiesExpanded ? (
+                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                    ) : (
+                      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                    )}
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <Card className="p-3 bg-muted/20 border mt-2">
+                    <ScrollArea className="h-[100px]">
+                      <div className="space-y-2">
+                        {projectDetails.properties.map(property => (
+                          <div key={property.id} className="p-2 text-sm bg-background rounded-md">
+                            <div className="flex items-center gap-2">
+                              <Building2 className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                              <div className="font-medium truncate">{property.name}</div>
+                            </div>
+                            <div className="ml-5.5 text-xs text-muted-foreground mt-1">
+                              {property.streetNo} {property.streetName}, {property.city}, {property.state} {property.zip}
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </Card>
+                    </ScrollArea>
+                  </Card>
+                </CollapsibleContent>
+              </Collapsible>
             )}
             
             <div className="space-y-2">

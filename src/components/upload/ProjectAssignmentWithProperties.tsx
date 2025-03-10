@@ -2,13 +2,14 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
-import { Plus, Search, ChevronDown, X, Building2, Info } from 'lucide-react';
+import { Plus, Search, ChevronDown, X, Building2, Info, ChevronRight } from 'lucide-react';
 import { Project, Property } from './models';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Card } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface ProjectAssignmentWithPropertiesProps {
   file: File;
@@ -31,6 +32,7 @@ const ProjectAssignmentWithProperties: React.FC<ProjectAssignmentWithPropertiesP
   const [isCreatingProject, setIsCreatingProject] = useState<boolean>(false);
   const [newProjectName, setNewProjectName] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
+  const [isPropertiesExpanded, setIsPropertiesExpanded] = useState(false);
 
   const selectedProject = projectId 
     ? projects.find(project => project.id === projectId) 
@@ -214,42 +216,55 @@ const ProjectAssignmentWithProperties: React.FC<ProjectAssignmentWithPropertiesP
         </div>
       </div>
 
-      {/* Properties panel that's always visible when a project is selected */}
+      {/* Properties panel that's collapsed by default when a project is selected */}
       {selectedProject && (
-        <Card className="p-3 bg-muted/30 border">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium">Properties in this project</h3>
-            <span className="text-xs text-muted-foreground bg-background px-2 py-0.5 rounded-full">
-              {selectedProject.properties?.length || 0} propert{selectedProject.properties?.length === 1 ? 'y' : 'ies'}
-            </span>
-          </div>
-          
-          {selectedProject.properties && selectedProject.properties.length > 0 ? (
-            <ScrollArea className="h-[150px]">
-              <div className="space-y-2">
-                {selectedProject.properties.map(property => (
-                  <div key={property.id} className="p-2 text-sm bg-background rounded-md">
-                    <div className="flex items-center gap-2">
-                      <Building2 className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
-                      <div className="font-medium truncate">{property.name}</div>
-                    </div>
-                    <div className="ml-5.5 text-xs text-muted-foreground mt-1">
-                      {property.streetNo} {property.streetName}, {property.city}, {property.state} {property.zip}
-                    </div>
-                    <div className="flex justify-between ml-5.5 text-xs mt-1">
-                      <div>{property.units} units</div>
-                      <div>{property.sqft?.toLocaleString()} sqft</div>
-                    </div>
+        <Collapsible open={isPropertiesExpanded} onOpenChange={setIsPropertiesExpanded}>
+          <CollapsibleTrigger asChild>
+            <Button variant="outline" size="sm" className="w-full flex justify-between items-center mb-2">
+              <span className="flex items-center">
+                <Building2 className="h-4 w-4 mr-2 text-muted-foreground" /> 
+                Properties in this project
+                <span className="ml-2 text-xs bg-muted px-2 py-0.5 rounded-full">
+                  {selectedProject.properties?.length || 0}
+                </span>
+              </span>
+              {isPropertiesExpanded ? (
+                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              ) : (
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              )}
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <Card className="p-3 bg-muted/30 border">
+              {selectedProject.properties && selectedProject.properties.length > 0 ? (
+                <ScrollArea className="h-[150px]">
+                  <div className="space-y-2">
+                    {selectedProject.properties.map(property => (
+                      <div key={property.id} className="p-2 text-sm bg-background rounded-md">
+                        <div className="flex items-center gap-2">
+                          <Building2 className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                          <div className="font-medium truncate">{property.name}</div>
+                        </div>
+                        <div className="ml-5.5 text-xs text-muted-foreground mt-1">
+                          {property.streetNo} {property.streetName}, {property.city}, {property.state} {property.zip}
+                        </div>
+                        <div className="flex justify-between ml-5.5 text-xs mt-1">
+                          <div>{property.units} units</div>
+                          <div>{property.sqft?.toLocaleString()} sqft</div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </ScrollArea>
-          ) : (
-            <div className="text-center py-4 text-sm text-muted-foreground">
-              No properties found in this project
-            </div>
-          )}
-        </Card>
+                </ScrollArea>
+              ) : (
+                <div className="text-center py-4 text-sm text-muted-foreground">
+                  No properties found in this project
+                </div>
+              )}
+            </Card>
+          </CollapsibleContent>
+        </Collapsible>
       )}
     </div>
   );
