@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -36,9 +35,10 @@ const Projects: React.FC = () => {
     files.forEach(fileObj => {
       handleFileProjectChange(fileObj.file, projectId);
       handleFileTypeChange(fileObj.file, fileType);
+      
+      // Start the upload for each file
+      startUpload(fileObj.file);
     });
-
-    startUpload();
   };
 
   const openUploadForProject = (projectId: string) => {

@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
-import { Plus, Search, ChevronDown, X } from 'lucide-react';
-import { Project } from './models';
+import { Plus, Search, ChevronDown, X, Building2 } from 'lucide-react';
+import { Project, Property } from './models';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 
 interface ProjectAssignmentProps {
   file: File;
@@ -81,7 +83,7 @@ const ProjectAssignment: React.FC<ProjectAssignmentProps> = ({
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[240px] p-0">
+        <PopoverContent className="w-[320px] p-0">
           <div className="p-2">
             <div className="relative mb-2">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -178,6 +180,41 @@ const ProjectAssignment: React.FC<ProjectAssignmentProps> = ({
               </>
             )}
           </div>
+
+          {/* Properties overview for selected project */}
+          {selectedProject && selectedProject.properties && selectedProject.properties.length > 0 && (
+            <div className="border-t p-2">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-medium">Properties in this project</h3>
+                <span className="text-xs text-muted-foreground">{selectedProject.properties.length} propert{selectedProject.properties.length === 1 ? 'y' : 'ies'}</span>
+              </div>
+              <ScrollArea className="h-[180px]">
+                <div className="space-y-2">
+                  {selectedProject.properties.map(property => (
+                    <div key={property.id} className="p-2 text-sm bg-muted/30 rounded-md">
+                      <div className="flex items-center gap-2">
+                        <Building2 className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                        <div className="font-medium truncate">{property.name}</div>
+                      </div>
+                      <div className="ml-5.5 text-xs text-muted-foreground mt-1">
+                        {property.streetNo} {property.streetName}, {property.city}, {property.state} {property.zip}
+                      </div>
+                      <div className="flex justify-between ml-5.5 text-xs mt-1">
+                        <div>{property.units} units</div>
+                        <div>{property.sqft?.toLocaleString()} sqft</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
+            </div>
+          )}
+
+          {selectedProject && (!selectedProject.properties || selectedProject.properties.length === 0) && (
+            <div className="border-t p-4 text-center text-sm text-muted-foreground">
+              No properties found in this project
+            </div>
+          )}
         </PopoverContent>
       </Popover>
     </div>
