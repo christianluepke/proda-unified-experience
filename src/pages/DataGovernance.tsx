@@ -6,7 +6,7 @@ import { ShieldCheck, CheckCircle, Bell, Lock, Send, FileText, AlertTriangle, Ti
 
 const DataGovernance: React.FC = () => {
   return (
-    <div className="container py-8 max-w-7xl mx-auto overflow-y-auto">
+    <div className="container py-8 max-w-7xl mx-auto overflow-y-auto font-['DM_Sans']">
       {/* Header Section without Image */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-[#030734]">Take Control of Your Data with Automated Governance</h1>
