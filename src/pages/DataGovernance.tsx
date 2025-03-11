@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,24 +6,15 @@ import { ShieldCheck, CheckCircle, Bell, Lock, Send, FileText, AlertTriangle, Ti
 const DataGovernance: React.FC = () => {
   return (
     <div className="container py-8 max-w-7xl mx-auto overflow-y-auto">
-      {/* Header Section with Image */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="max-w-3xl">
-          <h1 className="text-3xl font-bold tracking-tight">Take Control of Your Data with Automated Governance</h1>
-          <p className="text-muted-foreground mt-2">
-            Ensure Accuracy, Reduce Workload, and Improve Decision-Making
-          </p>
-          <p className="text-muted-foreground mt-4 text-sm">
-            Stop struggling with inconsistent, incomplete, or error-prone data. Our data governance solution automates validation, approval, and stakeholder communication—so you can trust your data and make confident business decisions.
-          </p>
-        </div>
-        <div className="hidden md:block">
-          <img 
-            src="/lovable-uploads/1917f7e6-50c1-43f6-9cd3-3667ac794952.png" 
-            alt="PRODA Data Governance" 
-            className="h-16 object-contain" 
-          />
-        </div>
+      {/* Header Section without Image */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight">Take Control of Your Data with Automated Governance</h1>
+        <p className="text-muted-foreground mt-2">
+          Ensure Accuracy, Reduce Workload, and Improve Decision-Making
+        </p>
+        <p className="text-muted-foreground mt-4 text-sm">
+          Stop struggling with inconsistent, incomplete, or error-prone data. Our data governance solution automates validation, approval, and stakeholder communication—so you can trust your data and make confident business decisions.
+        </p>
       </div>
 
       {/* Main Content - Three Columns */}
