@@ -2,17 +2,20 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ShieldCheck, CheckCircle, Bell, Lock, Send, FileText } from 'lucide-react';
+import { ShieldCheck, CheckCircle, Bell, Lock, Send, FileText, AlertTriangle, Timer } from 'lucide-react';
 
 const DataGovernance: React.FC = () => {
   return (
-    <div className="container py-8 max-w-7xl mx-auto h-[calc(100vh-120px)] overflow-hidden flex flex-col">
+    <div className="container py-8 max-w-7xl mx-auto overflow-y-auto">
       {/* Header Section with Image */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Data Governance</h1>
+      <div className="flex items-center justify-between mb-8">
+        <div className="max-w-3xl">
+          <h1 className="text-3xl font-bold tracking-tight">Take Control of Your Data with Automated Governance</h1>
           <p className="text-muted-foreground mt-2">
-            Streamline your data validation and approval processes
+            Ensure Accuracy, Reduce Workload, and Improve Decision-Making
+          </p>
+          <p className="text-muted-foreground mt-4 text-sm">
+            Stop struggling with inconsistent, incomplete, or error-prone data. Our data governance solution automates validation, approval, and stakeholder communication—so you can trust your data and make confident business decisions.
           </p>
         </div>
         <div className="hidden md:block">
@@ -25,43 +28,43 @@ const DataGovernance: React.FC = () => {
       </div>
 
       {/* Main Content - Three Columns */}
-      <div className="grid md:grid-cols-3 gap-6 flex-1">
+      <div className="grid md:grid-cols-3 gap-6">
         {/* Column 1 - The Challenges */}
         <Card className="border-l-4 border-l-blue-600">
           <CardHeader className="pb-2">
             <CardTitle className="text-xl flex items-center gap-2">
               <FileText className="h-5 w-5 text-blue-600" />
-              The Challenges
+              The Challenges of Data Management
             </CardTitle>
             <CardDescription>Common pain points in data management</CardDescription>
           </CardHeader>
           <CardContent>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <div className="bg-red-100 p-1.5 rounded-full text-red-600 mt-0.5 flex-shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                  <AlertTriangle className="h-4 w-4" />
                 </div>
                 <div>
                   <h3 className="font-medium text-sm">Increased workload and extended reporting cycles</h3>
-                  <p className="text-xs text-muted-foreground">Due to back-and-forth corrections, manual checks and errors</p>
+                  <p className="text-xs text-muted-foreground">Frequent back-and-forth corrections, manual checks, and errors slow down reporting.</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <div className="bg-red-100 p-1.5 rounded-full text-red-600 mt-0.5 flex-shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <div className="bg-amber-100 p-1.5 rounded-full text-amber-600 mt-0.5 flex-shrink-0">
+                  <AlertTriangle className="h-4 w-4" />
                 </div>
                 <div>
                   <h3 className="font-medium text-sm">Harder to trust the data and make confident decisions</h3>
-                  <p className="text-xs text-muted-foreground">Due to data inaccuracy or inconsistency</p>
+                  <p className="text-xs text-muted-foreground">Inaccurate or inconsistent data creates uncertainty in financial reporting and analysis.</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <div className="bg-red-100 p-1.5 rounded-full text-red-600 mt-0.5 flex-shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <div className="bg-orange-100 p-1.5 rounded-full text-orange-600 mt-0.5 flex-shrink-0">
+                  <Timer className="h-4 w-4" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-sm">Slow reporting/analysis</h3>
-                  <p className="text-xs text-muted-foreground">Due to missing data and chasing information</p>
+                  <h3 className="font-medium text-sm">Slow reporting and analysis</h3>
+                  <p className="text-xs text-muted-foreground">Missing data leads to delays as teams chase down information.</p>
                 </div>
               </li>
             </ul>
@@ -73,12 +76,12 @@ const DataGovernance: React.FC = () => {
           <CardHeader className="pb-2">
             <CardTitle className="text-xl flex items-center gap-2">
               <CheckCircle className="h-5 w-5 text-blue-600" />
-              The Solution
+              The Solution: A Smarter Approach
             </CardTitle>
             <CardDescription>Our comprehensive data governance approach</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="bg-green-100 p-1.5 rounded-full text-green-600 mt-0.5 flex-shrink-0">
                   <CheckCircle className="h-4 w-4" />
@@ -86,7 +89,7 @@ const DataGovernance: React.FC = () => {
                 <div>
                   <h3 className="font-medium text-sm">Automated validation and approval</h3>
                   <p className="text-xs text-muted-foreground">
-                    Checking and validating data completeness and accuracy before approval: Data only gets to you once validated - no more time wasted manually reviewing
+                    Ensure data completeness and accuracy before it reaches you—eliminating manual reviews and reducing errors.
                   </p>
                 </div>
               </div>
@@ -97,7 +100,7 @@ const DataGovernance: React.FC = () => {
                 <div>
                   <h3 className="font-medium text-sm">Stakeholder notifications</h3>
                   <p className="text-xs text-muted-foreground">
-                    Notifies stakeholders to streamline reviews and approvals
+                    Streamline collaboration by keeping key stakeholders informed and aligned throughout the approval process.
                   </p>
                 </div>
               </div>
@@ -106,9 +109,9 @@ const DataGovernance: React.FC = () => {
                   <Lock className="h-4 w-4" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-sm">Locking</h3>
+                  <h3 className="font-medium text-sm">Data locking for security</h3>
                   <p className="text-xs text-muted-foreground">
-                    Once approved, data can be locked automatically to prevent unauthorised edits
+                    Prevent unauthorized edits once data is approved—ensuring accuracy and compliance with regulatory standards.
                   </p>
                 </div>
               </div>
@@ -121,12 +124,12 @@ const DataGovernance: React.FC = () => {
           <CardHeader className="pb-2">
             <CardTitle className="text-xl flex items-center gap-2">
               <ShieldCheck className="h-5 w-5 text-blue-600" />
-              The Benefits
+              The Benefits of Better Data Governance
             </CardTitle>
             <CardDescription>How data governance improves your business</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="bg-green-100 p-1.5 rounded-full text-green-600 mt-0.5 flex-shrink-0">
                   <CheckCircle className="h-4 w-4" />
@@ -134,7 +137,7 @@ const DataGovernance: React.FC = () => {
                 <div>
                   <h3 className="font-medium text-sm">Better data quality</h3>
                   <p className="text-xs text-muted-foreground">
-                    Ensure data meets quality and regulatory standards. Reduce risks of edits to data used in financial reporting.
+                    Ensure data meets compliance standards, reducing risks in financial and operational reporting.
                   </p>
                 </div>
               </div>
@@ -145,7 +148,7 @@ const DataGovernance: React.FC = () => {
                 <div>
                   <h3 className="font-medium text-sm">Improved data completeness</h3>
                   <p className="text-xs text-muted-foreground">
-                    Ensure you receive the right data for your reporting. Reduce risks in financial valuations and reporting.
+                    Receive the right data every time—eliminating gaps that impact financial valuations and reporting.
                   </p>
                 </div>
               </div>
@@ -154,9 +157,9 @@ const DataGovernance: React.FC = () => {
                   <CheckCircle className="h-4 w-4" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-sm">Reduce manual input and reporting cycles</h3>
+                  <h3 className="font-medium text-sm">Faster reporting with less manual effort</h3>
                   <p className="text-xs text-muted-foreground">
-                    Automate approvals to reduce manual effort and errors. Reduce reporting cycle times through automated validation.
+                    Automate approvals and validations to reduce reporting cycle times and free up your team for higher-value work.
                   </p>
                 </div>
               </div>
@@ -166,11 +169,11 @@ const DataGovernance: React.FC = () => {
       </div>
 
       {/* CTA Section at Bottom */}
-      <div className="mt-6 bg-blue-50 rounded-lg p-6 flex flex-col md:flex-row items-center justify-between">
+      <div className="mt-8 bg-blue-50 rounded-lg p-6 flex flex-col md:flex-row items-center justify-between">
         <div className="md:max-w-[70%] mb-4 md:mb-0">
           <h3 className="text-xl font-bold text-blue-700 mb-2">Ready to improve your data governance?</h3>
           <p className="text-blue-600">
-            Start streamlining your data collection processes today and make more confident decisions with trusted data.
+            Upgrade your data governance today and start making faster, more confident business decisions.
           </p>
         </div>
         <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 gap-2">
