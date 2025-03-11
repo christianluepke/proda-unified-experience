@@ -6,7 +6,7 @@ import { ShieldCheck, CheckCircle, Bell, Lock, Send, FileSpreadsheet, FileText }
 
 const DataGovernance: React.FC = () => {
   return (
-    <div className="container py-8 max-w-7xl mx-auto h-[calc(100vh-120px)] overflow-hidden">
+    <div className="container py-8 max-w-7xl mx-auto h-[calc(100vh-120px)] overflow-hidden flex flex-col">
       {/* Header Section with Image */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -25,7 +25,7 @@ const DataGovernance: React.FC = () => {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid md:grid-cols-2 gap-6 h-[calc(100%-150px)]">
+      <div className="grid md:grid-cols-2 gap-6 flex-1">
         {/* Left Column - Challenges and Solutions */}
         <div className="flex flex-col gap-6">
           {/* Challenges Section */}
@@ -183,8 +183,14 @@ const DataGovernance: React.FC = () => {
         </div>
       </div>
 
-      {/* CTA Button at Bottom */}
-      <div className="mt-6 flex justify-center">
+      {/* CTA Section at Bottom */}
+      <div className="mt-6 bg-blue-50 rounded-lg p-6 flex flex-col md:flex-row items-center justify-between">
+        <div className="md:max-w-[70%] mb-4 md:mb-0">
+          <h3 className="text-xl font-bold text-blue-700 mb-2">Ready to improve your data governance?</h3>
+          <p className="text-blue-600">
+            Start streamlining your data collection processes today and make more confident decisions with trusted data.
+          </p>
+        </div>
         <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 gap-2">
           <Send className="h-4 w-4" />
           Contact Sales
