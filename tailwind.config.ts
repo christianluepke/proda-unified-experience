@@ -20,7 +20,7 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['Inter var', 'sans-serif'],
+				sans: ['DM Sans', 'sans-serif'], // Make DM Sans the default font
 				dmsans: ['DM Sans', 'sans-serif'],
 			},
 			colors: {
