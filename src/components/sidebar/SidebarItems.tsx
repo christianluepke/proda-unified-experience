@@ -10,7 +10,8 @@ import {
   Bot, 
   HelpCircle, 
   Settings,
-  Briefcase
+  Briefcase,
+  ShieldCheck
 } from 'lucide-react';
 import { SidebarItemType } from './types';
 
@@ -67,7 +68,18 @@ export const sidebarItems: SidebarItemType[] = [
   { 
     label: 'PRODA Assistant', 
     icon: Bot, 
-    path: '/assistant',
+    path: '/assistant'
+  },
+  { 
+    label: 'Audit',
+    icon: null,
+    path: null,
+    section: true
+  },
+  { 
+    label: 'Data Governance', 
+    icon: ShieldCheck, 
+    path: '/data-governance',
     dividerAfter: true
   },
   { 

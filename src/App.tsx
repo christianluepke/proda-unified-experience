@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Upload from "./pages/Upload";
 import Projects from "./pages/Projects";
 import Dashboard from "./pages/Dashboard";
+import DataGovernance from "./pages/DataGovernance";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/upload" element={<Layout><Upload /></Layout>} />
           <Route path="/projects" element={<Layout><Projects /></Layout>} />
           <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+          <Route path="/data-governance" element={<Layout><DataGovernance /></Layout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>
