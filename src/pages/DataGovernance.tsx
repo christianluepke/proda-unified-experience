@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,10 +11,10 @@ const DataGovernance: React.FC = () => {
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">Take Control of Your Data with Automated Governance</h1>
         <p className="text-muted-foreground mt-2">
-          Ensure Accuracy, Reduce Workload, and Improve Decision-Making
+          Streamline Data Collection, Ensure Accuracy, and Accelerate Decision-Making
         </p>
         <p className="text-muted-foreground mt-4 text-sm">
-          Stop struggling with inconsistent, incomplete, or error-prone data. Our data governance solution automates validation, approval, and stakeholder communication—so you can trust your data and make confident business decisions.
+          Stop struggling with inconsistent, incomplete, or error-prone data. Our data governance solution automates data collection from third-party submitters, ensuring validation, approval, and stakeholder communication—so you can trust your data and make confident business decisions.
         </p>
       </div>
 
@@ -36,7 +37,7 @@ const DataGovernance: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="font-medium text-sm">Increased workload and extended reporting cycles</h3>
-                  <p className="text-xs text-muted-foreground">Frequent back-and-forth corrections, manual checks, and errors slow down reporting.</p>
+                  <p className="text-xs text-muted-foreground">Frequent back-and-forth corrections with third-party data submitters, manual checks, and errors slow down reporting.</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -45,7 +46,7 @@ const DataGovernance: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="font-medium text-sm">Harder to trust the data and make confident decisions</h3>
-                  <p className="text-xs text-muted-foreground">Inaccurate or inconsistent data creates uncertainty in financial reporting and analysis.</p>
+                  <p className="text-xs text-muted-foreground">Data inaccuracies and inconsistencies from third-party sources create uncertainty in financial reporting and analysis.</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -54,7 +55,7 @@ const DataGovernance: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="font-medium text-sm">Slow reporting and analysis</h3>
-                  <p className="text-xs text-muted-foreground">Missing data leads to delays as teams chase down information.</p>
+                  <p className="text-xs text-muted-foreground">Missing or incomplete data from third-party submitters leads to delays as teams chase down information.</p>
                 </div>
               </li>
             </ul>
@@ -77,9 +78,9 @@ const DataGovernance: React.FC = () => {
                   <CheckCircle className="h-4 w-4" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-sm">Automated validation and approval</h3>
+                  <h3 className="font-medium text-sm">Automated data collection, validation, and approval</h3>
                   <p className="text-xs text-muted-foreground">
-                    Ensure data completeness and accuracy before it reaches you—eliminating manual reviews and reducing errors.
+                    Automatically collect and validate third-party data before it reaches you—eliminating manual reviews and reducing errors.
                   </p>
                 </div>
               </div>
@@ -90,7 +91,7 @@ const DataGovernance: React.FC = () => {
                 <div>
                   <h3 className="font-medium text-sm">Stakeholder notifications</h3>
                   <p className="text-xs text-muted-foreground">
-                    Streamline collaboration by keeping key stakeholders informed and aligned throughout the approval process.
+                    Keep third-party submitters and internal stakeholders informed to ensure timely and accurate data submissions and approvals.
                   </p>
                 </div>
               </div>
@@ -101,7 +102,7 @@ const DataGovernance: React.FC = () => {
                 <div>
                   <h3 className="font-medium text-sm">Data locking for security</h3>
                   <p className="text-xs text-muted-foreground">
-                    Prevent unauthorized edits once data is approved—ensuring accuracy and compliance with regulatory standards.
+                    Once third-party data is approved, it is automatically locked—preventing unauthorized edits and ensuring compliance.
                   </p>
                 </div>
               </div>
@@ -125,9 +126,9 @@ const DataGovernance: React.FC = () => {
                   <CheckCircle className="h-4 w-4" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-sm">Better data quality</h3>
+                  <h3 className="font-medium text-sm">Better data quality from third-party sources</h3>
                   <p className="text-xs text-muted-foreground">
-                    Ensure data meets compliance standards, reducing risks in financial and operational reporting.
+                    Ensure incoming data meets compliance and accuracy standards, reducing risks in financial and operational reporting.
                   </p>
                 </div>
               </div>
@@ -138,7 +139,7 @@ const DataGovernance: React.FC = () => {
                 <div>
                   <h3 className="font-medium text-sm">Improved data completeness</h3>
                   <p className="text-xs text-muted-foreground">
-                    Receive the right data every time—eliminating gaps that impact financial valuations and reporting.
+                    Automatically collect the right data from third-party sources—eliminating gaps that impact financial valuations and reporting.
                   </p>
                 </div>
               </div>
@@ -149,7 +150,7 @@ const DataGovernance: React.FC = () => {
                 <div>
                   <h3 className="font-medium text-sm">Faster reporting with less manual effort</h3>
                   <p className="text-xs text-muted-foreground">
-                    Automate approvals and validations to reduce reporting cycle times and free up your team for higher-value work.
+                    Automate third-party data submissions, approvals, and validations to reduce reporting cycle times and free up your team for higher-value work.
                   </p>
                 </div>
               </div>
@@ -163,7 +164,7 @@ const DataGovernance: React.FC = () => {
         <div className="md:max-w-[70%] mb-4 md:mb-0">
           <h3 className="text-xl font-bold text-blue-700 mb-2">Ready to improve your data governance?</h3>
           <p className="text-blue-600">
-            Upgrade your data governance today and start making faster, more confident business decisions.
+            Upgrade your data governance today and eliminate the friction of third-party data management!
           </p>
         </div>
         <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 gap-2">
