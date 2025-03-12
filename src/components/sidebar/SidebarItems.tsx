@@ -11,7 +11,8 @@ import {
   HelpCircle, 
   Settings,
   Briefcase,
-  ShieldCheck
+  ShieldCheck,
+  Building
 } from 'lucide-react';
 import { SidebarItemType } from './types';
 
@@ -43,6 +44,11 @@ export const sidebarItems: SidebarItemType[] = [
     label: 'Properties', 
     icon: Building2, 
     path: '/properties'
+  },
+  { 
+    label: 'Leasing CRM', 
+    icon: Building, 
+    path: '/leasing-crm'
   },
   { 
     label: 'Analyse',
