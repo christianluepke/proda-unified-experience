@@ -1,10 +1,17 @@
 
 import React, { useState } from 'react';
-import { Building, DollarSign, Percent, Timer, Search } from 'lucide-react';
+import { Building, DollarSign, Percent, Timer, Search, List, Grid, ChevronDown, ChevronRight } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Progress } from '@/components/ui/progress';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Badge } from '@/components/ui/badge';
+import LeaseTable from '@/components/leasing/LeaseTable';
+import LeaseCRM from '@/components/leasing/LeaseCRM';
 
 // Portfolio data type
 interface Portfolio {
@@ -91,6 +98,8 @@ const portfolioData: Portfolio[] = [
 
 const LeasingCRM: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedPortfolio, setSelectedPortfolio] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'crm' | 'list'>('crm');
   
   // Filter portfolios based on search query
   const filteredPortfolios = portfolioData.filter(portfolio => 
@@ -110,12 +119,22 @@ const LeasingCRM: React.FC = () => {
       maximumFractionDigits: 0
     }).format(value);
   };
+
+  // Handle portfolio selection
+  const handlePortfolioClick = (portfolioId: string) => {
+    setSelectedPortfolio(selectedPortfolio === portfolioId ? null : portfolioId);
+  };
+
+  // Get selected portfolio details
+  const getSelectedPortfolio = () => {
+    return portfolioData.find(p => p.id === selectedPortfolio);
+  };
   
   return (
     <div className="container py-8 max-w-7xl">
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Leasing CRM</h1>
-        <p className="text-muted-foreground mt-2">Manage your real estate portfolios and track key metrics</p>
+        <p className="text-muted-foreground mt-2">Manage your real estate portfolios and track lease expirations</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -177,11 +196,12 @@ const LeasingCRM: React.FC = () => {
         </div>
       </div>
       
-      <Card>
+      <Card className="mb-8">
         <CardContent className="p-0">
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead></TableHead>
                 <TableHead>Portfolio Name</TableHead>
                 <TableHead>Lettable Area</TableHead>
                 <TableHead>Contracted Rent</TableHead>
@@ -193,39 +213,90 @@ const LeasingCRM: React.FC = () => {
             </TableHeader>
             <TableBody>
               {filteredPortfolios.map((portfolio) => (
-                <TableRow key={portfolio.id}>
-                  <TableCell className="font-medium">{portfolio.name}</TableCell>
-                  <TableCell>
-                    {portfolio.area.toLocaleString()} {portfolio.areaUnit}
-                  </TableCell>
-                  <TableCell>
-                    {formatCurrency(portfolio.contractedRent, portfolio.currency)}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Progress value={portfolio.occupancyRate} className="h-2 w-16" />
-                      <span>{portfolio.occupancyRate}%</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Progress value={100 - portfolio.occupancyRate} className="h-2 w-16" />
-                      <span>{(100 - portfolio.occupancyRate)}%</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {portfolio.expiringIn12Months}%
-                  </TableCell>
-                  <TableCell>
-                    {formatCurrency(Number(calculateExpiryValue(portfolio, portfolio.expiringIn12Months)), portfolio.currency)}
-                  </TableCell>
-                  <TableCell>
-                    {portfolio.expiringIn24Months}%
-                  </TableCell>
-                  <TableCell>
-                    {formatCurrency(Number(calculateExpiryValue(portfolio, portfolio.expiringIn24Months)), portfolio.currency)}
-                  </TableCell>
-                </TableRow>
+                <React.Fragment key={portfolio.id}>
+                  <TableRow 
+                    className="cursor-pointer"
+                    onClick={() => handlePortfolioClick(portfolio.id)}
+                  >
+                    <TableCell className="w-4">
+                      {selectedPortfolio === portfolio.id ? (
+                        <ChevronDown className="h-4 w-4" />
+                      ) : (
+                        <ChevronRight className="h-4 w-4" />
+                      )}
+                    </TableCell>
+                    <TableCell className="font-medium">{portfolio.name}</TableCell>
+                    <TableCell>
+                      {portfolio.area.toLocaleString()} {portfolio.areaUnit}
+                    </TableCell>
+                    <TableCell>
+                      {formatCurrency(portfolio.contractedRent, portfolio.currency)}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Progress value={portfolio.occupancyRate} className="h-2 w-16" />
+                        <span>{portfolio.occupancyRate}%</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Progress value={100 - portfolio.occupancyRate} className="h-2 w-16" />
+                        <span>{(100 - portfolio.occupancyRate)}%</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {portfolio.expiringIn12Months}%
+                    </TableCell>
+                    <TableCell>
+                      {formatCurrency(Number(calculateExpiryValue(portfolio, portfolio.expiringIn12Months)), portfolio.currency)}
+                    </TableCell>
+                    <TableCell>
+                      {portfolio.expiringIn24Months}%
+                    </TableCell>
+                    <TableCell>
+                      {formatCurrency(Number(calculateExpiryValue(portfolio, portfolio.expiringIn24Months)), portfolio.currency)}
+                    </TableCell>
+                  </TableRow>
+                  {selectedPortfolio === portfolio.id && (
+                    <TableRow>
+                      <TableCell colSpan={10} className="p-0 border-0">
+                        <div className="p-4 bg-muted/30 rounded-md m-2">
+                          <div className="mb-4 flex items-center justify-between">
+                            <h3 className="text-lg font-semibold">
+                              Expiring Leases - {portfolio.name}
+                            </h3>
+                            <div className="flex space-x-2">
+                              <Button
+                                size="sm"
+                                variant={viewMode === 'crm' ? 'default' : 'outline'}
+                                onClick={() => setViewMode('crm')}
+                                className="flex items-center"
+                              >
+                                <Grid className="h-4 w-4 mr-2" />
+                                CRM View
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant={viewMode === 'list' ? 'default' : 'outline'}
+                                onClick={() => setViewMode('list')}
+                                className="flex items-center"
+                              >
+                                <List className="h-4 w-4 mr-2" />
+                                List View
+                              </Button>
+                            </div>
+                          </div>
+
+                          {viewMode === 'list' ? (
+                            <LeaseTable portfolioId={portfolio.id} />
+                          ) : (
+                            <LeaseCRM portfolioId={portfolio.id} />
+                          )}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </React.Fragment>
               ))}
             </TableBody>
           </Table>
