@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { ColumnMapping, RowSelection, StandardField, COMMON_HEADER_MAPPINGS } from '@/components/mappings/types';
+import { ColumnMapping, RowSelection, StandardField, COMMON_HEADER_MAPPINGS, getFieldLabel } from '@/components/mappings/types';
 
 export function useMappings(data: string[][]) {
   const [columnMappings, setColumnMappings] = useState<ColumnMapping[]>([]);
@@ -50,7 +50,7 @@ export function useMappings(data: string[][]) {
   }, [data]);
   
   // Update a single column mapping
-  const updateColumnMapping = (originalIndex: number, standardField: StandardField) => {
+  const updateColumnMapping = (originalIndex: number, standardField: StandardField | null) => {
     setColumnMappings(prevMappings => 
       prevMappings.map(mapping => 
         mapping.originalIndex === originalIndex 
@@ -95,7 +95,7 @@ export function useMappings(data: string[][]) {
     
     // Create a new header row with standardized fields
     const standardizedHeaders = columnMappings.map(mapping => 
-      mapping.standardField ? STANDARD_FIELD_LABELS[mapping.standardField] : mapping.originalName
+      getFieldLabel(mapping.standardField)
     );
     
     // Replace the header row with standardized headers

@@ -1,13 +1,13 @@
 
 import React from 'react';
-import { ColumnMapping, StandardField, STANDARD_FIELD_LABELS } from './types';
+import { ColumnMapping, StandardField, getFieldLabel } from './types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 
 interface ColumnMapperProps {
   columnMappings: ColumnMapping[];
-  updateColumnMapping: (originalIndex: number, standardField: StandardField) => void;
+  updateColumnMapping: (originalIndex: number, standardField: StandardField | null) => void;
   previewData: string[][];
 }
 
@@ -54,7 +54,7 @@ const ColumnMapper: React.FC<ColumnMapperProps> = ({
                   value={mapping.standardField || "null"}
                   onValueChange={(value) => updateColumnMapping(
                     mapping.originalIndex, 
-                    value as StandardField
+                    value === "null" ? null : value as StandardField
                   )}
                 >
                   <SelectTrigger className="w-full">
@@ -78,7 +78,7 @@ const ColumnMapper: React.FC<ColumnMapperProps> = ({
                 
                 {mapping.standardField && (
                   <Badge className="mt-1" variant="outline">
-                    {STANDARD_FIELD_LABELS[mapping.standardField]}
+                    {getFieldLabel(mapping.standardField)}
                   </Badge>
                 )}
               </TableCell>

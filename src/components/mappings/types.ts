@@ -23,8 +23,7 @@ export type StandardField =
   | "passing_rent"
   | "area_sqft"
   | "vacant"
-  | "unit_type"
-  | null;
+  | "unit_type";
 
 export const STANDARD_FIELD_LABELS: Record<StandardField, string> = {
   unit_id: "Unit ID",
@@ -37,8 +36,12 @@ export const STANDARD_FIELD_LABELS: Record<StandardField, string> = {
   passing_rent: "Passing Rent",
   area_sqft: "Area (sq ft)",
   vacant: "Vacant",
-  unit_type: "Unit Type",
-  null: "Not Mapped"
+  unit_type: "Unit Type"
+};
+
+// We need a separate function to handle the null case
+export const getFieldLabel = (field: StandardField | null): string => {
+  return field === null ? "Not Mapped" : STANDARD_FIELD_LABELS[field];
 };
 
 // Common headers that might match our standard fields
