@@ -63,11 +63,11 @@ const RowFilterTable: React.FC<RowFilterTableProps> = ({
         <Table>
           <TableHeader className="bg-muted/50 sticky top-0 z-10">
             <TableRow>
-              <TableHead className="w-[50px] py-2">Include</TableHead>
-              <TableHead className="w-[50px] py-2">Row #</TableHead>
-              <TableHead className="py-2">Row Data</TableHead>
-              <TableHead className="w-[130px] py-2">Status</TableHead>
-              <TableHead className="w-[90px] py-2">Likely Unit</TableHead>
+              <TableHead className="w-[45px] py-1.5">Include</TableHead>
+              <TableHead className="w-[45px] py-1.5">Row #</TableHead>
+              <TableHead className="py-1.5">Row Data</TableHead>
+              <TableHead className="w-[100px] py-1.5">Status</TableHead>
+              <TableHead className="w-[80px] py-1.5">Likely Unit</TableHead>
             </TableRow>
           </TableHeader>
           

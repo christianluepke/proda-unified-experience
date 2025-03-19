@@ -27,7 +27,7 @@ const RowFilterTableBody: React.FC<RowFilterTableBodyProps> = ({
     <TableBody>
       {filteredSelections.length === 0 ? (
         <TableRow>
-          <TableCell colSpan={5} className="h-24 text-center">
+          <TableCell colSpan={5} className="h-20 text-center">
             No matching rows found.
           </TableCell>
         </TableRow>
@@ -67,24 +67,24 @@ const RowFilterTableBody: React.FC<RowFilterTableBodyProps> = ({
                 key={selection.rowIndex}
                 className={!selection.isSelected ? "bg-muted/10" : isUnit ? "bg-green-50" : ""}
               >
-                <TableCell className="py-1.5">
+                <TableCell className="py-1">
                   <Checkbox 
                     checked={selection.isSelected}
                     onCheckedChange={() => toggleRowSelection(selection.rowIndex)}
                   />
                 </TableCell>
-                <TableCell className="text-xs font-mono py-1.5">{displayRowIndex}</TableCell>
-                <TableCell className="py-1.5">
+                <TableCell className="text-xs font-mono py-1">{displayRowIndex}</TableCell>
+                <TableCell className="py-1">
                   <DataCellList rowData={rowData} maxCells={10} />
                 </TableCell>
-                <TableCell className="py-1.5">
+                <TableCell className="py-1">
                   <RowStatusBadge 
                     isAutoExcluded={selection.isAutoExcluded}
                     isSelected={selection.isSelected}
                     reason={selection.reason}
                   />
                 </TableCell>
-                <TableCell className="py-1.5">
+                <TableCell className="py-1">
                   {isUnit ? (
                     <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
                       Yes

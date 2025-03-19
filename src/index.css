@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
 
 @tailwind base;
@@ -15,7 +16,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 240 84% 11%;
+    --primary: 240 95% 15%; /* Updated to #050543 */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96%;
@@ -80,8 +81,8 @@
   }
   
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {
