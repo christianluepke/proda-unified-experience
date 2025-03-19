@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { X, ChevronLeft, ChevronRight, FileText, Check, Table as TableIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Slider } from "@/components/ui/slider";
 
 interface TableOption {
   id: string;
@@ -30,13 +31,25 @@ interface TableOption {
   confidence: number;
 }
 
+interface TableBounds {
+  startRow: number;
+  endRow: number;
+  startCol: number;
+  endCol: number;
+}
+
 const SelectTable = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(1);
   const [selectedTable, setSelectedTable] = useState<string | null>(null);
   const [showFullTable, setShowFullTable] = useState(false);
-  const [tableBounds, setTableBounds] = useState({ startRow: 1, endRow: 12, startCol: 1, endCol: 7 });
+  const [tableBounds, setTableBounds] = useState<TableBounds>({ 
+    startRow: 1, 
+    endRow: 12, 
+    startCol: 1, 
+    endCol: 7 
+  });
   
   // Mock data
   const fileName = "Property_RentRoll_2023_Q4.xlsx";
@@ -86,7 +99,29 @@ const SelectTable = () => {
     ["301", "Marketing Firm", "220", "5", "03/01/2021", "02/28/2026", "$66,000"]
   ];
 
+  // Initialize selected table if not set
+  useEffect(() => {
+    if (!selectedTable && mockTables.length > 0) {
+      // Auto-select the highest confidence rent roll table
+      const highestConfidenceTable = [...mockTables]
+        .filter(table => table.tableType === 'rent_roll')
+        .sort((a, b) => b.confidence - a.confidence)[0];
+      
+      if (highestConfidenceTable) {
+        setSelectedTable(highestConfidenceTable.id);
+      }
+    }
+  }, [selectedTable, mockTables]);
+
   const handleStepChange = (step: number) => {
+    if (!selectedTable && step > 1) {
+      toast({
+        title: "Selection Required",
+        description: "Please select a table to continue.",
+        variant: "destructive",
+      });
+      return;
+    }
     setActiveStep(step);
   };
 
@@ -106,7 +141,7 @@ const SelectTable = () => {
       // Process data and navigate to next step
       toast({
         title: "Selection Complete",
-        description: "Rent roll table has been selected.",
+        description: "Rent roll table has been selected and bounds adjusted.",
       });
       navigate('/projects');
     }
@@ -130,6 +165,17 @@ const SelectTable = () => {
 
   const handleTableSelect = (tableId: string) => {
     setSelectedTable(tableId);
+    
+    // Reset bounds to default when selecting a new table
+    const selectedTableData = mockTables.find(table => table.id === tableId);
+    if (selectedTableData) {
+      setTableBounds({
+        startRow: 1,
+        endRow: Math.min(12, selectedTableData.rowCount),
+        startCol: 1,
+        endCol: Math.min(7, selectedTableData.columnCount)
+      });
+    }
   };
 
   const getHighlightedRows = () => {
@@ -139,12 +185,27 @@ const SelectTable = () => {
     );
   };
 
-  const updateBounds = (key: keyof typeof tableBounds, value: number) => {
-    setTableBounds(prev => ({
-      ...prev,
-      [key]: value
-    }));
+  const updateBounds = (key: keyof TableBounds, value: number) => {
+    setTableBounds(prev => {
+      const newBounds = { ...prev, [key]: value };
+      
+      // Ensure start values are always less than or equal to end values
+      if (key === 'startRow' && newBounds.startRow > newBounds.endRow) {
+        newBounds.endRow = newBounds.startRow;
+      } else if (key === 'endRow' && newBounds.endRow < newBounds.startRow) {
+        newBounds.startRow = newBounds.endRow;
+      } else if (key === 'startCol' && newBounds.startCol > newBounds.endCol) {
+        newBounds.endCol = newBounds.startCol;
+      } else if (key === 'endCol' && newBounds.endCol < newBounds.startCol) {
+        newBounds.startCol = newBounds.endCol;
+      }
+      
+      return newBounds;
+    });
   };
+
+  // Get the selected table information
+  const selectedTableInfo = mockTables.find(table => table.id === selectedTable);
 
   return (
     <div className="fixed inset-0 z-50 bg-background flex flex-col">
@@ -274,84 +335,66 @@ const SelectTable = () => {
                   <div>
                     <h3 className="text-sm font-medium mb-3">Table Bounds</h3>
                     
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-6">
+                      {/* Row bounds sliders */}
+                      <div className="space-y-4">
                         <div className="space-y-2">
-                          <label className="text-sm text-muted-foreground">Start Row</label>
-                          <Select
-                            value={tableBounds.startRow.toString()}
-                            onValueChange={(v) => updateBounds('startRow', parseInt(v))}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Start Row" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {[...Array(10)].map((_, i) => (
-                                <SelectItem key={`start-row-${i+1}`} value={(i+1).toString()}>
-                                  Row {i+1}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <div className="flex justify-between">
+                            <label className="text-sm text-muted-foreground">Start Row</label>
+                            <span className="text-sm font-medium">Row {tableBounds.startRow}</span>
+                          </div>
+                          <Slider 
+                            value={[tableBounds.startRow]} 
+                            min={1} 
+                            max={selectedTableInfo?.rowCount || mockRentRollData.length}
+                            step={1}
+                            onValueChange={(value) => updateBounds('startRow', value[0])}
+                          />
                         </div>
                         
                         <div className="space-y-2">
-                          <label className="text-sm text-muted-foreground">End Row</label>
-                          <Select
-                            value={tableBounds.endRow.toString()}
-                            onValueChange={(v) => updateBounds('endRow', parseInt(v))}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="End Row" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {[...Array(mockRentRollData.length)].map((_, i) => (
-                                <SelectItem key={`end-row-${i+1}`} value={(i+1).toString()}>
-                                  Row {i+1}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <div className="flex justify-between">
+                            <label className="text-sm text-muted-foreground">End Row</label>
+                            <span className="text-sm font-medium">Row {tableBounds.endRow}</span>
+                          </div>
+                          <Slider 
+                            value={[tableBounds.endRow]} 
+                            min={1} 
+                            max={selectedTableInfo?.rowCount || mockRentRollData.length} 
+                            step={1}
+                            onValueChange={(value) => updateBounds('endRow', value[0])}
+                          />
                         </div>
                       </div>
                       
-                      <div className="grid grid-cols-2 gap-4">
+                      {/* Column bounds sliders */}
+                      <div className="space-y-4">
                         <div className="space-y-2">
-                          <label className="text-sm text-muted-foreground">Start Column</label>
-                          <Select
-                            value={tableBounds.startCol.toString()}
-                            onValueChange={(v) => updateBounds('startCol', parseInt(v))}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Start Column" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {[...Array(7)].map((_, i) => (
-                                <SelectItem key={`start-col-${i+1}`} value={(i+1).toString()}>
-                                  Column {i+1}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <div className="flex justify-between">
+                            <label className="text-sm text-muted-foreground">Start Column</label>
+                            <span className="text-sm font-medium">Column {tableBounds.startCol}</span>
+                          </div>
+                          <Slider 
+                            value={[tableBounds.startCol]} 
+                            min={1} 
+                            max={selectedTableInfo?.columnCount || 7}
+                            step={1}
+                            onValueChange={(value) => updateBounds('startCol', value[0])}
+                          />
                         </div>
                         
                         <div className="space-y-2">
-                          <label className="text-sm text-muted-foreground">End Column</label>
-                          <Select
-                            value={tableBounds.endCol.toString()}
-                            onValueChange={(v) => updateBounds('endCol', parseInt(v))}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="End Column" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {[...Array(7)].map((_, i) => (
-                                <SelectItem key={`end-col-${i+1}`} value={(i+1).toString()}>
-                                  Column {i+1}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <div className="flex justify-between">
+                            <label className="text-sm text-muted-foreground">End Column</label>
+                            <span className="text-sm font-medium">Column {tableBounds.endCol}</span>
+                          </div>
+                          <Slider 
+                            value={[tableBounds.endCol]} 
+                            min={1} 
+                            max={selectedTableInfo?.columnCount || 7} 
+                            step={1}
+                            onValueChange={(value) => updateBounds('endCol', value[0])}
+                          />
                         </div>
                       </div>
                     </div>
@@ -386,53 +429,66 @@ const SelectTable = () => {
               </p>
               
               {selectedTable ? (
-                <div className="border rounded-md overflow-auto max-h-[650px]">
+                <div className="border rounded-md overflow-auto max-h-[650px] relative">
+                  {/* Highlight overlay indicator */}
+                  {activeStep === 2 && !showFullTable && (
+                    <div className="absolute inset-0 border-2 border-primary pointer-events-none z-10">
+                      <div className="absolute top-0 left-0 bg-primary text-primary-foreground px-2 py-1 text-xs rounded-br">
+                        Selected Area
+                      </div>
+                    </div>
+                  )}
+                  
                   <Table>
                     <TableHeader>
-                      {activeStep === 1 && (
-                        <TableRow className="bg-primary text-primary-foreground">
-                          {mockRentRollData[0].map((header, idx) => (
-                            <TableHead key={`header-${idx}`}>{header}</TableHead>
-                          ))}
-                        </TableRow>
-                      )}
-                      {activeStep === 2 && (
-                        <TableRow className="bg-primary text-primary-foreground">
-                          {mockRentRollData[0].map((header, idx) => (
-                            <TableHead 
-                              key={`header-${idx}`}
-                              className={idx + 1 >= tableBounds.startCol && idx + 1 <= tableBounds.endCol ? '' : 'opacity-40'}
-                            >
-                              {header}
-                            </TableHead>
-                          ))}
-                        </TableRow>
-                      )}
+                      <TableRow className={activeStep === 2 ? "bg-primary/80 text-primary-foreground" : "bg-primary text-primary-foreground"}>
+                        {mockRentRollData[0].map((header, idx) => (
+                          <TableHead 
+                            key={`header-${idx}`}
+                            className={
+                              activeStep === 2 && (idx + 1 < tableBounds.startCol || idx + 1 > tableBounds.endCol) 
+                                ? 'opacity-40' 
+                                : ''
+                            }
+                          >
+                            {header}
+                          </TableHead>
+                        ))}
+                      </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {(showFullTable ? mockRentRollData.slice(1) : getHighlightedRows().slice(1)).map((row, rowIdx) => (
-                        <TableRow 
-                          key={`row-${rowIdx}`}
-                          className={
-                            activeStep === 2 && !showFullTable && rowIdx + 1 >= tableBounds.startRow && rowIdx + 1 <= tableBounds.endRow
-                              ? 'bg-blue-50/50'
-                              : rowIdx % 2 === 0 ? 'bg-muted/5' : ''
-                          }
-                        >
-                          {row.map((cell, cellIdx) => (
-                            <TableCell 
-                              key={`cell-${rowIdx}-${cellIdx}`}
-                              className={
-                                activeStep === 2 && cellIdx + 1 >= tableBounds.startCol && cellIdx + 1 <= tableBounds.endCol
-                                  ? ''
-                                  : 'opacity-40'
-                              }
-                            >
-                              {cell}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      ))}
+                      {(showFullTable ? mockRentRollData.slice(1) : getHighlightedRows().slice(1)).map((row, rowIdx) => {
+                        const actualRowIndex = showFullTable ? rowIdx + 1 : tableBounds.startRow + rowIdx;
+                        const isHighlighted = 
+                          activeStep === 2 && 
+                          !showFullTable && 
+                          actualRowIndex >= tableBounds.startRow && 
+                          actualRowIndex < tableBounds.endRow;
+                        
+                        return (
+                          <TableRow 
+                            key={`row-${rowIdx}`}
+                            className={
+                              isHighlighted
+                                ? 'bg-primary/10'
+                                : rowIdx % 2 === 0 ? 'bg-muted/5' : ''
+                            }
+                          >
+                            {row.map((cell, cellIdx) => (
+                              <TableCell 
+                                key={`cell-${rowIdx}-${cellIdx}`}
+                                className={
+                                  activeStep === 2 && (cellIdx + 1 < tableBounds.startCol || cellIdx + 1 > tableBounds.endCol)
+                                    ? 'opacity-40'
+                                    : ''
+                                }
+                              >
+                                {cell}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        );
+                      })}
                     </TableBody>
                   </Table>
                 </div>
@@ -449,10 +505,19 @@ const SelectTable = () => {
             <Button variant="outline" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button onClick={handleNext} disabled={!selectedTable}>
-              {activeStep < 2 ? 'Next' : 'Confirm Selection'}
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
+            <div className="flex gap-2">
+              {activeStep > 1 && (
+                <Button variant="outline" onClick={() => setActiveStep(activeStep - 1)}>
+                  <ChevronLeft className="mr-2 h-4 w-4" />
+                  Back
+                </Button>
+              )}
+              <Button onClick={handleNext} disabled={!selectedTable}>
+                {activeStep < 2 ? 'Next' : 'Confirm Selection'}
+                {activeStep < 2 && <ChevronRight className="ml-2 h-4 w-4" />}
+                {activeStep === 2 && <Check className="ml-2 h-4 w-4" />}
+              </Button>
+            </div>
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
