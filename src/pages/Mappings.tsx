@@ -8,15 +8,12 @@ import MappingsContent from '@/components/mappings/MappingsContent';
 import MappingsFooter from '@/components/mappings/MappingsFooter';
 import { useMappings } from '@/hooks/useMappings';
 import { mockRentRollData } from '@/components/table-selector/mockData';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Map, RowsIcon } from 'lucide-react';
 
 const Mappings = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const [activeStep, setActiveStep] = useState(3);
-  const [activeTab, setActiveTab] = useState("column-mapping");
   
   const tableBounds = location.state?.tableBounds || { 
     startRow: 1, 
@@ -110,21 +107,6 @@ const Mappings = () => {
       />
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="border-b p-4">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full max-w-3xl mx-auto">
-            <TabsList className="grid w-full grid-cols-2 mb-2">
-              <TabsTrigger value="column-mapping" className="flex items-center gap-2">
-                <Map className="h-4 w-4" />
-                <span>Column Mappings</span>
-              </TabsTrigger>
-              <TabsTrigger value="row-filter" className="flex items-center gap-2">
-                <RowsIcon className="h-4 w-4" />
-                <span>Row Filters</span>
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-        
         <div className="flex-1 overflow-hidden">
           <MappingsContent 
             mappedData={mappedData}
@@ -133,7 +115,7 @@ const Mappings = () => {
             updateColumnMapping={updateColumnMapping}
             toggleRowSelection={toggleRowSelection}
             previewData={boundedData}
-            activeTab={activeTab}
+            activeTab="" // This prop is no longer needed but kept for compatibility
           />
         </div>
         
