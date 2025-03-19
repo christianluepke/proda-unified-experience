@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Upload } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from "@/components/ui/use-toast";
@@ -37,6 +38,7 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
   onDrop,
   handleRemoveFile
 }) => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<string | null>(initialSelectedProject || null);
   const [fileType, setFileType] = useState<'rent_roll' | 'operating_statement'>('rent_roll');
@@ -64,8 +66,25 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
     }
 
     onUpload(selectedProject, fileType, selectedDatabase);
-    setOpen(false);
-    setShowDatabaseSelector(false);
+    
+    // If it's an operating statement, navigate to review mappings
+    if (fileType === 'operating_statement') {
+      setOpen(false);
+      // Generate a random ID for the operating statement
+      const operatingStatementId = `os-${Math.random().toString(36).substring(2, 9)}`;
+      toast({
+        title: "Processing Operating Statement",
+        description: "Redirecting to review mappings..."
+      });
+      
+      // Add short delay to allow the toast to be seen
+      setTimeout(() => {
+        navigate(`/review/${operatingStatementId}`);
+      }, 500);
+    } else {
+      setOpen(false);
+      setShowDatabaseSelector(false);
+    }
   };
 
   // Get the selected project details

@@ -11,6 +11,7 @@ import Projects from "./pages/Projects";
 import Dashboard from "./pages/Dashboard";
 import DataGovernance from "./pages/DataGovernance";
 import LeasingCRM from "./pages/LeasingCRM";
+import ReviewMappings from "./pages/ReviewMappings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
           <Route path="/data-governance" element={<Layout><DataGovernance /></Layout>} />
           <Route path="/leasing-crm" element={<Layout><LeasingCRM /></Layout>} />
+          <Route path="/review/:id" element={<ReviewMappings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>

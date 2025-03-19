@@ -1,10 +1,12 @@
 
 import { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UploadedFile } from '@/components/upload/models';
 import { toast } from "@/components/ui/use-toast";
 
 export function useFileUpload() {
   const [files, setFiles] = useState<UploadedFile[]>([]);
+  const navigate = useNavigate();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(prevFiles => [
@@ -137,9 +139,20 @@ export function useFileUpload() {
           description: `Successfully uploaded ${fileObj.file.name}`,
         });
         
-        setTimeout(() => {
-          setFiles(prevFiles => prevFiles.filter(f => f.file !== file));
-        }, 2000);
+        // If it's an operating statement, navigate to review page
+        if (fileObj.fileType === 'operating_statement' && fileObj.projectId) {
+          const operatingStatementId = `os-${Math.random().toString(36).substring(2, 9)}`;
+          
+          setTimeout(() => {
+            setFiles(prevFiles => prevFiles.filter(f => f.file !== file));
+            // Navigate to review page
+            navigate(`/review/${operatingStatementId}`);
+          }, 1000);
+        } else {
+          setTimeout(() => {
+            setFiles(prevFiles => prevFiles.filter(f => f.file !== file));
+          }, 2000);
+        }
       }
     }, 300);
   };
