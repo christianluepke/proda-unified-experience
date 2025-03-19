@@ -9,7 +9,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import { ChevronRight, Home, Upload, FileSpreadsheet, Table2, Columns } from 'lucide-react';
+import { ChevronRight, Home, Upload, FileSpreadsheet, Table2, Columns, Building2 } from 'lucide-react';
 import { RENT_ROLL_WORKFLOW, OPERATING_STATEMENT_WORKFLOW, WorkflowStep } from './workflow/WorkflowSteps';
 
 interface WorkflowNavigationProps {
@@ -23,17 +23,20 @@ const WorkflowNavigation: React.FC<WorkflowNavigationProps> = ({ className }) =>
   // Determine if we're in a workflow and which one
   const isSelectTable = path.includes('/select-table/');
   const isMappings = path.includes('/mappings/');
-  const isReview = path.includes('/review/');
+  const isMapProperties = path.includes('/map-properties/');
+  const isRentRollReview = path.includes('/rentroll-review/');
+  const isOperatingStatementReview = path.includes('/review/');
   
   // If not in a workflow, don't render the breadcrumbs
-  if (!isSelectTable && !isMappings && !isReview) return null;
+  if (!isSelectTable && !isMappings && !isMapProperties && !isRentRollReview && !isOperatingStatementReview) return null;
   
   // Get the document ID from the path
   const documentId = path.split('/').pop() || '';
   
   // Determine the workflow type and current step
-  const isOperatingStatement = isReview && documentId.startsWith('os-');
-  const isRentRoll = (isSelectTable || isMappings) || (isReview && documentId.startsWith('rr-'));
+  const isOperatingStatement = isOperatingStatementReview && documentId.startsWith('os-');
+  const isRentRoll = (isSelectTable || isMappings || isMapProperties || isRentRollReview) || 
+                     (isOperatingStatementReview && documentId.startsWith('rr-'));
   
   // Determine the current step in the workflow
   let currentStep = 0;
@@ -47,8 +50,10 @@ const WorkflowNavigation: React.FC<WorkflowNavigationProps> = ({ className }) =>
       currentStep = 1;
     } else if (isMappings) {
       currentStep = 3;
-    } else if (isReview) {
+    } else if (isMapProperties) {
       currentStep = 4;
+    } else if (isRentRollReview) {
+      currentStep = 5;
     }
   } else if (isOperatingStatement) {
     workflow = OPERATING_STATEMENT_WORKFLOW;
@@ -151,6 +156,8 @@ function getIconForStep(step: number): React.ReactNode {
     case 3:
       return <Columns className="h-4 w-4 mr-1" />;
     case 4:
+      return <Building2 className="h-4 w-4 mr-1" />;
+    case 5:
       return <FileSpreadsheet className="h-4 w-4 mr-1" />;
     default:
       return null;

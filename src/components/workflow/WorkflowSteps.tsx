@@ -13,7 +13,8 @@ export const RENT_ROLL_WORKFLOW: WorkflowStep[] = [
   { number: 1, label: 'Select Table', route: 'select-table' },
   { number: 2, label: 'Adjust Bounds', route: 'select-table' },
   { number: 3, label: 'Map Columns', route: 'mappings' },
-  { number: 4, label: 'Review', route: 'review' },
+  { number: 4, label: 'Map Properties', route: 'map-properties' },
+  { number: 5, label: 'Review', route: 'rentroll-review' },
 ];
 
 export const OPERATING_STATEMENT_WORKFLOW: WorkflowStep[] = [

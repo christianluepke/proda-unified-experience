@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from '@/components/ui/use-toast';
@@ -70,16 +69,14 @@ export function useMappingsPage() {
           title: "Mappings Saved",
           description: "Your column mappings and row filters have been applied.",
         });
-        // Navigate to the new RentRollReview page instead of the ReviewMappings page
-        navigate(`/rentroll-review/${id}`);
+        navigate(`/map-properties/${id}`);
       }
     } else {
       toast({
         title: "Mappings Saved",
         description: "Your column mappings and row filters have been applied.",
       });
-      // Navigate to the new RentRollReview page instead of the ReviewMappings page
-      navigate(`/rentroll-review/${id}`);
+      navigate(`/map-properties/${id}`);
     }
   };
 

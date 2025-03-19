@@ -2,17 +2,13 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from '@/components/ui/use-toast';
-import { useMockOperatingStatement } from '@/hooks/useMockOperatingStatement';
 import WorkflowSteps, { RENT_ROLL_WORKFLOW } from '@/components/workflow/WorkflowSteps';
 import { Button } from '@/components/ui/button';
 import { Check, X } from 'lucide-react';
 
-const RentRollReview = () => {
+const MapProperties = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
-  // We're using the same mock data function but will display it differently
-  const { operatingStatement } = useMockOperatingStatement(id);
   
   const handleStepChange = (step: number) => {
     if (step === 1) {
@@ -21,21 +17,17 @@ const RentRollReview = () => {
       navigate(`/select-table/${id}`, { state: { activeStep: 2 } });
     } else if (step === 3) {
       navigate(`/mappings/${id}`);
-    } else if (step === 4) {
-      navigate(`/map-properties/${id}`);
+    } else if (step === 5) {
+      navigate(`/rentroll-review/${id}`);
     }
   };
 
-  const handleComplete = () => {
-    toast({
-      title: "Process Complete",
-      description: "Your rent roll has been successfully processed.",
-    });
-    navigate('/projects');
+  const handleNext = () => {
+    navigate(`/rentroll-review/${id}`);
   };
 
   const handleBack = () => {
-    navigate(`/map-properties/${id}`);
+    navigate(`/mappings/${id}`);
   };
 
   const handleCloseDialog = () => {
@@ -45,22 +37,11 @@ const RentRollReview = () => {
     }
   };
 
-  if (!operatingStatement) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold mb-2">Loading...</h2>
-          <p className="text-muted-foreground">Loading rent roll data...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="fixed inset-0 z-50 bg-background flex flex-col">
       {/* Header */}
       <div className="border-b p-4 flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Review Rent Roll</h1>
+        <h1 className="text-xl font-semibold">Map Properties</h1>
         <Button variant="ghost" size="icon" onClick={handleCloseDialog}>
           <X className="h-5 w-5" />
         </Button>
@@ -70,7 +51,7 @@ const RentRollReview = () => {
       <div className="px-4 py-3 border-b">
         <WorkflowSteps 
           workflow={RENT_ROLL_WORKFLOW}
-          activeStep={5}
+          activeStep={4}
           handleStepChange={handleStepChange}
         />
       </div>
@@ -87,8 +68,8 @@ const RentRollReview = () => {
         <Button variant="outline" onClick={handleBack}>
           Back
         </Button>
-        <Button onClick={handleComplete}>
-          Complete
+        <Button onClick={handleNext}>
+          Next
           <Check className="ml-2 h-4 w-4" />
         </Button>
       </div>
@@ -96,4 +77,4 @@ const RentRollReview = () => {
   );
 };
 
-export default RentRollReview;
+export default MapProperties;

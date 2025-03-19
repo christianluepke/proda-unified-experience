@@ -14,6 +14,7 @@ import LeasingCRM from "./pages/LeasingCRM";
 import ReviewMappings from "./pages/ReviewMappings";
 import SelectTable from "./pages/SelectTable";
 import Mappings from "./pages/Mappings";
+import MapProperties from "./pages/MapProperties";
 import RentRollReview from "./pages/RentRollReview";
 import NotFound from "./pages/NotFound";
 
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/rentroll-review/:id" element={<RentRollReview />} />
           <Route path="/select-table/:id" element={<SelectTable />} />
           <Route path="/mappings/:id" element={<Mappings />} />
+          <Route path="/map-properties/:id" element={<MapProperties />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>
