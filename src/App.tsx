@@ -13,6 +13,7 @@ import DataGovernance from "./pages/DataGovernance";
 import LeasingCRM from "./pages/LeasingCRM";
 import ReviewMappings from "./pages/ReviewMappings";
 import SelectTable from "./pages/SelectTable";
+import Mappings from "./pages/Mappings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/leasing-crm" element={<Layout><LeasingCRM /></Layout>} />
           <Route path="/review/:id" element={<ReviewMappings />} />
           <Route path="/select-table/:id" element={<SelectTable />} />
+          <Route path="/mappings/:id" element={<Mappings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>

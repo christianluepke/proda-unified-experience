@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { X, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
@@ -16,7 +15,8 @@ import { fileName, mockTables, mockRentRollData } from '@/components/table-selec
 const SelectTable = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [activeStep, setActiveStep] = useState(1);
+  const location = useLocation();
+  const [activeStep, setActiveStep] = useState(location.state?.activeStep || 1);
   const [selectedTable, setSelectedTable] = useState<string | null>(null);
   const [showFullTable, setShowFullTable] = useState(false);
   const [tableBounds, setTableBounds] = useState<TableBounds>({ 
@@ -26,10 +26,8 @@ const SelectTable = () => {
     endCol: 7 
   });
   
-  // Initialize selected table if not set
   useEffect(() => {
     if (!selectedTable && mockTables.length > 0) {
-      // Auto-select the highest confidence rent roll table
       const highestConfidenceTable = [...mockTables]
         .filter(table => table.tableType === 'rent_roll')
         .sort((a, b) => b.confidence - a.confidence)[0];
@@ -65,12 +63,7 @@ const SelectTable = () => {
     if (activeStep < 2) {
       setActiveStep(activeStep + 1);
     } else {
-      // Process data and navigate to next step
-      toast({
-        title: "Selection Complete",
-        description: "Rent roll table has been selected and bounds adjusted.",
-      });
-      navigate('/projects');
+      navigate(`/mappings/${id}`, { state: { tableBounds } });
     }
   };
 
@@ -80,20 +73,19 @@ const SelectTable = () => {
       description: "You've cancelled the rent roll selection.",
       variant: "destructive",
     });
-    navigate('/upload');
+    navigate('/projects');
   };
 
   const handleCloseDialog = () => {
     const confirmClose = window.confirm("Are you sure you want to close? Any unsaved selections will be lost.");
     if (confirmClose) {
-      navigate('/upload');
+      navigate('/projects');
     }
   };
 
   const handleTableSelect = (tableId: string) => {
     setSelectedTable(tableId);
     
-    // Reset bounds to default when selecting a new table
     const selectedTableData = mockTables.find(table => table.id === tableId);
     if (selectedTableData) {
       setTableBounds({
@@ -109,7 +101,6 @@ const SelectTable = () => {
     setTableBounds(prev => {
       const newBounds = { ...prev, [key]: value };
       
-      // Ensure start values are always less than or equal to end values
       if (key === 'startRow' && newBounds.startRow > newBounds.endRow) {
         newBounds.endRow = newBounds.startRow;
       } else if (key === 'endRow' && newBounds.endRow < newBounds.startRow) {
@@ -124,12 +115,10 @@ const SelectTable = () => {
     });
   };
 
-  // Get the selected table information
   const selectedTableInfo = mockTables.find(table => table.id === selectedTable);
 
   return (
     <div className="fixed inset-0 z-50 bg-background flex flex-col">
-      {/* Header */}
       <div className="border-b p-4 flex items-center justify-between">
         <h1 className="text-xl font-semibold">Select Rent Roll Table</h1>
         <Button variant="ghost" size="icon" onClick={handleCloseDialog}>
@@ -137,14 +126,11 @@ const SelectTable = () => {
         </Button>
       </div>
 
-      {/* Progress Steps */}
       <div className="px-4 py-3 border-b">
         <ProgressSteps activeStep={activeStep} handleStepChange={handleStepChange} />
       </div>
 
-      {/* Main Content */}
       <ResizablePanelGroup direction="horizontal" className="flex-1 overflow-hidden">
-        {/* Left Sidebar */}
         <ResizablePanel defaultSize={25} minSize={20} maxSize={30} className="border-r">
           <div className="p-4 h-full overflow-y-auto">
             {activeStep === 1 && (
@@ -172,7 +158,6 @@ const SelectTable = () => {
         
         <ResizableHandle withHandle />
         
-        {/* Right Content Area */}
         <ResizablePanel defaultSize={75} className="flex flex-col overflow-hidden">
           <div className="flex-1 overflow-auto p-4">
             <div className="bg-muted/10 p-4 rounded-lg border border-dashed border-muted-foreground/50 mb-4">
@@ -198,7 +183,6 @@ const SelectTable = () => {
             </div>
           </div>
           
-          {/* Footer Controls */}
           <div className="border-t p-4 flex justify-between items-center">
             <Button variant="outline" onClick={handleCancel}>
               Cancel
@@ -211,9 +195,8 @@ const SelectTable = () => {
                 </Button>
               )}
               <Button onClick={handleNext} disabled={!selectedTable}>
-                {activeStep < 2 ? 'Next' : 'Confirm Selection'}
-                {activeStep < 2 && <ChevronRight className="ml-2 h-4 w-4" />}
-                {activeStep === 2 && <Check className="ml-2 h-4 w-4" />}
+                {activeStep < 2 ? 'Next' : 'Next: Map Columns'}
+                <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </div>
