@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Project, Property } from '@/components/upload/models';
 import { toast } from "@/components/ui/use-toast";
@@ -59,11 +58,8 @@ const generateSampleProjects = (): Project[] => {
 // Mock projects for initial state with additional fields
 const MOCK_PROJECTS: Project[] = generateSampleProjects();
 
-export type ViewMode = 'cards' | 'list';
-
 export function useProjects() {
   const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
-  const [viewMode, setViewMode] = useState<ViewMode>('list');  // Default to list view
 
   const handleCreateProject = (name: string, description: string = '', assetType: string = ''): Project => {
     const now = new Date().toISOString();
@@ -95,7 +91,5 @@ export function useProjects() {
   return {
     projects,
     createProject: handleCreateProject,
-    viewMode,
-    setViewMode
   };
 }

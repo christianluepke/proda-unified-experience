@@ -6,13 +6,11 @@ import { useProjects } from '@/hooks/useProjects';
 import { useFileUpload } from '@/hooks/useFileUpload';
 import { toast } from "@/components/ui/use-toast";
 import ProjectList from '@/components/projects/ProjectList';
-import ProjectsGrid from '@/components/projects/ProjectsGrid';
 import CreateProjectDialog from '@/components/projects/CreateProjectDialog';
-import ViewSelector from '@/components/projects/ViewSelector';
 import UploadToProjectDialog from '@/components/projects/UploadToProjectDialog';
 
 const Projects: React.FC = () => {
-  const { projects, createProject, viewMode, setViewMode } = useProjects();
+  const { projects, createProject } = useProjects();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
 
@@ -52,8 +50,6 @@ const Projects: React.FC = () => {
         <h1 className="text-2xl font-bold">Projects</h1>
         
         <div className="flex items-center space-x-3">
-          <ViewSelector viewMode={viewMode} setViewMode={setViewMode} />
-          
           <CreateProjectDialog onCreateProject={createProject} />
           
           <UploadToProjectDialog
@@ -83,13 +79,8 @@ const Projects: React.FC = () => {
         <div className="text-center py-8">
           <p className="text-muted-foreground">No projects found</p>
         </div>
-      ) : viewMode === 'list' ? (
-        <ProjectList 
-          projects={filteredProjects}
-          onSelectUpload={openUploadForProject}
-        />
       ) : (
-        <ProjectsGrid
+        <ProjectList 
           projects={filteredProjects}
           onSelectUpload={openUploadForProject}
         />
