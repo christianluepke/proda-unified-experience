@@ -109,96 +109,109 @@ const ColumnMappingTable: React.FC<ColumnMappingTableProps> = ({
       </div>
       
       <div className="overflow-x-auto">
-        <Table className="w-full">
-          <TableHeader className="bg-muted/50 sticky top-0 z-10">
-            <TableRow>
-              <TableHead 
-                className="w-[250px] cursor-pointer hover:bg-muted/70"
-                onClick={() => toggleSort('original')}
-              >
-                <div className="flex items-center gap-1">
-                  Original Column
-                  {sortBy === 'original' && (
-                    <ArrowUpDown className={`h-4 w-4 ${sortDirection === 'desc' ? 'rotate-180' : ''}`} />
-                  )}
+        <div className="flex min-w-full">
+          <div className="w-1/3 border-r">
+            <div className="bg-muted/50 sticky top-0 z-10 p-4 border-b flex items-center cursor-pointer hover:bg-muted/70" onClick={() => toggleSort('original')}>
+              <div className="font-medium flex items-center gap-1">
+                Original Column
+                {sortBy === 'original' && (
+                  <ArrowUpDown className={`h-4 w-4 ${sortDirection === 'desc' ? 'rotate-180' : ''}`} />
+                )}
+              </div>
+            </div>
+            
+            {sortedMappings.map((mapping, index) => (
+              <div key={`original-${mapping.originalIndex}`} className={`p-4 border-b ${index % 2 === 1 ? 'bg-muted/10' : ''}`}>
+                <div className="bg-sky-100 text-blue-800 p-2 rounded">
+                  {mapping.originalName}
                 </div>
-              </TableHead>
-              <TableHead 
-                className="w-[250px] cursor-pointer hover:bg-muted/70"
-                onClick={() => toggleSort('mapped')}
-              >
-                <div className="flex items-center gap-1">
-                  Standard Field
-                  {sortBy === 'mapped' && (
-                    <ArrowUpDown className={`h-4 w-4 ${sortDirection === 'desc' ? 'rotate-180' : ''}`} />
-                  )}
-                </div>
-              </TableHead>
-              <TableHead className="w-[300px]">Sample Values</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sortedMappings.map((mapping) => (
-              <TableRow key={mapping.originalIndex} className={!mapping.standardField ? "bg-muted/10" : ""}>
-                <TableCell className="font-medium">
-                  <div className="bg-sky-100 text-blue-800 p-2 rounded">
-                    {mapping.originalName}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Select
-                    value={mapping.standardField || "null"}
-                    onValueChange={(value) => updateColumnMapping(
-                      mapping.originalIndex, 
-                      value === "null" ? null : value as StandardField
-                    )}
-                  >
-                    <SelectTrigger className={`w-full ${mapping.standardField ? 'bg-blue-600 text-white hover:bg-blue-700' : ''}`}>
-                      <SelectValue placeholder="Select a field" />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-[300px]">
-                      <SelectItem value="null">Not Mapped</SelectItem>
-                      <SelectItem value="unit_id">Unit ID</SelectItem>
-                      <SelectItem value="unit_name">Unit Name</SelectItem>
-                      <SelectItem value="tenant_name">Tenant Name</SelectItem>
-                      <SelectItem value="lease_id">Lease ID</SelectItem>
-                      <SelectItem value="lease_start">Lease Start Date</SelectItem>
-                      <SelectItem value="lease_end">Lease End Date</SelectItem>
-                      <SelectItem value="contracted_rent">Contracted Rent</SelectItem>
-                      <SelectItem value="passing_rent">Passing Rent</SelectItem>
-                      <SelectItem value="area_sqft">Area (sq ft)</SelectItem>
-                      <SelectItem value="vacant">Vacant</SelectItem>
-                      <SelectItem value="unit_type">Unit Type</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  
-                  {mapping.standardField && (
-                    <Badge className="mt-1 bg-blue-100 text-blue-800 hover:bg-blue-200" variant="outline">
-                      {getFieldLabel(mapping.standardField)}
-                    </Badge>
-                  )}
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-col space-y-1">
-                    {getSampleValues(mapping.originalIndex).map((sample, idx) => (
-                      <span key={idx} className="text-xs truncate max-w-[280px]">
-                        {sample}
-                      </span>
-                    ))}
-                  </div>
-                </TableCell>
-              </TableRow>
+              </div>
             ))}
             
             {filteredMappings.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={3} className="h-24 text-center">
-                  No matching columns found.
-                </TableCell>
-              </TableRow>
+              <div className="p-4 text-center">
+                No matching columns found.
+              </div>
             )}
-          </TableBody>
-        </Table>
+          </div>
+          
+          <div className="w-1/3 border-r">
+            <div className="bg-muted/50 sticky top-0 z-10 p-4 border-b flex items-center cursor-pointer hover:bg-muted/70" onClick={() => toggleSort('mapped')}>
+              <div className="font-medium flex items-center gap-1">
+                Standard Field
+                {sortBy === 'mapped' && (
+                  <ArrowUpDown className={`h-4 w-4 ${sortDirection === 'desc' ? 'rotate-180' : ''}`} />
+                )}
+              </div>
+            </div>
+            
+            {sortedMappings.map((mapping, index) => (
+              <div key={`mapping-${mapping.originalIndex}`} className={`p-4 border-b ${index % 2 === 1 ? 'bg-muted/10' : ''}`}>
+                <Select
+                  value={mapping.standardField || "null"}
+                  onValueChange={(value) => updateColumnMapping(
+                    mapping.originalIndex, 
+                    value === "null" ? null : value as StandardField
+                  )}
+                >
+                  <SelectTrigger className={`w-full ${mapping.standardField ? 'bg-blue-600 text-white hover:bg-blue-700' : ''}`}>
+                    <SelectValue placeholder="Select a field" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[300px]">
+                    <SelectItem value="null">Not Mapped</SelectItem>
+                    <SelectItem value="unit_id">Unit ID</SelectItem>
+                    <SelectItem value="unit_name">Unit Name</SelectItem>
+                    <SelectItem value="tenant_name">Tenant Name</SelectItem>
+                    <SelectItem value="lease_id">Lease ID</SelectItem>
+                    <SelectItem value="lease_start">Lease Start Date</SelectItem>
+                    <SelectItem value="lease_end">Lease End Date</SelectItem>
+                    <SelectItem value="contracted_rent">Contracted Rent</SelectItem>
+                    <SelectItem value="passing_rent">Passing Rent</SelectItem>
+                    <SelectItem value="area_sqft">Area (sq ft)</SelectItem>
+                    <SelectItem value="vacant">Vacant</SelectItem>
+                    <SelectItem value="unit_type">Unit Type</SelectItem>
+                  </SelectContent>
+                </Select>
+                
+                {mapping.standardField && (
+                  <Badge className="mt-1 bg-blue-100 text-blue-800 hover:bg-blue-200" variant="outline">
+                    {getFieldLabel(mapping.standardField)}
+                  </Badge>
+                )}
+              </div>
+            ))}
+            
+            {filteredMappings.length === 0 && (
+              <div className="p-4 text-center">
+                No matching columns found.
+              </div>
+            )}
+          </div>
+          
+          <div className="w-1/3">
+            <div className="bg-muted/50 sticky top-0 z-10 p-4 border-b">
+              <div className="font-medium">Sample Values</div>
+            </div>
+            
+            {sortedMappings.map((mapping, index) => (
+              <div key={`sample-${mapping.originalIndex}`} className={`p-4 border-b ${index % 2 === 1 ? 'bg-muted/10' : ''}`}>
+                <div className="flex flex-col space-y-1">
+                  {getSampleValues(mapping.originalIndex).map((sample, idx) => (
+                    <span key={idx} className="text-xs truncate max-w-[280px]">
+                      {sample}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+            
+            {filteredMappings.length === 0 && (
+              <div className="p-4 text-center">
+                No matching columns found.
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { Input } from '@/components/ui/input';
-import { Search, Filter, CheckCircle2 } from 'lucide-react';
+import { Search, Filter, CheckCircle2, X } from 'lucide-react';
 
 interface RowFilterTableProps {
   rowSelections: RowSelection[];
@@ -60,6 +60,23 @@ const RowFilterTable: React.FC<RowFilterTableProps> = ({
         toggleRowSelection(selection.rowIndex);
       }
     });
+  };
+
+  // Helper function to determine if a row appears to be a unit row
+  const isLikelyUnitRow = (rowData: string[]) => {
+    // If row has tenant information, it's likely a unit
+    const hasTenant = rowData.some(cell => 
+      cell && cell.length > 0 && cell.toLowerCase() !== 'vacant' && 
+      !cell.toLowerCase().includes('total') && !cell.toLowerCase().includes('subtotal')
+    );
+    
+    // If row has numeric values for area or rent, likely a unit
+    const hasNumbers = rowData.some(cell => {
+      const numericValue = parseFloat(cell.replace(/[$,]/g, ''));
+      return !isNaN(numericValue) && numericValue > 0;
+    });
+    
+    return hasTenant || hasNumbers;
   };
 
   return (
@@ -134,7 +151,7 @@ const RowFilterTable: React.FC<RowFilterTableProps> = ({
               className="px-3 py-1 text-xs rounded-md border bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
               onClick={deselectAll}
             >
-              <ExclamationTriangleIcon className="h-3 w-3 inline mr-1" />
+              <X className="h-3 w-3 inline mr-1" />
               Deselect All
             </button>
           </div>
@@ -149,17 +166,19 @@ const RowFilterTable: React.FC<RowFilterTableProps> = ({
               <TableHead className="w-[60px]">Row #</TableHead>
               <TableHead>Row Data</TableHead>
               <TableHead className="w-[140px]">Status</TableHead>
+              <TableHead className="w-[100px]">Likely Unit</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredSelections.map((selection) => {
               const rowData = previewData[selection.rowIndex];
               const displayRowIndex = selection.rowIndex; // 0-based index
+              const isUnit = rowData ? isLikelyUnitRow(rowData) : false;
               
               return (
                 <TableRow 
                   key={selection.rowIndex}
-                  className={!selection.isSelected ? "bg-muted/10" : ""}
+                  className={!selection.isSelected ? "bg-muted/10" : isUnit ? "bg-green-50" : ""}
                 >
                   <TableCell>
                     <Checkbox 
@@ -195,13 +214,24 @@ const RowFilterTable: React.FC<RowFilterTableProps> = ({
                       )
                     )}
                   </TableCell>
+                  <TableCell>
+                    {isUnit ? (
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                        Yes
+                      </Badge>
+                    ) : (
+                      <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200">
+                        No
+                      </Badge>
+                    )}
+                  </TableCell>
                 </TableRow>
               );
             })}
             
             {filteredSelections.length === 0 && (
               <TableRow>
-                <TableCell colSpan={4} className="h-24 text-center">
+                <TableCell colSpan={5} className="h-24 text-center">
                   No matching rows found.
                 </TableCell>
               </TableRow>

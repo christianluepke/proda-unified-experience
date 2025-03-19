@@ -49,7 +49,7 @@ const MappingsContent: React.FC<MappingsContentProps> = ({
           <p className="text-sm text-muted-foreground">
             {activeTab === "column-mapping"
               ? `${mappedColumnCount} of ${totalColumns} columns mapped (${mappingProgress}%). Original headers are in light blue, mapped headers in dark blue.`
-              : `${selectedRowCount} of ${totalRows} rows selected. We've automatically excluded totals, subtotals, and blank rows.`}
+              : `${selectedRowCount} of ${totalRows} rows selected. Likely unit rows are highlighted in green. We've automatically excluded totals, subtotals, and blank rows.`}
           </p>
           
           {activeTab === "column-mapping" && (
