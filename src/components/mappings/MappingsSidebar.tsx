@@ -16,6 +16,8 @@ interface MappingsSidebarProps {
   setActiveTab: (value: string) => void;
 }
 
+// This component is now maintained for backward compatibility
+// The main UI has been moved to the inline approach in MappingsContent
 const MappingsSidebar: React.FC<MappingsSidebarProps> = ({
   columnMappings,
   rowSelections,

@@ -1,14 +1,15 @@
+
 import React, { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from '@/components/ui/use-toast';
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 
 import MappingsHeader from '@/components/mappings/MappingsHeader';
-import MappingsSidebar from '@/components/mappings/MappingsSidebar';
 import MappingsContent from '@/components/mappings/MappingsContent';
 import MappingsFooter from '@/components/mappings/MappingsFooter';
 import { useMappings } from '@/hooks/useMappings';
 import { mockRentRollData } from '@/components/table-selector/mockData';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Map, RowsIcon } from 'lucide-react';
 
 const Mappings = () => {
   const { id } = useParams();
@@ -108,34 +109,40 @@ const Mappings = () => {
         handleCloseDialog={handleCloseDialog} 
       />
 
-      <ResizablePanelGroup direction="horizontal" className="flex-1 overflow-hidden">
-        <ResizablePanel defaultSize={30} minSize={25} maxSize={40} className="border-r">
-          <MappingsSidebar 
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="border-b p-4">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full max-w-3xl mx-auto">
+            <TabsList className="grid w-full grid-cols-2 mb-2">
+              <TabsTrigger value="column-mapping" className="flex items-center gap-2">
+                <Map className="h-4 w-4" />
+                <span>Column Mappings</span>
+              </TabsTrigger>
+              <TabsTrigger value="row-filter" className="flex items-center gap-2">
+                <RowsIcon className="h-4 w-4" />
+                <span>Row Filters</span>
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+        
+        <div className="flex-1 overflow-hidden">
+          <MappingsContent 
+            mappedData={mappedData}
             columnMappings={columnMappings}
             rowSelections={rowSelections}
             updateColumnMapping={updateColumnMapping}
             toggleRowSelection={toggleRowSelection}
             previewData={boundedData}
             activeTab={activeTab}
-            setActiveTab={setActiveTab}
           />
-        </ResizablePanel>
+        </div>
         
-        <ResizableHandle withHandle />
-        
-        <ResizablePanel defaultSize={70} className="flex flex-col overflow-hidden">
-          <MappingsContent 
-            mappedData={mappedData}
-            columnMappings={columnMappings}
-          />
-          
-          <MappingsFooter 
-            handleCancel={handleCancel}
-            handleStepChange={handleStepChange}
-            handleNext={handleNext}
-          />
-        </ResizablePanel>
-      </ResizablePanelGroup>
+        <MappingsFooter 
+          handleCancel={handleCancel}
+          handleStepChange={handleStepChange}
+          handleNext={handleNext}
+        />
+      </div>
     </div>
   );
 };
