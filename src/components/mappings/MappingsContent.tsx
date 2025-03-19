@@ -34,47 +34,34 @@ const MappingsContent: React.FC<MappingsContentProps> = ({
   const totalRows = rowSelections.length;
   
   return (
-    <div className="flex-1 overflow-hidden p-4">
-      <div className="bg-white p-4 rounded-lg border mb-4">
-        <div className="flex items-center gap-2 mb-2">
-          <TableIcon className="h-5 w-5 text-primary" />
-          <h3 className="text-lg font-medium">Map Columns & Filter Rows</h3>
-        </div>
-        
-        <div className="flex items-center justify-between flex-wrap gap-2">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <p className="text-sm text-muted-foreground">
-                <span className="font-medium">Column Mapping:</span> {mappedColumnCount} of {totalColumns} columns mapped ({mappingProgress}%)
-              </p>
-              <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+    <div className="flex-1 overflow-hidden px-4 pt-2 pb-4">
+      <div className="bg-white rounded-lg border mb-2">
+        <div className="flex items-center justify-between px-4 py-2">
+          <div className="flex items-center gap-2">
+            <TableIcon className="h-5 w-5 text-primary" />
+            <h3 className="text-base font-medium">Map Columns & Filter Rows</h3>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <span className="font-medium">{mappedColumnCount}/{totalColumns}</span> columns mapped
+              <div className="w-20 h-1.5 bg-gray-200 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-blue-600 rounded-full" 
                   style={{ width: `${mappingProgress}%` }}
                 ></div>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground">
-              <span className="font-medium">Row Selection:</span> {selectedRowCount} of {totalRows} rows selected
-            </p>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="bg-sky-100 text-blue-800 border-sky-200">
-              Original Headers
-            </Badge>
-            <Badge variant="outline" className="bg-blue-600 text-white border-blue-700">
-              Mapped Headers
-            </Badge>
-            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-              Likely Units
-            </Badge>
+            <div className="h-4 mx-0.5 border-l border-gray-200"></div>
+            <div className="text-xs text-muted-foreground">
+              <span className="font-medium">{selectedRowCount}/{totalRows}</span> rows selected
+            </div>
           </div>
         </div>
       </div>
       
       <div className="rounded-lg border overflow-hidden">
-        <ScrollArea className="h-[calc(100vh-250px)]">
+        <ScrollArea className="h-[calc(100vh-190px)]">
           <CombinedMappingTable
             columnMappings={columnMappings}
             rowSelections={rowSelections}
