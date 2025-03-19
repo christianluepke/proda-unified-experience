@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Upload, ChevronDown, ChevronRight, Building2 } from 'lucide-react';
+import { ArrowRight, Upload, ChevronDown, ChevronRight, Building2, ExternalLink } from 'lucide-react';
 import { Project, Property } from '@/components/upload/models';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -25,23 +25,25 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectUpload }) =
     <div className="w-full border rounded-md overflow-hidden">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead className="w-[5%]"></TableHead>
+          <TableRow className="bg-muted/50">
+            <TableHead className="w-[3%]"></TableHead>
+            <TableHead className="w-[5%]">ID</TableHead>
+            <TableHead className="w-[15%]">Company & Database</TableHead>
             <TableHead className="w-[15%]">Property Name</TableHead>
-            <TableHead className="w-[10%]">Asset Type</TableHead>
-            <TableHead className="w-[20%]">Address</TableHead>
-            <TableHead className="w-[10%]">Last Modified</TableHead>
-            <TableHead className="w-[10%]">Modified By</TableHead>
+            <TableHead className="w-[8%]">Asset Type</TableHead>
+            <TableHead className="w-[15%]">Address</TableHead>
+            <TableHead className="w-[10%]">Last Modified At</TableHead>
+            <TableHead className="w-[10%]">Last Modified By</TableHead>
             <TableHead className="w-[10%]">Date Added</TableHead>
             <TableHead className="w-[10%]">Created By</TableHead>
-            <TableHead className="text-right w-[10%]">Actions</TableHead>
+            <TableHead className="w-[5%]">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {projects.map((project) => (
             <React.Fragment key={project.id}>
-              <TableRow>
-                <TableCell>
+              <TableRow className="hover:bg-muted/30">
+                <TableCell className="p-2">
                   <Button 
                     variant="ghost" 
                     size="sm" 
@@ -53,6 +55,8 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectUpload }) =
                       <ChevronRight className="h-4 w-4" />}
                   </Button>
                 </TableCell>
+                <TableCell className="font-medium">{project.id}</TableCell>
+                <TableCell>{project.database || <span className="text-muted-foreground italic">Not specified</span>}</TableCell>
                 <TableCell className="font-medium">{project.name}</TableCell>
                 <TableCell>{project.assetType || <span className="text-muted-foreground italic">Not specified</span>}</TableCell>
                 <TableCell>{project.address || <span className="text-muted-foreground italic">No address</span>}</TableCell>
@@ -68,18 +72,22 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectUpload }) =
                     : <span className="text-muted-foreground italic">Unknown</span>}
                 </TableCell>
                 <TableCell>{project.createdBy || <span className="text-muted-foreground italic">-</span>}</TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end gap-2">
+                <TableCell>
+                  <div className="flex justify-end gap-1">
                     <Button 
-                      variant="outline" 
-                      size="sm"
+                      variant="ghost" 
+                      size="icon"
+                      className="h-7 w-7"
                       onClick={() => onSelectUpload(project.id)}
                     >
-                      <Upload className="mr-2 h-3 w-3" /> 
-                      Upload
+                      <Upload className="h-4 w-4" /> 
                     </Button>
-                    <Button variant="ghost" size="sm">
-                      View <ArrowRight className="ml-1 h-3 w-3" />
+                    <Button 
+                      variant="ghost" 
+                      size="icon"
+                      className="h-7 w-7"
+                    >
+                      <ExternalLink className="h-4 w-4" />
                     </Button>
                   </div>
                 </TableCell>
@@ -87,7 +95,9 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectUpload }) =
               
               {expandedProjects[project.id] && project.properties && project.properties.length > 0 && (
                 project.properties.map(property => (
-                  <TableRow key={property.id} className="bg-muted/30">
+                  <TableRow key={property.id} className="bg-muted/20">
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
                     <TableCell></TableCell>
                     <TableCell className="pl-8 flex items-center">
                       <Building2 className="h-3.5 w-3.5 mr-2 text-muted-foreground" />
@@ -97,9 +107,13 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectUpload }) =
                     <TableCell className="text-sm">
                       {property.streetNo} {property.streetName}, {property.city}, {property.state} {property.zip}
                     </TableCell>
-                    <TableCell colSpan={5} className="text-right">
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell className="text-right">
                       <Button variant="ghost" size="sm">
-                        Details <ArrowRight className="ml-1 h-3 w-3" />
+                        <ExternalLink className="h-3 w-3" />
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -107,8 +121,8 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectUpload }) =
               )}
 
               {expandedProjects[project.id] && (!project.properties || project.properties.length === 0) && (
-                <TableRow className="bg-muted/30">
-                  <TableCell colSpan={9} className="text-center py-3 text-sm text-muted-foreground italic">
+                <TableRow className="bg-muted/20">
+                  <TableCell colSpan={11} className="text-center py-3 text-sm text-muted-foreground italic">
                     No properties found for this project
                   </TableCell>
                 </TableRow>

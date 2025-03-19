@@ -26,26 +26,29 @@ const generateProperties = (count: number, projectName: string): Property[] => {
   return properties;
 };
 
-// Generate 10 sample projects
+// Generate sample projects with database field and more realistic data based on the screenshot
 const generateSampleProjects = (): Project[] => {
   const projectTypes = ['Multi-Family', 'Office', 'Retail', 'Industrial', 'Mixed-Use'];
+  const databases = ['PRODA Engineering Team', 'Development DB', 'Main Database'];
   const projects: Project[] = [];
   
   for (let i = 1; i <= 10; i++) {
     const assetType = projectTypes[Math.floor(Math.random() * projectTypes.length)];
     const createdAt = new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString();
     const propertyCount = Math.floor(Math.random() * 3) + 1; // 1-3 properties
+    const id = Math.floor(Math.random() * 500).toString();
     
     projects.push({
-      id: i.toString(),
+      id,
       name: `Project ${i}`,
       description: `Sample ${assetType} project with ${propertyCount} properties`,
       assetType,
-      address: `${Math.floor(Math.random() * 1000) + 1} ${['Main St', 'Oak Ave', 'Maple Rd'][Math.floor(Math.random() * 3)]}, ${['New York', 'Chicago', 'Los Angeles'][Math.floor(Math.random() * 3)]}`,
+      database: databases[Math.floor(Math.random() * databases.length)],
+      address: `${Math.floor(Math.random() * 1000) + 1} ${['Southwark St', 'Main St', 'Oak Ave'][Math.floor(Math.random() * 3)]}, ${['London SE1 0SW', 'New York', 'Chicago'][Math.floor(Math.random() * 3)]}`,
       createdAt,
-      createdBy: Math.random() > 0.5 ? 'John Doe' : 'Jane Smith',
+      createdBy: ['john.doe@proda.ai', 'jane.smith@proda.ai', 'admin@proda.ai'][Math.floor(Math.random() * 3)],
       modifiedAt: Math.random() > 0.3 ? new Date(Date.now() - Math.floor(Math.random() * 5000000000)).toISOString() : null,
-      modifiedBy: Math.random() > 0.3 ? (Math.random() > 0.5 ? 'John Doe' : 'Jane Smith') : null,
+      modifiedBy: Math.random() > 0.3 ? ['john.doe@proda.ai', 'jane.smith@proda.ai', 'admin@proda.ai'][Math.floor(Math.random() * 3)] : null,
       properties: generateProperties(propertyCount, `Project ${i}`)
     });
   }
@@ -60,19 +63,20 @@ export type ViewMode = 'cards' | 'list';
 
 export function useProjects() {
   const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
-  const [viewMode, setViewMode] = useState<ViewMode>('cards');
+  const [viewMode, setViewMode] = useState<ViewMode>('list');  // Default to list view
 
   const handleCreateProject = (name: string, description: string = '', assetType: string = ''): Project => {
     const now = new Date().toISOString();
-    const newId = (projects.length + 1).toString();
+    const newId = (Math.floor(Math.random() * 500)).toString();
     const newProject: Project = { 
       id: newId, 
       name, 
       description,
       assetType,
+      database: 'PRODA Engineering Team',
       address: '',
       createdAt: now,
-      createdBy: 'Current User', // In a real app, this would come from auth
+      createdBy: 'current.user@proda.ai', // In a real app, this would come from auth
       modifiedAt: null,
       modifiedBy: null,
       properties: []
