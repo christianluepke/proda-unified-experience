@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from '@/components/ui/use-toast';
@@ -15,10 +14,9 @@ const Mappings = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeStep, setActiveStep] = useState(3); // This is step 3 in the overall flow
+  const [activeStep, setActiveStep] = useState(3);
   const [activeTab, setActiveTab] = useState("column-mapping");
   
-  // Get table bounds from location state or use default
   const tableBounds = location.state?.tableBounds || { 
     startRow: 1, 
     endRow: mockRentRollData.length - 1,
@@ -26,7 +24,6 @@ const Mappings = () => {
     endCol: mockRentRollData[0].length - 1
   };
   
-  // Extract the data based on the bounds
   const boundedData = mockRentRollData.slice(
     tableBounds.startRow - 1, 
     tableBounds.endRow
@@ -44,10 +41,8 @@ const Mappings = () => {
 
   const handleStepChange = (step: number) => {
     if (step === 1) {
-      // Go back to the select table page
       navigate(`/select-table/${id}`);
     } else if (step === 2) {
-      // Go back to the adjust bounds page
       navigate(`/select-table/${id}`, { state: { activeStep: 2 } });
     } else {
       setActiveStep(step);
@@ -60,7 +55,6 @@ const Mappings = () => {
       'contracted_rent', 'passing_rent'
     ];
     
-    // Check if at least some of the required fields are mapped
     const mappedFields = columnMappings
       .filter(mapping => mapping.standardField)
       .map(mapping => mapping.standardField);
@@ -69,22 +63,22 @@ const Mappings = () => {
       field => !mappedFields.includes(field as any)
     );
     
-    if (missingRequiredFields.length > 3) { // Allow some flexibility
+    if (missingRequiredFields.length > 3) {
       if (confirm("Some important fields like Unit ID, Tenant Name, or Rent values appear to be unmapped. Do you want to continue anyway?")) {
-        // Process data and navigate to next step
         toast({
           title: "Mappings Saved",
           description: "Your column mappings and row filters have been applied.",
         });
-        navigate('/projects');
+        const reviewId = `rr-review-${id.replace('rr-', '')}`;
+        navigate(`/review/${reviewId}`);
       }
     } else {
-      // Process data and navigate to next step
       toast({
         title: "Mappings Saved",
         description: "Your column mappings and row filters have been applied.",
       });
-      navigate('/projects');
+      const reviewId = `rr-review-${id.replace('rr-', '')}`;
+      navigate(`/review/${reviewId}`);
     }
   };
 
@@ -115,7 +109,6 @@ const Mappings = () => {
       />
 
       <ResizablePanelGroup direction="horizontal" className="flex-1 overflow-hidden">
-        {/* Left Sidebar */}
         <ResizablePanel defaultSize={30} minSize={25} maxSize={40} className="border-r">
           <MappingsSidebar 
             columnMappings={columnMappings}
@@ -130,7 +123,6 @@ const Mappings = () => {
         
         <ResizableHandle withHandle />
         
-        {/* Right Content Area */}
         <ResizablePanel defaultSize={70} className="flex flex-col overflow-hidden">
           <MappingsContent 
             mappedData={mappedData}

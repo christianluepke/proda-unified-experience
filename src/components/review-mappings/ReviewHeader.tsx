@@ -1,7 +1,8 @@
 
 import React from 'react';
-import { X, ChevronRight } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import WorkflowSteps, { OPERATING_STATEMENT_WORKFLOW } from '@/components/workflow/WorkflowSteps';
 
 interface ReviewHeaderProps {
   propertyName: string;
@@ -28,33 +29,11 @@ const ReviewHeader: React.FC<ReviewHeaderProps> = ({
 
       {/* Progress Steps */}
       <div className="px-4 py-3 border-b">
-        <div className="flex items-center">
-          <Button 
-            variant="ghost" 
-            className="text-sm px-2 py-1 h-auto"
-            onClick={() => handleStepChange(1)}
-          >
-            <span className={`mr-2 inline-flex items-center justify-center rounded-full h-6 w-6 text-xs ${
-              activeStep >= 1 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
-            }`}>
-              1
-            </span>
-            Review attributes
-          </Button>
-          <ChevronRight className="h-4 w-4 mx-1 text-muted-foreground" />
-          <Button 
-            variant="ghost" 
-            className="text-sm px-2 py-1 h-auto"
-            onClick={() => handleStepChange(2)}
-          >
-            <span className={`mr-2 inline-flex items-center justify-center rounded-full h-6 w-6 text-xs ${
-              activeStep >= 2 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
-            }`}>
-              2
-            </span>
-            Confirm mappings
-          </Button>
-        </div>
+        <WorkflowSteps 
+          workflow={OPERATING_STATEMENT_WORKFLOW}
+          activeStep={activeStep}
+          handleStepChange={handleStepChange}
+        />
       </div>
     </>
   );

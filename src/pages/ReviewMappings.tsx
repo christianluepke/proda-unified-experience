@@ -16,7 +16,12 @@ const ReviewMappings = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { operatingStatement } = useMockOperatingStatement(id);
-  const [activeStep, setActiveStep] = useState(1);
+  
+  // Operating statements use steps 1-2
+  // Rent rolls (when coming from mapping step) will be on step 4
+  const isRentRoll = id?.startsWith('rr-review');
+  const [activeStep, setActiveStep] = useState(isRentRoll ? 4 : 1);
+  
   const [mappingMethod, setMappingMethod] = useState<MappingMethod>('machine_learning');
   const [sourceDocument, setSourceDocument] = useState("T12 Income Statement - Mock 12.22.xlsx");
   
@@ -32,17 +37,23 @@ const ReviewMappings = () => {
   }
 
   const handleStepChange = (step: number) => {
-    setActiveStep(step);
+    // For operating statements, we can switch between steps 1 and 2
+    // For rent rolls (when in review), we're already at the final step (4)
+    if (!isRentRoll || (isRentRoll && step <= 4)) {
+      setActiveStep(step);
+    }
   };
 
   const handleNext = () => {
-    if (activeStep < 2) {
+    if (!isRentRoll && activeStep < 2) {
       setActiveStep(activeStep + 1);
     } else {
-      // Navigate to next page after review
+      // Workflow complete, navigation to projects
       toast({
         title: "Review Complete",
-        description: "Operating statement mappings have been saved.",
+        description: isRentRoll 
+          ? "Rent roll mappings have been saved."
+          : "Operating statement mappings have been saved.",
       });
       navigate('/projects');
     }
@@ -78,7 +89,7 @@ const ReviewMappings = () => {
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar */}
         <div className="w-80 border-r p-4 overflow-y-auto">
-          {activeStep === 1 ? (
+          {activeStep === 1 || (isRentRoll && activeStep === 4) ? (
             <AttributesReviewSidebar
               operatingStatement={operatingStatement}
               mappingMethod={mappingMethod}

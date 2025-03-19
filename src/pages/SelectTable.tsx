@@ -16,6 +16,7 @@ const SelectTable = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  // Steps 1 and 2 are in this component
   const [activeStep, setActiveStep] = useState(location.state?.activeStep || 1);
   const [selectedTable, setSelectedTable] = useState<string | null>(null);
   const [showFullTable, setShowFullTable] = useState(false);
@@ -63,6 +64,7 @@ const SelectTable = () => {
     if (activeStep < 2) {
       setActiveStep(activeStep + 1);
     } else {
+      // Navigate to mapping step (step 3 in the workflow)
       navigate(`/mappings/${id}`, { state: { tableBounds } });
     }
   };
@@ -176,3 +178,4 @@ const SelectTable = () => {
 };
 
 export default SelectTable;
+

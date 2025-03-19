@@ -2,7 +2,7 @@
 import React from 'react';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import ProgressSteps from '@/components/mappings/ProgressSteps';
+import WorkflowSteps, { RENT_ROLL_WORKFLOW } from '@/components/workflow/WorkflowSteps';
 
 interface MappingsHeaderProps {
   activeStep: number;
@@ -27,7 +27,11 @@ const MappingsHeader: React.FC<MappingsHeaderProps> = ({
 
       {/* Progress Steps */}
       <div className="px-4 py-3 border-b">
-        <ProgressSteps activeStep={activeStep} handleStepChange={handleStepChange} />
+        <WorkflowSteps 
+          workflow={RENT_ROLL_WORKFLOW}
+          activeStep={activeStep}
+          handleStepChange={handleStepChange}
+        />
       </div>
     </>
   );
