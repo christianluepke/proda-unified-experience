@@ -67,7 +67,7 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
 
     onUpload(selectedProject, fileType, selectedDatabase);
     
-    // If it's an operating statement, navigate to review mappings
+    // Generate ID for navigation based on file type
     if (fileType === 'operating_statement') {
       setOpen(false);
       // Generate a random ID for the operating statement
@@ -80,6 +80,19 @@ const UploadToProjectDialog: React.FC<UploadToProjectDialogProps> = ({
       // Add short delay to allow the toast to be seen
       setTimeout(() => {
         navigate(`/review/${operatingStatementId}`);
+      }, 500);
+    } else if (fileType === 'rent_roll') {
+      setOpen(false);
+      // Generate a random ID for the rent roll
+      const rentRollId = `rr-${Math.random().toString(36).substring(2, 9)}`;
+      toast({
+        title: "Processing Rent Roll",
+        description: "Redirecting to table selection..."
+      });
+      
+      // Add short delay to allow the toast to be seen
+      setTimeout(() => {
+        navigate(`/select-table/${rentRollId}`);
       }, 500);
     } else {
       setOpen(false);

@@ -139,7 +139,7 @@ export function useFileUpload() {
           description: `Successfully uploaded ${fileObj.file.name}`,
         });
         
-        // If it's an operating statement, navigate to review page
+        // Navigate based on file type
         if (fileObj.fileType === 'operating_statement' && fileObj.projectId) {
           const operatingStatementId = `os-${Math.random().toString(36).substring(2, 9)}`;
           
@@ -147,6 +147,15 @@ export function useFileUpload() {
             setFiles(prevFiles => prevFiles.filter(f => f.file !== file));
             // Navigate to review page
             navigate(`/review/${operatingStatementId}`);
+          }, 1000);
+        } else if (fileObj.fileType === 'rent_roll') {
+          // Generate a random ID for the rent roll
+          const rentRollId = `rr-${Math.random().toString(36).substring(2, 9)}`;
+          
+          setTimeout(() => {
+            setFiles(prevFiles => prevFiles.filter(f => f.file !== file));
+            // Navigate to select table page
+            navigate(`/select-table/${rentRollId}`);
           }, 1000);
         } else {
           setTimeout(() => {
