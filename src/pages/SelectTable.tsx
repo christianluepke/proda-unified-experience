@@ -1,15 +1,15 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { X, ChevronLeft, ChevronRight, Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 
-import ProgressSteps from '@/components/table-selector/ProgressSteps';
 import TableSelectionStep from '@/components/table-selector/TableSelectionStep';
 import TableBoundsStep from '@/components/table-selector/TableBoundsStep';
-import TablePreview from '@/components/table-selector/TablePreview';
-import { TableBounds, TableOption } from '@/components/table-selector/types';
+import TableSelectorHeader from '@/components/table-selector/TableSelectorHeader';
+import TableSelectorFooter from '@/components/table-selector/TableSelectorFooter';
+import TableSelectorContent from '@/components/table-selector/TableSelectorContent';
+import { TableBounds } from '@/components/table-selector/types';
 import { fileName, mockTables, mockRentRollData } from '@/components/table-selector/mockData';
 
 const SelectTable = () => {
@@ -119,16 +119,11 @@ const SelectTable = () => {
 
   return (
     <div className="fixed inset-0 z-50 bg-background flex flex-col">
-      <div className="border-b p-4 flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Select Rent Roll Table</h1>
-        <Button variant="ghost" size="icon" onClick={handleCloseDialog}>
-          <X className="h-5 w-5" />
-        </Button>
-      </div>
-
-      <div className="px-4 py-3 border-b">
-        <ProgressSteps activeStep={activeStep} handleStepChange={handleStepChange} />
-      </div>
+      <TableSelectorHeader 
+        activeStep={activeStep} 
+        handleStepChange={handleStepChange} 
+        handleCloseDialog={handleCloseDialog} 
+      />
 
       <ResizablePanelGroup direction="horizontal" className="flex-1 overflow-hidden">
         <ResizablePanel defaultSize={25} minSize={20} maxSize={30} className="border-r">
@@ -159,47 +154,21 @@ const SelectTable = () => {
         <ResizableHandle withHandle />
         
         <ResizablePanel defaultSize={75} className="flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-auto p-4">
-            <div className="bg-muted/10 p-4 rounded-lg border border-dashed border-muted-foreground/50 mb-4">
-              <h3 className="text-sm font-medium mb-2">Table Preview</h3>
-              <p className="text-xs text-muted-foreground mb-4">
-                {activeStep === 1 
-                  ? "Select a table from the left panel to preview it."
-                  : "Adjust the bounds using the controls on the left."}
-              </p>
-              
-              {selectedTable ? (
-                <TablePreview 
-                  data={mockRentRollData} 
-                  activeStep={activeStep}
-                  showFullTable={showFullTable}
-                  tableBounds={tableBounds}
-                />
-              ) : (
-                <div className="flex items-center justify-center h-48 bg-muted/5 rounded-md border">
-                  <p className="text-muted-foreground">Select a table to preview</p>
-                </div>
-              )}
-            </div>
-          </div>
+          <TableSelectorContent
+            selectedTable={selectedTable}
+            showFullTable={showFullTable}
+            tableBounds={tableBounds}
+            activeStep={activeStep}
+            tableData={mockRentRollData}
+          />
           
-          <div className="border-t p-4 flex justify-between items-center">
-            <Button variant="outline" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <div className="flex gap-2">
-              {activeStep > 1 && (
-                <Button variant="outline" onClick={() => setActiveStep(activeStep - 1)}>
-                  <ChevronLeft className="mr-2 h-4 w-4" />
-                  Back
-                </Button>
-              )}
-              <Button onClick={handleNext} disabled={!selectedTable}>
-                {activeStep < 2 ? 'Next' : 'Next: Map Columns'}
-                <ChevronRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+          <TableSelectorFooter
+            activeStep={activeStep}
+            handleCancel={handleCancel}
+            handleNext={handleNext}
+            setActiveStep={setActiveStep}
+            isNextDisabled={!selectedTable}
+          />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>
