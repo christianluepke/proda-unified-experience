@@ -24,6 +24,15 @@ const MappingsContent: React.FC<MappingsContentProps> = ({
   previewData,
   activeTab
 }) => {
+  // Count how many columns are mapped
+  const mappedColumnCount = columnMappings.filter(m => m.standardField).length;
+  const totalColumns = columnMappings.length;
+  const mappingProgress = totalColumns > 0 ? Math.round((mappedColumnCount / totalColumns) * 100) : 0;
+
+  // Count how many rows are selected
+  const selectedRowCount = rowSelections.filter(r => r.isSelected).length;
+  const totalRows = rowSelections.length;
+  
   return (
     <div className="flex-1 overflow-auto p-4">
       <div className="bg-white p-4 rounded-lg border mb-4">
@@ -35,11 +44,23 @@ const MappingsContent: React.FC<MappingsContentProps> = ({
               : "Filter Rows from Data"}
           </h3>
         </div>
-        <p className="text-sm text-muted-foreground">
-          {activeTab === "column-mapping"
-            ? "Map each column from your rent roll to the corresponding standard field. Drag to scroll horizontally if needed."
-            : "We've automatically excluded totals, subtotals, and blank rows. You can manually include or exclude rows below."}
-        </p>
+        
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-muted-foreground">
+            {activeTab === "column-mapping"
+              ? `${mappedColumnCount} of ${totalColumns} columns mapped (${mappingProgress}%). Original headers are in light blue, mapped headers in dark blue.`
+              : `${selectedRowCount} of ${totalRows} rows selected. We've automatically excluded totals, subtotals, and blank rows.`}
+          </p>
+          
+          {activeTab === "column-mapping" && (
+            <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-blue-600 rounded-full" 
+                style={{ width: `${mappingProgress}%` }}
+              ></div>
+            </div>
+          )}
+        </div>
       </div>
       
       <div className="rounded-lg border overflow-hidden">

@@ -27,6 +27,11 @@ const MappingsSidebar: React.FC<MappingsSidebarProps> = ({
   activeTab,
   setActiveTab
 }) => {
+  // Count how many columns are mapped
+  const mappedColumnCount = columnMappings.filter(m => m.standardField).length;
+  const totalColumns = columnMappings.length;
+  const mappingProgress = totalColumns > 0 ? Math.round((mappedColumnCount / totalColumns) * 100) : 0;
+
   return (
     <div className="p-4 h-full overflow-y-auto">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -40,6 +45,23 @@ const MappingsSidebar: React.FC<MappingsSidebarProps> = ({
             <span>Row Filters</span>
           </TabsTrigger>
         </TabsList>
+        
+        <div className="mb-3">
+          {activeTab === "column-mapping" && (
+            <div className="flex items-center justify-between text-sm text-muted-foreground">
+              <span>{mappedColumnCount} of {totalColumns} columns mapped</span>
+              <span>{mappingProgress}%</span>
+            </div>
+          )}
+          {activeTab === "column-mapping" && (
+            <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden mt-1">
+              <div 
+                className="h-full bg-blue-600 rounded-full" 
+                style={{ width: `${mappingProgress}%` }}
+              ></div>
+            </div>
+          )}
+        </div>
         
         <TabsContent value="column-mapping">
           <ColumnMapper 

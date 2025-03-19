@@ -140,7 +140,11 @@ const ColumnMappingTable: React.FC<ColumnMappingTableProps> = ({
           <TableBody>
             {sortedMappings.map((mapping) => (
               <TableRow key={mapping.originalIndex} className={!mapping.standardField ? "bg-muted/10" : ""}>
-                <TableCell className="font-medium">{mapping.originalName}</TableCell>
+                <TableCell className="font-medium">
+                  <div className="bg-sky-100 text-blue-800 p-2 rounded">
+                    {mapping.originalName}
+                  </div>
+                </TableCell>
                 <TableCell>
                   <Select
                     value={mapping.standardField || "null"}
@@ -149,7 +153,7 @@ const ColumnMappingTable: React.FC<ColumnMappingTableProps> = ({
                       value === "null" ? null : value as StandardField
                     )}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className={`w-full ${mapping.standardField ? 'bg-blue-600 text-white hover:bg-blue-700' : ''}`}>
                       <SelectValue placeholder="Select a field" />
                     </SelectTrigger>
                     <SelectContent className="max-h-[300px]">
@@ -169,7 +173,7 @@ const ColumnMappingTable: React.FC<ColumnMappingTableProps> = ({
                   </Select>
                   
                   {mapping.standardField && (
-                    <Badge className="mt-1" variant="outline">
+                    <Badge className="mt-1 bg-blue-100 text-blue-800 hover:bg-blue-200" variant="outline">
                       {getFieldLabel(mapping.standardField)}
                     </Badge>
                   )}
