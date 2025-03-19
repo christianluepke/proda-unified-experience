@@ -92,7 +92,7 @@ const FileItem: React.FC<FileItemProps> = ({
           >
             {fileTypes.map(type => (
               <div key={type.id} className="flex items-center space-x-2">
-                <RadioGroupItem value={type.id} id={`${type.id}-${index}`} />
+                <RadioGroupItem value={type.value} id={`${type.id}-${index}`} />
                 <label 
                   htmlFor={`${type.id}-${index}`} 
                   className="text-sm cursor-pointer"

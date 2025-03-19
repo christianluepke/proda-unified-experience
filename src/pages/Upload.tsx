@@ -9,8 +9,8 @@ import { useProjects } from '@/hooks/useProjects';
 
 // Constants
 const FILE_TYPES: FileType[] = [
-  { id: 'rent_roll', name: 'Rent Roll' },
-  { id: 'operating_statement', name: 'Operating Statement' },
+  { id: 'rent_roll', value: 'rent_roll', name: 'Rent Roll', label: 'Rent Roll' },
+  { id: 'operating_statement', value: 'operating_statement', name: 'Operating Statement', label: 'Operating Statement' },
 ];
 
 const Upload: React.FC = () => {

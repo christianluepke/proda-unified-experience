@@ -1,10 +1,6 @@
 
 import React from 'react';
-
-interface FileType {
-  id: string;
-  name: string;
-}
+import { FileType } from './models';
 
 interface FileTypeSelectorProps {
   fileTypes: FileType[];

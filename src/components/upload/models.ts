@@ -29,18 +29,24 @@ export interface Property {
 }
 
 export interface PropertyData {
+  name?: string;
+  streetNo?: string;
+  streetName?: string;
   address: string;
   city: string;
   state: string;
+  country?: string;
   zip: string;
   units?: number;
   sqft?: number;
 }
 
 export type FileType = {
+  id: string;
   value: 'rent_roll' | 'operating_statement';
   label: string;
-  description: string;
+  description?: string;
+  name: string;
 };
 
 export interface UploadedFile {
