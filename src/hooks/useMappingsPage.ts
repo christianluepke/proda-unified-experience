@@ -70,16 +70,16 @@ export function useMappingsPage() {
           title: "Mappings Saved",
           description: "Your column mappings and row filters have been applied.",
         });
-        const reviewId = `rr-review-${id?.replace('rr-', '')}`;
-        navigate(`/review/${reviewId}`);
+        // Navigate to the new RentRollReview page instead of the ReviewMappings page
+        navigate(`/rentroll-review/${id}`);
       }
     } else {
       toast({
         title: "Mappings Saved",
         description: "Your column mappings and row filters have been applied.",
       });
-      const reviewId = `rr-review-${id?.replace('rr-', '')}`;
-      navigate(`/review/${reviewId}`);
+      // Navigate to the new RentRollReview page instead of the ReviewMappings page
+      navigate(`/rentroll-review/${id}`);
     }
   };
 
