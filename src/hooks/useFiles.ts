@@ -6,7 +6,12 @@ import { useFilesSorting } from './files/useFilesSorting';
 import { useFilesColumns, FILE_COLUMNS } from './files/useFilesColumns';
 import { useFilesSelection } from './files/useFilesSelection';
 import { useFilesPagination } from './files/useFilesPagination';
-import { getFileDocumentTypeLabel } from './files/fileUtils';
+import { 
+  getFileDocumentTypeLabel, 
+  getFileProperties, 
+  getFileProjects, 
+  getFilePortfolios 
+} from './files/fileUtils';
 
 export { FILE_COLUMNS } from './files/useFilesColumns';
 
@@ -84,6 +89,9 @@ export function useFiles() {
     getFileDocumentTypeLabel,
     getDocumentTypeLabel,
     formatFileSize,
+    getFileProperties,
+    getFileProjects,
+    getFilePortfolios,
     searchTerm,
     setSearchTerm,
     sortField,

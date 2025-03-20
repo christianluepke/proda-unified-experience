@@ -46,3 +46,99 @@ export const formatFileSize = (bytes: number): string => {
   
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 };
+
+/**
+ * Gets unique property names from documents in a file
+ */
+export const getFileProperties = (file: UploadedFile): { 
+  names: string[]; 
+  count: number;
+  primary?: string;
+} => {
+  if (!file.documents || file.documents.length === 0) {
+    return { 
+      names: file.property ? [file.property.name] : [], 
+      count: file.property ? 1 : 0,
+      primary: file.property?.name
+    };
+  }
+  
+  // Get unique property names from documents
+  const propertyNames = file.documents
+    .filter(doc => doc.property)
+    .map(doc => doc.property!.name);
+  
+  // Use Set to get unique property names
+  const uniqueNames = [...new Set(propertyNames)];
+  
+  return { 
+    names: uniqueNames, 
+    count: uniqueNames.length,
+    // Use the file-level property as primary, or the first document property
+    primary: file.property?.name || (uniqueNames.length > 0 ? uniqueNames[0] : undefined)
+  };
+};
+
+/**
+ * Gets unique project names from documents in a file
+ */
+export const getFileProjects = (file: UploadedFile): { 
+  names: string[]; 
+  count: number;
+  primary?: string;
+} => {
+  if (!file.documents || file.documents.length === 0) {
+    return { 
+      names: file.project ? [file.project.name] : [], 
+      count: file.project ? 1 : 0,
+      primary: file.project?.name
+    };
+  }
+  
+  // Get unique project names from documents
+  const projectNames = file.documents
+    .filter(doc => doc.project)
+    .map(doc => doc.project!.name);
+  
+  // Use Set to get unique project names
+  const uniqueNames = [...new Set(projectNames)];
+  
+  return { 
+    names: uniqueNames, 
+    count: uniqueNames.length,
+    // Use the file-level project as primary, or the first document project
+    primary: file.project?.name || (uniqueNames.length > 0 ? uniqueNames[0] : undefined)
+  };
+};
+
+/**
+ * Gets unique portfolio names from documents in a file
+ */
+export const getFilePortfolios = (file: UploadedFile): { 
+  names: string[]; 
+  count: number;
+  primary?: string;
+} => {
+  if (!file.documents || file.documents.length === 0) {
+    return { 
+      names: file.portfolio ? [file.portfolio.name] : [], 
+      count: file.portfolio ? 1 : 0,
+      primary: file.portfolio?.name
+    };
+  }
+  
+  // Get unique portfolio names from documents
+  const portfolioNames = file.documents
+    .filter(doc => doc.portfolio)
+    .map(doc => doc.portfolio!.name);
+  
+  // Use Set to get unique portfolio names
+  const uniqueNames = [...new Set(portfolioNames)];
+  
+  return { 
+    names: uniqueNames, 
+    count: uniqueNames.length,
+    // Use the file-level portfolio as primary, or the first document portfolio
+    primary: file.portfolio?.name || (uniqueNames.length > 0 ? uniqueNames[0] : undefined)
+  };
+};

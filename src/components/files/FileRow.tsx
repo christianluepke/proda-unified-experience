@@ -14,9 +14,6 @@ import {
   FileSpreadsheet,
   Clock,
   User,
-  Building,
-  Briefcase,
-  FolderArchive
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { UploadedFile } from './models';
@@ -24,6 +21,8 @@ import { getStatusBadge } from './StatusBadges';
 import FileActionsMenu from './FileActionsMenu';
 import { TableColumn } from './models';
 import { Checkbox } from "@/components/ui/checkbox";
+import MultipleEntityDisplay from './MultipleEntityDisplay';
+import { getFileProperties, getFileProjects, getFilePortfolios } from '@/hooks/files/fileUtils';
 
 interface FileRowProps {
   file: UploadedFile;
@@ -60,6 +59,11 @@ const FileRow: React.FC<FileRowProps> = ({
         return <FileIcon className="h-5 w-5 text-blue-500" />;
     }
   };
+
+  // Get aggregated property/project/portfolio data
+  const propertyData = getFileProperties(file);
+  const projectData = getFileProjects(file);
+  const portfolioData = getFilePortfolios(file);
 
   return (
     <TableRow className={cn(
@@ -123,34 +127,34 @@ const FileRow: React.FC<FileRowProps> = ({
       
       {visibleColumns.find(col => col.id === 'property' && col.visible) && (
         <TableCell>
-          {file.property && (
-            <div className="flex items-center">
-              <Building className="mr-1 h-3 w-3 text-muted-foreground" />
-              <span>{file.property.name}</span>
-            </div>
-          )}
+          <MultipleEntityDisplay
+            type="property"
+            primary={propertyData.primary}
+            names={propertyData.names}
+            count={propertyData.count}
+          />
         </TableCell>
       )}
       
       {visibleColumns.find(col => col.id === 'project' && col.visible) && (
         <TableCell>
-          {file.project && (
-            <div className="flex items-center">
-              <Briefcase className="mr-1 h-3 w-3 text-muted-foreground" />
-              <span>{file.project.name}</span>
-            </div>
-          )}
+          <MultipleEntityDisplay
+            type="project"
+            primary={projectData.primary}
+            names={projectData.names}
+            count={projectData.count}
+          />
         </TableCell>
       )}
       
       {visibleColumns.find(col => col.id === 'portfolio' && col.visible) && (
         <TableCell>
-          {file.portfolio && (
-            <div className="flex items-center">
-              <FolderArchive className="mr-1 h-3 w-3 text-muted-foreground" />
-              <span>{file.portfolio.name}</span>
-            </div>
-          )}
+          <MultipleEntityDisplay
+            type="portfolio"
+            primary={portfolioData.primary}
+            names={portfolioData.names}
+            count={portfolioData.count}
+          />
         </TableCell>
       )}
       
