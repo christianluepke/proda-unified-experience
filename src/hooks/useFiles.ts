@@ -5,6 +5,7 @@ import { useFilesFiltering } from './files/useFilesFiltering';
 import { useFilesSorting } from './files/useFilesSorting';
 import { useFilesColumns, FILE_COLUMNS } from './files/useFilesColumns';
 import { useFilesSelection } from './files/useFilesSelection';
+import { useFilesPagination } from './files/useFilesPagination';
 
 export { FILE_COLUMNS } from './files/useFilesColumns';
 
@@ -47,6 +48,16 @@ export function useFiles() {
       .sort((a, b) => sortFiles(a, b, getFileDocumentTypeLabel));
   }, [files, applyFilters, sortFiles, getFileDocumentTypeLabel]);
 
+  // Pagination
+  const {
+    paginatedFiles,
+    paginationOptions,
+    updatePageSize,
+    goToPage,
+    nextPage,
+    prevPage
+  } = useFilesPagination(filteredFiles);
+
   // File selection
   const {
     selectedFiles,
@@ -56,7 +67,7 @@ export function useFiles() {
     areAllFilesSelected,
     toggleSelectAll,
     selectedCount
-  } = useFilesSelection(filteredFiles);
+  } = useFilesSelection(paginatedFiles);
 
   // Bulk delete files
   const bulkDeleteFiles = () => {
@@ -92,6 +103,13 @@ export function useFiles() {
     areAllFilesSelected,
     toggleSelectAll,
     selectedCount,
-    bulkDeleteFiles
+    bulkDeleteFiles,
+    // New pagination-related items
+    paginatedFiles,
+    paginationOptions,
+    updatePageSize,
+    goToPage,
+    nextPage,
+    prevPage
   };
 }

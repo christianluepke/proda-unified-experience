@@ -357,6 +357,546 @@ const MOCK_FILES: UploadedFile[] = [
       id: 'portfolio-3',
       name: 'Mountain Properties'
     }
+  },
+  {
+    id: 'file-6',
+    name: 'Oakview-Property-Analysis.pdf',
+    fileType: 'pdf',
+    uploadDate: '2023-07-15T14:20:00Z',
+    uploader: {
+      id: 'user-2',
+      name: 'Sarah Johnson',
+    },
+    size: 2450000,
+    documents: [
+      {
+        id: 'doc-9',
+        name: 'Oakview-Property-Analysis',
+        type: 'operating_statement',
+        createdAt: '2023-07-15T14:25:00Z',
+        updatedAt: '2023-07-16T09:30:00Z',
+        creator: {
+          id: 'user-2',
+          name: 'Sarah Johnson',
+        },
+        lastUpdatedBy: {
+          id: 'user-2',
+          name: 'Sarah Johnson',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-5',
+          name: 'Oakview Apartments'
+        },
+        project: {
+          id: 'project-6',
+          name: 'Oakview Analysis'
+        },
+        portfolio: {
+          id: 'portfolio-3',
+          name: 'Mountain Properties'
+        }
+      }
+    ],
+    status: 'complete',
+    property: {
+      id: 'property-5',
+      name: 'Oakview Apartments'
+    },
+    project: {
+      id: 'project-6',
+      name: 'Oakview Analysis'
+    },
+    portfolio: {
+      id: 'portfolio-3',
+      name: 'Mountain Properties'
+    }
+  },
+  {
+    id: 'file-7',
+    name: 'Lakeshore-Heights-RentRoll.xlsx',
+    fileType: 'excel',
+    uploadDate: '2023-08-05T11:15:00Z',
+    uploader: {
+      id: 'user-3',
+      name: 'Michael Brown',
+    },
+    size: 1750000,
+    documents: [
+      {
+        id: 'doc-10',
+        name: 'Lakeshore-Rent-Roll',
+        type: 'rent_roll',
+        createdAt: '2023-08-05T11:20:00Z',
+        updatedAt: '2023-08-06T14:30:00Z',
+        creator: {
+          id: 'user-3',
+          name: 'Michael Brown',
+        },
+        lastUpdatedBy: {
+          id: 'user-3',
+          name: 'Michael Brown',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-6',
+          name: 'Lakeshore Heights'
+        },
+        project: {
+          id: 'project-7',
+          name: 'Lakeshore Analysis'
+        },
+        portfolio: {
+          id: 'portfolio-3',
+          name: 'Mountain Properties'
+        }
+      }
+    ],
+    status: 'complete',
+    property: {
+      id: 'property-6',
+      name: 'Lakeshore Heights'
+    },
+    project: {
+      id: 'project-7',
+      name: 'Lakeshore Analysis'
+    },
+    portfolio: {
+      id: 'portfolio-3',
+      name: 'Mountain Properties'
+    }
+  },
+  {
+    id: 'file-8',
+    name: 'Sunset-Gardens-OperationalData.pdf',
+    fileType: 'pdf',
+    uploadDate: '2023-08-20T09:45:00Z',
+    uploader: {
+      id: 'user-1',
+      name: 'John Smith',
+    },
+    size: 3250000,
+    documents: [
+      {
+        id: 'doc-11',
+        name: 'Sunset-Gardens-OS',
+        type: 'operating_statement',
+        createdAt: '2023-08-20T09:50:00Z',
+        updatedAt: '2023-08-21T13:15:00Z',
+        creator: {
+          id: 'user-1',
+          name: 'John Smith',
+        },
+        lastUpdatedBy: {
+          id: 'user-1',
+          name: 'John Smith',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-7',
+          name: 'Sunset Gardens'
+        },
+        project: {
+          id: 'project-8',
+          name: 'Sunset Gardens Review'
+        },
+        portfolio: {
+          id: 'portfolio-4',
+          name: 'Coastal Properties'
+        }
+      }
+    ],
+    status: 'complete',
+    property: {
+      id: 'property-7',
+      name: 'Sunset Gardens'
+    },
+    project: {
+      id: 'project-8',
+      name: 'Sunset Gardens Review'
+    },
+    portfolio: {
+      id: 'portfolio-4',
+      name: 'Coastal Properties'
+    }
+  },
+  {
+    id: 'file-9',
+    name: 'Cityview-Tower-Analysis.xlsx',
+    fileType: 'excel',
+    uploadDate: '2023-09-10T15:30:00Z',
+    uploader: {
+      id: 'user-2',
+      name: 'Sarah Johnson',
+    },
+    size: 2100000,
+    documents: [
+      {
+        id: 'doc-12',
+        name: 'Cityview-Rent-Roll',
+        type: 'rent_roll',
+        createdAt: '2023-09-10T15:35:00Z',
+        updatedAt: '2023-09-11T10:20:00Z',
+        creator: {
+          id: 'user-2',
+          name: 'Sarah Johnson',
+        },
+        lastUpdatedBy: {
+          id: 'user-2',
+          name: 'Sarah Johnson',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-8',
+          name: 'Cityview Tower'
+        },
+        project: {
+          id: 'project-9',
+          name: 'Cityview Analysis'
+        },
+        portfolio: {
+          id: 'portfolio-5',
+          name: 'Urban Properties'
+        }
+      }
+    ],
+    status: 'complete',
+    property: {
+      id: 'property-8',
+      name: 'Cityview Tower'
+    },
+    project: {
+      id: 'project-9',
+      name: 'Cityview Analysis'
+    },
+    portfolio: {
+      id: 'portfolio-5',
+      name: 'Urban Properties'
+    }
+  },
+  {
+    id: 'file-10',
+    name: 'Meadowbrook-Estate-Report.pdf',
+    fileType: 'pdf',
+    uploadDate: '2023-09-25T12:15:00Z',
+    uploader: {
+      id: 'user-3',
+      name: 'Michael Brown',
+    },
+    size: 1850000,
+    documents: [
+      {
+        id: 'doc-13',
+        name: 'Meadowbrook-Operating-Statement',
+        type: 'operating_statement',
+        createdAt: '2023-09-25T12:20:00Z',
+        updatedAt: '2023-09-26T14:10:00Z',
+        creator: {
+          id: 'user-3',
+          name: 'Michael Brown',
+        },
+        lastUpdatedBy: {
+          id: 'user-3',
+          name: 'Michael Brown',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-9',
+          name: 'Meadowbrook Estate'
+        },
+        project: {
+          id: 'project-10',
+          name: 'Meadowbrook Review'
+        },
+        portfolio: {
+          id: 'portfolio-6',
+          name: 'Suburban Properties'
+        }
+      }
+    ],
+    status: 'complete',
+    property: {
+      id: 'property-9',
+      name: 'Meadowbrook Estate'
+    },
+    project: {
+      id: 'project-10',
+      name: 'Meadowbrook Review'
+    },
+    portfolio: {
+      id: 'portfolio-6',
+      name: 'Suburban Properties'
+    }
+  },
+  {
+    id: 'file-11',
+    name: 'Pinecrest-Plaza-Data.xlsx',
+    fileType: 'excel',
+    uploadDate: '2023-10-07T10:45:00Z',
+    uploader: {
+      id: 'user-1',
+      name: 'John Smith',
+    },
+    size: 1950000,
+    documents: [
+      {
+        id: 'doc-14',
+        name: 'Pinecrest-Plaza-Rent-Roll',
+        type: 'rent_roll',
+        createdAt: '2023-10-07T10:50:00Z',
+        updatedAt: '2023-10-08T09:15:00Z',
+        creator: {
+          id: 'user-1',
+          name: 'John Smith',
+        },
+        lastUpdatedBy: {
+          id: 'user-1',
+          name: 'John Smith',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-10',
+          name: 'Pinecrest Plaza'
+        },
+        project: {
+          id: 'project-11',
+          name: 'Pinecrest Analysis'
+        },
+        portfolio: {
+          id: 'portfolio-7',
+          name: 'Commercial Properties'
+        }
+      }
+    ],
+    status: 'complete',
+    property: {
+      id: 'property-10',
+      name: 'Pinecrest Plaza'
+    },
+    project: {
+      id: 'project-11',
+      name: 'Pinecrest Analysis'
+    },
+    portfolio: {
+      id: 'portfolio-7',
+      name: 'Commercial Properties'
+    }
+  },
+  {
+    id: 'file-12',
+    name: 'Parkview-Gardens-Data.pdf',
+    fileType: 'pdf',
+    uploadDate: '2023-10-18T14:30:00Z',
+    uploader: {
+      id: 'user-2',
+      name: 'Sarah Johnson',
+    },
+    size: 2750000,
+    documents: [
+      {
+        id: 'doc-15',
+        name: 'Parkview-Operating-Statement',
+        type: 'operating_statement',
+        createdAt: '2023-10-18T14:35:00Z',
+        updatedAt: '2023-10-19T11:45:00Z',
+        creator: {
+          id: 'user-2',
+          name: 'Sarah Johnson',
+        },
+        lastUpdatedBy: {
+          id: 'user-2',
+          name: 'Sarah Johnson',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-11',
+          name: 'Parkview Gardens'
+        },
+        project: {
+          id: 'project-12',
+          name: 'Parkview Review'
+        },
+        portfolio: {
+          id: 'portfolio-8',
+          name: 'Residential Properties'
+        }
+      }
+    ],
+    status: 'complete',
+    property: {
+      id: 'property-11',
+      name: 'Parkview Gardens'
+    },
+    project: {
+      id: 'project-12',
+      name: 'Parkview Review'
+    },
+    portfolio: {
+      id: 'portfolio-8',
+      name: 'Residential Properties'
+    }
+  },
+  {
+    id: 'file-13',
+    name: 'Harborview-Heights-Analysis.xlsx',
+    fileType: 'excel',
+    uploadDate: '2023-11-05T09:15:00Z',
+    uploader: {
+      id: 'user-3',
+      name: 'Michael Brown',
+    },
+    size: 1650000,
+    documents: [
+      {
+        id: 'doc-16',
+        name: 'Harborview-Rent-Roll',
+        type: 'rent_roll',
+        createdAt: '2023-11-05T09:20:00Z',
+        updatedAt: '2023-11-06T13:45:00Z',
+        creator: {
+          id: 'user-3',
+          name: 'Michael Brown',
+        },
+        lastUpdatedBy: {
+          id: 'user-3',
+          name: 'Michael Brown',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-12',
+          name: 'Harborview Heights'
+        },
+        project: {
+          id: 'project-13',
+          name: 'Harborview Analysis'
+        },
+        portfolio: {
+          id: 'portfolio-9',
+          name: 'Waterfront Properties'
+        }
+      }
+    ],
+    status: 'complete',
+    property: {
+      id: 'property-12',
+      name: 'Harborview Heights'
+    },
+    project: {
+      id: 'project-13',
+      name: 'Harborview Analysis'
+    },
+    portfolio: {
+      id: 'portfolio-9',
+      name: 'Waterfront Properties'
+    }
+  },
+  {
+    id: 'file-14',
+    name: 'Woodland-Terrace-Report.pdf',
+    fileType: 'pdf',
+    uploadDate: '2023-11-20T11:30:00Z',
+    uploader: {
+      id: 'user-1',
+      name: 'John Smith',
+    },
+    size: 2850000,
+    documents: [
+      {
+        id: 'doc-17',
+        name: 'Woodland-Terrace-OS',
+        type: 'operating_statement',
+        createdAt: '2023-11-20T11:35:00Z',
+        updatedAt: '2023-11-21T14:20:00Z',
+        creator: {
+          id: 'user-1',
+          name: 'John Smith',
+        },
+        lastUpdatedBy: {
+          id: 'user-1',
+          name: 'John Smith',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-13',
+          name: 'Woodland Terrace'
+        },
+        project: {
+          id: 'project-14',
+          name: 'Woodland Review'
+        },
+        portfolio: {
+          id: 'portfolio-10',
+          name: 'Luxury Properties'
+        }
+      }
+    ],
+    status: 'complete',
+    property: {
+      id: 'property-13',
+      name: 'Woodland Terrace'
+    },
+    project: {
+      id: 'project-14',
+      name: 'Woodland Review'
+    },
+    portfolio: {
+      id: 'portfolio-10',
+      name: 'Luxury Properties'
+    }
+  },
+  {
+    id: 'file-15',
+    name: 'Hillcrest-Apartments-Data.xlsx',
+    fileType: 'excel',
+    uploadDate: '2023-12-10T13:45:00Z',
+    uploader: {
+      id: 'user-2',
+      name: 'Sarah Johnson',
+    },
+    size: 1850000,
+    documents: [
+      {
+        id: 'doc-18',
+        name: 'Hillcrest-Rent-Roll',
+        type: 'rent_roll',
+        createdAt: '2023-12-10T13:50:00Z',
+        updatedAt: '2023-12-11T10:15:00Z',
+        creator: {
+          id: 'user-2',
+          name: 'Sarah Johnson',
+        },
+        lastUpdatedBy: {
+          id: 'user-2',
+          name: 'Sarah Johnson',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-14',
+          name: 'Hillcrest Apartments'
+        },
+        project: {
+          id: 'project-15',
+          name: 'Hillcrest Analysis'
+        },
+        portfolio: {
+          id: 'portfolio-3',
+          name: 'Mountain Properties'
+        }
+      }
+    ],
+    status: 'complete',
+    property: {
+      id: 'property-14',
+      name: 'Hillcrest Apartments'
+    },
+    project: {
+      id: 'project-15',
+      name: 'Hillcrest Analysis'
+    },
+    portfolio: {
+      id: 'portfolio-3',
+      name: 'Mountain Properties'
+    }
   }
 ];
 

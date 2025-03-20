@@ -11,6 +11,7 @@ import FileTableHeader from './FileTableHeader';
 import FileRow from './FileRow';
 import DocumentRowExpanded from './DocumentRowExpanded';
 import BulkActions from './BulkActions';
+import TablePagination from './TablePagination';
 
 interface FileListProps {
   files: UploadedFile[];
@@ -31,7 +32,11 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
     areAllFilesSelected,
     toggleSelectAll,
     selectedCount,
-    bulkDeleteFiles
+    bulkDeleteFiles,
+    filteredFiles,
+    paginationOptions,
+    goToPage,
+    updatePageSize
   } = useFiles();
 
   const toggleFileExpand = (fileId: string) => {
@@ -100,6 +105,14 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
             })}
           </TableBody>
         </Table>
+        
+        {/* Pagination */}
+        <TablePagination 
+          paginationOptions={paginationOptions}
+          onPageChange={goToPage}
+          onPageSizeChange={updatePageSize}
+          totalItems={filteredFiles.length}
+        />
       </div>
     </div>
   );

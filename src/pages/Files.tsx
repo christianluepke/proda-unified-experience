@@ -14,7 +14,8 @@ const Files: React.FC = () => {
     files, 
     isLoading, 
     deleteFile, 
-    filteredFiles, 
+    filteredFiles,
+    paginatedFiles, 
     setSearchTerm, 
     searchTerm,
     selectedCount,
@@ -80,7 +81,7 @@ const Files: React.FC = () => {
           </Link>
         </Card>
       ) : (
-        <FileList files={filteredFiles} onDeleteFile={deleteFile} />
+        <FileList files={paginatedFiles} onDeleteFile={deleteFile} />
       )}
     </div>
   );
