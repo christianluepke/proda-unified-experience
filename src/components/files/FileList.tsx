@@ -4,7 +4,6 @@ import {
   Table,
   TableBody,
 } from '@/components/ui/table';
-import { cn } from '@/lib/utils';
 import { UploadedFile } from './models';
 import { useFiles } from '@/hooks/useFiles';
 import ColumnSelector from './ColumnSelector';
@@ -24,7 +23,8 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
     sortField, 
     sortDirection, 
     updateSort,
-    visibleColumns
+    visibleColumns,
+    formatFileSize
   } = useFiles();
 
   const toggleFileExpand = (fileId: string) => {
@@ -37,16 +37,6 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
       }
       return newSet;
     });
-  };
-  
-  const formatFileSize = (bytes: number): string => {
-    if (bytes === 0) return '0 Bytes';
-    
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
   return (
