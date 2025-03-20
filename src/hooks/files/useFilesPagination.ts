@@ -1,5 +1,5 @@
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { UploadedFile } from './types';
 
 export interface PaginationOptions {
@@ -14,10 +14,22 @@ export function useFilesPagination(files: UploadedFile[]) {
   const [itemsPerPage, setItemsPerPage] = useState<number>(pageSizeOptions[0]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   
+  // Reset to first page when files array length changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [files.length]);
+  
   // Calculate total pages
   const totalPages = useMemo(() => {
     return Math.max(1, Math.ceil(files.length / itemsPerPage));
   }, [files.length, itemsPerPage]);
+  
+  // Ensure current page is valid when total pages changes
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [totalPages, currentPage]);
   
   // Get current page items
   const paginatedFiles = useMemo(() => {
