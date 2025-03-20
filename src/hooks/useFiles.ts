@@ -1,7 +1,7 @@
-
 import { useState, useEffect, useMemo } from 'react';
-import { UploadedFile, Document, DocumentType, ProcessingStatus, FileFilters } from '@/components/files/models';
+import { UploadedFile, Document, DocumentType, ProcessingStatus, FileFilters, TableColumn } from '@/components/files/models';
 import { toast } from "@/components/ui/use-toast";
+import { Badge } from "@/components/ui/badge";
 
 // Mock data for files and documents
 const MOCK_FILES: UploadedFile[] = [
@@ -362,7 +362,7 @@ const MOCK_FILES: UploadedFile[] = [
 ];
 
 // Define the available columns
-export const FILE_COLUMNS = [
+export const FILE_COLUMNS: TableColumn[] = [
   { id: 'name', label: 'File Name', visible: true },
   { id: 'type', label: 'Document Type', visible: true },
   { id: 'uploadDate', label: 'Upload Date', visible: true },
