@@ -17,6 +17,8 @@ import Mappings from "./pages/Mappings";
 import MapProperties from "./pages/MapProperties";
 import RentRollReview from "./pages/RentRollReview";
 import NotFound from "./pages/NotFound";
+import Files from "./pages/Files";
+import PreviousUploads from "./pages/PreviousUploads";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +36,8 @@ const App = () => (
           <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
           <Route path="/data-governance" element={<Layout><DataGovernance /></Layout>} />
           <Route path="/leasing-crm" element={<Layout><LeasingCRM /></Layout>} />
+          <Route path="/files" element={<Layout><Files /></Layout>} />
+          <Route path="/previous-uploads" element={<Layout><PreviousUploads /></Layout>} />
           <Route path="/review/:id" element={<ReviewMappings />} />
           <Route path="/rentroll-review/:id" element={<RentRollReview />} />
           <Route path="/select-table/:id" element={<SelectTable />} />
