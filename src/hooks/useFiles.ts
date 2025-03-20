@@ -4,6 +4,7 @@ import { useFilesData } from './files/useFilesData';
 import { useFilesFiltering } from './files/useFilesFiltering';
 import { useFilesSorting } from './files/useFilesSorting';
 import { useFilesColumns, FILE_COLUMNS } from './files/useFilesColumns';
+import { useFilesSelection } from './files/useFilesSelection';
 
 export { FILE_COLUMNS } from './files/useFilesColumns';
 
@@ -46,6 +47,25 @@ export function useFiles() {
       .sort((a, b) => sortFiles(a, b, getFileDocumentTypeLabel));
   }, [files, applyFilters, sortFiles, getFileDocumentTypeLabel]);
 
+  // File selection
+  const {
+    selectedFiles,
+    toggleFileSelection,
+    selectAllFiles,
+    deselectAllFiles,
+    areAllFilesSelected,
+    toggleSelectAll,
+    selectedCount
+  } = useFilesSelection(filteredFiles);
+
+  // Bulk delete files
+  const bulkDeleteFiles = () => {
+    selectedFiles.forEach(fileId => {
+      deleteFile(fileId);
+    });
+    deselectAllFiles();
+  };
+
   return {
     files,
     isLoading,
@@ -64,6 +84,14 @@ export function useFiles() {
     filteredFiles,
     filterOptions,
     visibleColumns,
-    toggleColumnVisibility
+    toggleColumnVisibility,
+    selectedFiles,
+    toggleFileSelection,
+    selectAllFiles,
+    deselectAllFiles,
+    areAllFilesSelected,
+    toggleSelectAll,
+    selectedCount,
+    bulkDeleteFiles
   };
 }

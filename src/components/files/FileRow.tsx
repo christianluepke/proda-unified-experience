@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { format } from 'date-fns';
 import { 
@@ -23,6 +22,7 @@ import { UploadedFile } from './models';
 import { getStatusBadge } from './StatusBadges';
 import FileActionsMenu from './FileActionsMenu';
 import { TableColumn } from './models';
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface FileRowProps {
   file: UploadedFile;
@@ -32,6 +32,8 @@ interface FileRowProps {
   toggleFileExpand: (fileId: string) => void;
   onDeleteFile: (fileId: string) => void;
   formatFileSize: (bytes: number) => string;
+  isSelected?: boolean;
+  onSelectToggle?: (fileId: string) => void;
 }
 
 const FileRow: React.FC<FileRowProps> = ({
@@ -41,7 +43,9 @@ const FileRow: React.FC<FileRowProps> = ({
   getFileDocumentTypeLabel,
   toggleFileExpand,
   onDeleteFile,
-  formatFileSize
+  formatFileSize,
+  isSelected = false,
+  onSelectToggle
 }) => {
   const hasDocuments = file.documents.length > 0;
   
@@ -57,7 +61,21 @@ const FileRow: React.FC<FileRowProps> = ({
   };
 
   return (
-    <TableRow className={cn("hover:bg-muted/50", isExpanded && "bg-muted/30")}>
+    <TableRow className={cn(
+      "hover:bg-muted/50", 
+      isExpanded && "bg-muted/30",
+      isSelected && "bg-primary/5"
+    )}>
+      {visibleColumns.find(col => col.id === 'select' && col.visible) && (
+        <TableCell className="w-12">
+          <Checkbox 
+            checked={isSelected}
+            onCheckedChange={() => onSelectToggle?.(file.id)}
+            aria-label={`Select ${file.name}`}
+          />
+        </TableCell>
+      )}
+      
       {visibleColumns.find(col => col.id === 'name' && col.visible) && (
         <TableCell className="font-medium">
           <div className="flex items-center gap-2">

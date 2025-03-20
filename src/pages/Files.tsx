@@ -10,13 +10,29 @@ import { Input } from '@/components/ui/input';
 import FileFilters from '@/components/files/FileFilters';
 
 const Files: React.FC = () => {
-  const { files, isLoading, deleteFile, filteredFiles, setSearchTerm, searchTerm } = useFiles();
+  const { 
+    files, 
+    isLoading, 
+    deleteFile, 
+    filteredFiles, 
+    setSearchTerm, 
+    searchTerm,
+    selectedCount,
+    bulkDeleteFiles
+  } = useFiles();
   const [showFilters, setShowFilters] = useState(false);
   
   return (
     <div className="container mx-auto py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Files</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold">Files</h1>
+          {selectedCount > 0 && (
+            <div className="bg-primary/10 text-primary text-sm font-medium px-2 py-1 rounded-full">
+              {selectedCount} selected
+            </div>
+          )}
+        </div>
         <div className="flex gap-2">
           <Link to="/upload">
             <Button variant="outline" className="flex items-center gap-2">

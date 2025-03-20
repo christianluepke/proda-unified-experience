@@ -1,8 +1,10 @@
+
 import { useState } from 'react';
 import { TableColumn } from './types';
 
 // Define the available columns
 export const FILE_COLUMNS: TableColumn[] = [
+  { id: 'select', label: 'Select', visible: true },
   { id: 'name', label: 'File Name', visible: true },
   { id: 'type', label: 'Document Type', visible: true },
   { id: 'uploadDate', label: 'Upload Date', visible: true },
@@ -17,6 +19,9 @@ export function useFilesColumns() {
 
   // Toggle a column's visibility
   const toggleColumnVisibility = (columnId: string) => {
+    // Never hide the select column
+    if (columnId === 'select') return;
+    
     setVisibleColumns(prevColumns => 
       prevColumns.map(col => 
         col.id === columnId ? { ...col, visible: !col.visible } : col
