@@ -17,7 +17,10 @@ import {
   Building2, 
   MoreVertical,
   ExternalLink,
-  Clock
+  FileCheck,
+  FileClock,
+  Clock,
+  User
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { 
@@ -34,7 +37,7 @@ interface DocumentListProps {
 }
 
 const DocumentList: React.FC<DocumentListProps> = ({ documents }) => {
-  const { getDocumentTypeLabel } = useFiles();
+  const { getDocumentTypeLabel, getStatusBadge } = useFiles();
 
   const getDocumentIcon = (type: string) => {
     switch (type) {
@@ -47,28 +50,17 @@ const DocumentList: React.FC<DocumentListProps> = ({ documents }) => {
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'processed':
-        return <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">Processed</Badge>;
-      case 'processing':
-        return <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-200">Processing</Badge>;
-      case 'error':
-        return <Badge variant="outline" className="bg-red-100 text-red-800 border-red-200">Error</Badge>;
-      default:
-        return null;
-    }
-  };
-
   return (
     <div className="border rounded-md">
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/30">
-            <TableHead className="w-[40%]">Document Name</TableHead>
-            <TableHead className="w-[20%]">Type</TableHead>
-            <TableHead className="w-[25%]">Date Extracted</TableHead>
-            <TableHead className="w-[15%] text-right">Actions</TableHead>
+            <TableHead className="w-[25%]">Document Name</TableHead>
+            <TableHead className="w-[15%]">Type</TableHead>
+            <TableHead className="w-[20%]">Date Extracted</TableHead>
+            <TableHead className="w-[20%]">Last Updated</TableHead>
+            <TableHead className="w-[10%] text-right">Status</TableHead>
+            <TableHead className="w-[10%] text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -83,14 +75,34 @@ const DocumentList: React.FC<DocumentListProps> = ({ documents }) => {
               <TableCell>
                 <div className="flex items-center gap-2">
                   {getDocumentTypeLabel(document.type)}
-                  {getStatusBadge(document.status)}
                 </div>
               </TableCell>
               <TableCell>
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <Clock className="mr-1 h-3 w-3" />
-                  {format(new Date(document.createdAt), 'MMM d, yyyy h:mm a')}
+                <div className="flex flex-col">
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Clock className="mr-1 h-3 w-3" />
+                    {format(new Date(document.createdAt), 'MMM d, yyyy h:mm a')}
+                  </div>
+                  <div className="flex items-center text-xs text-muted-foreground">
+                    <User className="mr-1 h-3 w-3" />
+                    {document.creator.name}
+                  </div>
                 </div>
+              </TableCell>
+              <TableCell>
+                <div className="flex flex-col">
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Clock className="mr-1 h-3 w-3" />
+                    {format(new Date(document.updatedAt), 'MMM d, yyyy h:mm a')}
+                  </div>
+                  <div className="flex items-center text-xs text-muted-foreground">
+                    <User className="mr-1 h-3 w-3" />
+                    {document.lastUpdatedBy.name}
+                  </div>
+                </div>
+              </TableCell>
+              <TableCell className="text-right">
+                {getStatusBadge(document.status)}
               </TableCell>
               <TableCell className="text-right">
                 <DropdownMenu>

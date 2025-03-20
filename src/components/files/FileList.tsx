@@ -29,12 +29,19 @@ import {
   ChevronRight, 
   ChevronDown, 
   Clock, 
-  User 
+  User,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  Building,
+  Briefcase,
+  FolderArchive
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { UploadedFile } from './models';
 import { useFiles } from '@/hooks/useFiles';
 import DocumentList from './DocumentList';
+import ColumnSelector from './ColumnSelector';
 
 interface FileListProps {
   files: UploadedFile[];
@@ -43,7 +50,15 @@ interface FileListProps {
 
 const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
   const [expandedFiles, setExpandedFiles] = useState<Set<string>>(new Set());
-  const { getFileDocumentTypeLabel } = useFiles();
+  const [showColumnSelector, setShowColumnSelector] = useState(false);
+  const { 
+    getFileDocumentTypeLabel, 
+    getStatusBadge, 
+    sortField, 
+    sortDirection, 
+    updateSort,
+    visibleColumns
+  } = useFiles();
 
   const toggleFileExpand = (fileId: string) => {
     setExpandedFiles(prev => {
@@ -78,17 +93,11 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'processed':
-        return <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">Processed</Badge>;
-      case 'processing':
-        return <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-200">Processing</Badge>;
-      case 'error':
-        return <Badge variant="outline" className="bg-red-100 text-red-800 border-red-200">Error</Badge>;
-      default:
-        return null;
-    }
+  const getSortIcon = (field: string) => {
+    if (sortField !== field) return <ArrowUpDown className="ml-2 h-4 w-4" />;
+    return sortDirection === 'asc' 
+      ? <ArrowUp className="ml-2 h-4 w-4" /> 
+      : <ArrowDown className="ml-2 h-4 w-4" />;
   };
 
   const confirmDelete = (fileId: string, fileName: string) => {
@@ -99,14 +108,116 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
 
   return (
     <div className="border rounded-lg overflow-hidden">
+      <div className="p-2 flex justify-end">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={() => setShowColumnSelector(!showColumnSelector)}
+        >
+          Columns
+        </Button>
+        {showColumnSelector && <ColumnSelector />}
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[40%]">File Name</TableHead>
-            <TableHead className="w-[15%]">Document Type</TableHead>
-            <TableHead className="w-[15%]">Upload Date</TableHead>
-            <TableHead className="w-[15%]">Size</TableHead>
-            <TableHead className="w-[15%] text-right">Actions</TableHead>
+            {visibleColumns.find(col => col.id === 'name' && col.visible) && (
+              <TableHead 
+                className="w-[35%] cursor-pointer hover:bg-muted/30"
+                onClick={() => updateSort('name')}
+              >
+                <div className="flex items-center">
+                  File Name
+                  {getSortIcon('name')}
+                </div>
+              </TableHead>
+            )}
+            
+            {visibleColumns.find(col => col.id === 'type' && col.visible) && (
+              <TableHead 
+                className="w-[15%] cursor-pointer hover:bg-muted/30"
+                onClick={() => updateSort('type')}
+              >
+                <div className="flex items-center">
+                  Document Type
+                  {getSortIcon('type')}
+                </div>
+              </TableHead>
+            )}
+            
+            {visibleColumns.find(col => col.id === 'uploadDate' && col.visible) && (
+              <TableHead 
+                className="w-[15%] cursor-pointer hover:bg-muted/30"
+                onClick={() => updateSort('uploadDate')}
+              >
+                <div className="flex items-center">
+                  Upload Date
+                  {getSortIcon('uploadDate')}
+                </div>
+              </TableHead>
+            )}
+            
+            {visibleColumns.find(col => col.id === 'property' && col.visible) && (
+              <TableHead 
+                className="w-[10%] cursor-pointer hover:bg-muted/30"
+                onClick={() => updateSort('property')}
+              >
+                <div className="flex items-center">
+                  Property
+                  {getSortIcon('property')}
+                </div>
+              </TableHead>
+            )}
+            
+            {visibleColumns.find(col => col.id === 'project' && col.visible) && (
+              <TableHead 
+                className="w-[10%] cursor-pointer hover:bg-muted/30"
+                onClick={() => updateSort('project')}
+              >
+                <div className="flex items-center">
+                  Project
+                  {getSortIcon('project')}
+                </div>
+              </TableHead>
+            )}
+            
+            {visibleColumns.find(col => col.id === 'portfolio' && col.visible) && (
+              <TableHead 
+                className="w-[10%] cursor-pointer hover:bg-muted/30"
+                onClick={() => updateSort('portfolio')}
+              >
+                <div className="flex items-center">
+                  Portfolio
+                  {getSortIcon('portfolio')}
+                </div>
+              </TableHead>
+            )}
+            
+            {visibleColumns.find(col => col.id === 'size' && col.visible) && (
+              <TableHead 
+                className="w-[10%] cursor-pointer hover:bg-muted/30"
+                onClick={() => updateSort('size')}
+              >
+                <div className="flex items-center">
+                  Size
+                  {getSortIcon('size')}
+                </div>
+              </TableHead>
+            )}
+            
+            {visibleColumns.find(col => col.id === 'status' && col.visible) && (
+              <TableHead 
+                className="w-[10%] cursor-pointer hover:bg-muted/30"
+                onClick={() => updateSort('status')}
+              >
+                <div className="flex items-center">
+                  Status
+                  {getSortIcon('status')}
+                </div>
+              </TableHead>
+            )}
+            
+            <TableHead className="w-[10%] text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -117,45 +228,95 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
             return (
               <React.Fragment key={file.id}>
                 <TableRow className={cn("hover:bg-muted/50", isExpanded && "bg-muted/30")}>
-                  <TableCell className="font-medium">
-                    <div className="flex items-center gap-2">
-                      {hasDocuments && (
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          className="h-6 w-6 p-0"
-                          onClick={() => toggleFileExpand(file.id)}
-                        >
-                          {isExpanded ? (
-                            <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                          ) : (
-                            <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                          )}
-                        </Button>
+                  {visibleColumns.find(col => col.id === 'name' && col.visible) && (
+                    <TableCell className="font-medium">
+                      <div className="flex items-center gap-2">
+                        {hasDocuments && (
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-6 w-6 p-0"
+                            onClick={() => toggleFileExpand(file.id)}
+                          >
+                            {isExpanded ? (
+                              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                            ) : (
+                              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                            )}
+                          </Button>
+                        )}
+                        {getFileIcon(file.fileType)}
+                        <span className="truncate">{file.name}</span>
+                      </div>
+                    </TableCell>
+                  )}
+                  
+                  {visibleColumns.find(col => col.id === 'type' && col.visible) && (
+                    <TableCell>
+                      {getFileDocumentTypeLabel(file)}
+                    </TableCell>
+                  )}
+                  
+                  {visibleColumns.find(col => col.id === 'uploadDate' && col.visible) && (
+                    <TableCell>
+                      <div className="flex flex-col">
+                        <div className="flex items-center text-sm text-muted-foreground">
+                          <Clock className="mr-1 h-3 w-3" />
+                          {format(new Date(file.uploadDate), 'MMM d, yyyy')}
+                        </div>
+                        <div className="flex items-center text-xs text-muted-foreground">
+                          <User className="mr-1 h-3 w-3" />
+                          {file.uploader.name}
+                        </div>
+                      </div>
+                    </TableCell>
+                  )}
+                  
+                  {visibleColumns.find(col => col.id === 'property' && col.visible) && (
+                    <TableCell>
+                      {file.property && (
+                        <div className="flex items-center">
+                          <Building className="mr-1 h-3 w-3 text-muted-foreground" />
+                          <span>{file.property.name}</span>
+                        </div>
                       )}
-                      {getFileIcon(file.fileType)}
-                      <span className="truncate">{file.name}</span>
+                    </TableCell>
+                  )}
+                  
+                  {visibleColumns.find(col => col.id === 'project' && col.visible) && (
+                    <TableCell>
+                      {file.project && (
+                        <div className="flex items-center">
+                          <Briefcase className="mr-1 h-3 w-3 text-muted-foreground" />
+                          <span>{file.project.name}</span>
+                        </div>
+                      )}
+                    </TableCell>
+                  )}
+                  
+                  {visibleColumns.find(col => col.id === 'portfolio' && col.visible) && (
+                    <TableCell>
+                      {file.portfolio && (
+                        <div className="flex items-center">
+                          <FolderArchive className="mr-1 h-3 w-3 text-muted-foreground" />
+                          <span>{file.portfolio.name}</span>
+                        </div>
+                      )}
+                    </TableCell>
+                  )}
+                  
+                  {visibleColumns.find(col => col.id === 'size' && col.visible) && (
+                    <TableCell>
+                      {formatFileSize(file.size)}
+                    </TableCell>
+                  )}
+                  
+                  {visibleColumns.find(col => col.id === 'status' && col.visible) && (
+                    <TableCell>
                       {getStatusBadge(file.status)}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {getFileDocumentTypeLabel(file)}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-col">
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <Clock className="mr-1 h-3 w-3" />
-                        {format(new Date(file.uploadDate), 'MMM d, yyyy')}
-                      </div>
-                      <div className="flex items-center text-xs text-muted-foreground">
-                        <User className="mr-1 h-3 w-3" />
-                        {file.uploader.name}
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {formatFileSize(file.size)}
-                  </TableCell>
+                    </TableCell>
+                  )}
+                  
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -193,7 +354,7 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
                 {/* Document rows (expanded view) */}
                 {isExpanded && hasDocuments && (
                   <TableRow className="bg-muted/10">
-                    <TableCell colSpan={5} className="p-0">
+                    <TableCell colSpan={visibleColumns.filter(col => col.visible).length + 1} className="p-0">
                       <div className="pl-10 pr-4 py-2">
                         <DocumentList documents={file.documents} />
                       </div>

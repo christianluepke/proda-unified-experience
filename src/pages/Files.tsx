@@ -3,12 +3,15 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Plus, Upload, FileIcon } from 'lucide-react';
+import { Upload, FileIcon, Search } from 'lucide-react';
 import FileList from '@/components/files/FileList';
 import { useFiles } from '@/hooks/useFiles';
+import { Input } from '@/components/ui/input';
+import FileFilters from '@/components/files/FileFilters';
 
 const Files: React.FC = () => {
-  const { files, isLoading, deleteFile } = useFiles();
+  const { files, isLoading, deleteFile, filteredFiles, setSearchTerm, searchTerm } = useFiles();
+  const [showFilters, setShowFilters] = useState(false);
   
   return (
     <div className="container mx-auto py-8">
@@ -21,18 +24,37 @@ const Files: React.FC = () => {
               Upload File
             </Button>
           </Link>
-          <Button className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            Add Extraction
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <div className="flex gap-4 mb-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search files..."
+              className="pl-8 w-full"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <Button 
+            variant="outline" 
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            {showFilters ? 'Hide Filters' : 'Show Filters'}
           </Button>
         </div>
+
+        {showFilters && <FileFilters />}
       </div>
 
       {isLoading ? (
         <div className="flex justify-center items-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
-      ) : files.length === 0 ? (
+      ) : filteredFiles.length === 0 ? (
         <Card className="flex flex-col items-center justify-center p-8 text-center">
           <FileIcon className="h-16 w-16 text-muted-foreground mb-4" />
           <h2 className="text-xl font-semibold mb-2">No Files Found</h2>
@@ -42,7 +64,7 @@ const Files: React.FC = () => {
           </Link>
         </Card>
       ) : (
-        <FileList files={files} onDeleteFile={deleteFile} />
+        <FileList files={filteredFiles} onDeleteFile={deleteFile} />
       )}
     </div>
   );
