@@ -8,8 +8,8 @@ export const FILE_COLUMNS: TableColumn[] = [
   { id: 'name', label: 'File Name', visible: true },
   { id: 'type', label: 'Document Type', visible: true },
   { id: 'uploadDate', label: 'Upload Date', visible: true },
-  { id: 'property', label: 'Property', visible: false },
-  { id: 'project', label: 'Project', visible: false },
+  { id: 'property', label: 'Property', visible: true },
+  { id: 'project', label: 'Project', visible: true },
   { id: 'portfolio', label: 'Portfolio', visible: false },
   { id: 'status', label: 'Status', visible: true },
 ];
