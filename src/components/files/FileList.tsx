@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { format } from 'date-fns';
 import {
@@ -16,7 +15,6 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator 
 } from '@/components/ui/dropdown-menu';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { 
   FileIcon, 
@@ -42,6 +40,7 @@ import { UploadedFile } from './models';
 import { useFiles } from '@/hooks/useFiles';
 import DocumentList from './DocumentList';
 import ColumnSelector from './ColumnSelector';
+import { getStatusBadge } from './StatusBadges';
 
 interface FileListProps {
   files: UploadedFile[];
@@ -50,10 +49,8 @@ interface FileListProps {
 
 const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
   const [expandedFiles, setExpandedFiles] = useState<Set<string>>(new Set());
-  const [showColumnSelector, setShowColumnSelector] = useState(false);
   const { 
     getFileDocumentTypeLabel, 
-    getStatusBadge, 
     sortField, 
     sortDirection, 
     updateSort,
@@ -109,14 +106,7 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
   return (
     <div className="border rounded-lg overflow-hidden">
       <div className="p-2 flex justify-end">
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={() => setShowColumnSelector(!showColumnSelector)}
-        >
-          Columns
-        </Button>
-        {showColumnSelector && <ColumnSelector />}
+        <ColumnSelector />
       </div>
       <Table>
         <TableHeader>
@@ -351,7 +341,6 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
                   </TableCell>
                 </TableRow>
                 
-                {/* Document rows (expanded view) */}
                 {isExpanded && hasDocuments && (
                   <TableRow className="bg-muted/10">
                     <TableCell colSpan={visibleColumns.filter(col => col.visible).length + 1} className="p-0">

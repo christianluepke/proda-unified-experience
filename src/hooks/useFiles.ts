@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { UploadedFile, Document, DocumentType, ProcessingStatus, FileFilters, TableColumn } from '@/components/files/models';
 import { toast } from "@/components/ui/use-toast";
-import { Badge } from "@/components/ui/badge";
 
 // Mock data for files and documents
 const MOCK_FILES: UploadedFile[] = [
@@ -616,29 +615,12 @@ export function useFiles() {
     }
   };
 
-  // Helper to get status badges
-  const getStatusBadge = (status: ProcessingStatus) => {
-    switch (status) {
-      case 'complete':
-        return <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">Complete</Badge>;
-      case 'processing':
-        return <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-200">Processing</Badge>;
-      case 'draft':
-        return <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">Draft</Badge>;
-      case 'error':
-        return <Badge variant="outline" className="bg-red-100 text-red-800 border-red-200">Error</Badge>;
-      default:
-        return null;
-    }
-  };
-
   return {
     files,
     isLoading,
     deleteFile,
     getFileDocumentTypeLabel,
     getDocumentTypeLabel,
-    getStatusBadge,
     searchTerm,
     setSearchTerm,
     sortField,

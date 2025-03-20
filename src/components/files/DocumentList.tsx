@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Document } from './models';
 import { format } from 'date-fns';
@@ -10,7 +9,6 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { 
   FileText, 
   Calculator, 
@@ -31,13 +29,14 @@ import {
   DropdownMenuSeparator
 } from '@/components/ui/dropdown-menu';
 import { useFiles } from '@/hooks/useFiles';
+import { getStatusBadge } from './StatusBadges';
 
 interface DocumentListProps {
   documents: Document[];
 }
 
 const DocumentList: React.FC<DocumentListProps> = ({ documents }) => {
-  const { getDocumentTypeLabel, getStatusBadge } = useFiles();
+  const { getDocumentTypeLabel } = useFiles();
 
   const getDocumentIcon = (type: string) => {
     switch (type) {
