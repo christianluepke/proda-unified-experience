@@ -27,7 +27,7 @@ const MultipleEntityDisplay: React.FC<MultipleEntityDisplayProps> = ({
     return (
       <div className="flex items-center">
         {getIcon(type)}
-        <span>{primary || names[0]}</span>
+        <span className="truncate">{primary || names[0]}</span>
       </div>
     );
   }
@@ -35,29 +35,30 @@ const MultipleEntityDisplay: React.FC<MultipleEntityDisplayProps> = ({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button className="flex items-center text-left">
+        <button className="flex items-center text-left hover:bg-muted/50 rounded px-1 -ml-1">
           {getIcon(type)}
-          <div>
-            <span className="mr-1">{primary}</span>
-            <span className="text-xs bg-muted text-muted-foreground rounded-full px-1.5 py-0.5">
+          <div className="flex items-center">
+            <span className="mr-1 truncate max-w-[120px]">{primary || names[0]}</span>
+            <span className="text-xs bg-muted text-muted-foreground rounded-full px-1.5 py-0.5 flex-shrink-0">
               +{count - 1}
             </span>
           </div>
         </button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-64 p-2">
-        <h4 className="font-medium mb-2 px-2">
+      <PopoverContent align="start" className="w-72 p-2">
+        <h4 className="font-medium mb-2 px-2 flex items-center">
+          {getIcon(type, 4)}
           {getTitle(type)} ({count})
         </h4>
-        <ScrollArea className="h-[200px]">
+        <ScrollArea className="h-[250px] max-h-[60vh]">
           <div className="space-y-1">
             {names.map((name, index) => (
               <div 
                 key={index} 
-                className={`px-2 py-1.5 text-sm rounded ${name === primary ? 'bg-primary/10 font-medium' : 'hover:bg-muted'}`}
+                className={`px-2 py-1.5 text-sm rounded flex items-center ${name === primary ? 'bg-primary/10 font-medium' : 'hover:bg-muted'}`}
               >
                 {getIcon(type)}
-                <span>{name}</span>
+                <span className="truncate">{name}</span>
               </div>
             ))}
           </div>
@@ -67,14 +68,16 @@ const MultipleEntityDisplay: React.FC<MultipleEntityDisplayProps> = ({
   );
 };
 
-function getIcon(type: 'property' | 'project' | 'portfolio') {
+function getIcon(type: 'property' | 'project' | 'portfolio', size: number = 3.5) {
+  const className = `h-${size} w-${size} mr-1.5 text-muted-foreground flex-shrink-0`;
+  
   switch (type) {
     case 'property':
-      return <Building2 className="h-3.5 w-3.5 mr-1.5 text-muted-foreground flex-shrink-0" />;
+      return <Building2 className={className} />;
     case 'project':
-      return <Briefcase className="h-3.5 w-3.5 mr-1.5 text-muted-foreground flex-shrink-0" />;
+      return <Briefcase className={className} />;
     case 'portfolio':
-      return <FolderArchive className="h-3.5 w-3.5 mr-1.5 text-muted-foreground flex-shrink-0" />;
+      return <FolderArchive className={className} />;
   }
 }
 

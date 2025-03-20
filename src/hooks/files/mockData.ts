@@ -1,4 +1,3 @@
-
 import { UploadedFile } from './types';
 
 // Mock data for files and documents
@@ -195,7 +194,7 @@ export const MOCK_FILES: UploadedFile[] = [
   },
   {
     id: 'file-4',
-    name: 'New-Acquisition-Data.xlsx',
+    name: 'Multi-Property-Analysis.xlsx',
     fileType: 'excel',
     uploadDate: '2023-06-10T16:45:00Z',
     uploader: {
@@ -206,7 +205,7 @@ export const MOCK_FILES: UploadedFile[] = [
     documents: [
       {
         id: 'doc-5',
-        name: 'New-Property-Rent-Roll',
+        name: 'Riverfront-Rent-Roll',
         type: 'rent_roll',
         createdAt: '2023-06-10T16:50:00Z',
         updatedAt: '2023-06-10T16:50:00Z',
@@ -234,7 +233,7 @@ export const MOCK_FILES: UploadedFile[] = [
       },
       {
         id: 'doc-6',
-        name: 'New-Property-Financials',
+        name: 'Parkside-Financials',
         type: 'operating_statement',
         createdAt: '2023-06-10T16:55:00Z',
         updatedAt: '2023-06-10T16:55:00Z',
@@ -248,8 +247,8 @@ export const MOCK_FILES: UploadedFile[] = [
         },
         status: 'processing',
         property: {
-          id: 'property-3',
-          name: 'Riverfront Residences'
+          id: 'property-15',
+          name: 'Parkside Villas'
         },
         project: {
           id: 'project-4',
@@ -262,7 +261,7 @@ export const MOCK_FILES: UploadedFile[] = [
       },
       {
         id: 'doc-7',
-        name: 'New-Property-Other',
+        name: 'Lakefront-Data',
         type: 'other',
         createdAt: '2023-06-10T17:00:00Z',
         updatedAt: '2023-06-11T09:20:00Z',
@@ -276,16 +275,16 @@ export const MOCK_FILES: UploadedFile[] = [
         },
         status: 'processing',
         property: {
-          id: 'property-3',
-          name: 'Riverfront Residences'
+          id: 'property-16',
+          name: 'Lakefront Towers'
         },
         project: {
           id: 'project-4',
           name: 'Riverfront Acquisition'
         },
         portfolio: {
-          id: 'portfolio-2',
-          name: 'Uptown Properties'
+          id: 'portfolio-11',
+          name: 'Waterside Collection'
         }
       }
     ],
@@ -737,17 +736,17 @@ export const MOCK_FILES: UploadedFile[] = [
   },
   {
     id: 'file-13',
-    name: 'Harborview-Heights-Analysis.xlsx',
+    name: 'Portfolio-Wide-Analysis.xlsx',
     fileType: 'excel',
     uploadDate: '2023-11-05T09:15:00Z',
     uploader: {
       id: 'user-3',
       name: 'Michael Brown',
     },
-    size: 1650000,
+    size: 2650000,
     documents: [
       {
-        id: 'doc-16',
+        id: 'doc-18',
         name: 'Harborview-Rent-Roll',
         type: 'rent_roll',
         createdAt: '2023-11-05T09:20:00Z',
@@ -767,7 +766,63 @@ export const MOCK_FILES: UploadedFile[] = [
         },
         project: {
           id: 'project-13',
-          name: 'Harborview Analysis'
+          name: 'Coastal Portfolio Review'
+        },
+        portfolio: {
+          id: 'portfolio-9',
+          name: 'Waterfront Properties'
+        }
+      },
+      {
+        id: 'doc-19',
+        name: 'Bayview-Rent-Roll',
+        type: 'rent_roll',
+        createdAt: '2023-11-05T10:30:00Z',
+        updatedAt: '2023-11-06T15:20:00Z',
+        creator: {
+          id: 'user-3',
+          name: 'Michael Brown',
+        },
+        lastUpdatedBy: {
+          id: 'user-3',
+          name: 'Michael Brown',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-17',
+          name: 'Bayview Point'
+        },
+        project: {
+          id: 'project-13',
+          name: 'Coastal Portfolio Review'
+        },
+        portfolio: {
+          id: 'portfolio-9',
+          name: 'Waterfront Properties'
+        }
+      },
+      {
+        id: 'doc-20',
+        name: 'Marina-Rent-Roll',
+        type: 'rent_roll',
+        createdAt: '2023-11-05T11:45:00Z',
+        updatedAt: '2023-11-06T16:50:00Z',
+        creator: {
+          id: 'user-3',
+          name: 'Michael Brown',
+        },
+        lastUpdatedBy: {
+          id: 'user-3',
+          name: 'Michael Brown',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-18',
+          name: 'Marina Apartments'
+        },
+        project: {
+          id: 'project-13',
+          name: 'Coastal Portfolio Review'
         },
         portfolio: {
           id: 'portfolio-9',
@@ -775,14 +830,11 @@ export const MOCK_FILES: UploadedFile[] = [
         }
       }
     ],
+    // File has no direct property assignment, only at document level
     status: 'complete',
-    property: {
-      id: 'property-12',
-      name: 'Harborview Heights'
-    },
     project: {
       id: 'project-13',
-      name: 'Harborview Analysis'
+      name: 'Coastal Portfolio Review'
     },
     portfolio: {
       id: 'portfolio-9',
@@ -896,5 +948,80 @@ export const MOCK_FILES: UploadedFile[] = [
       id: 'portfolio-3',
       name: 'Mountain Properties'
     }
-  }
-];
+  },
+  {
+    id: 'file-16',
+    name: 'Mixed-Metro-Properties.pdf',
+    fileType: 'pdf',
+    uploadDate: '2023-12-20T09:30:00Z',
+    uploader: {
+      id: 'user-1',
+      name: 'John Smith',
+    },
+    size: 4250000,
+    documents: [
+      {
+        id: 'doc-21',
+        name: 'Downtown-OS',
+        type: 'operating_statement',
+        createdAt: '2023-12-20T09:40:00Z',
+        updatedAt: '2023-12-21T11:20:00Z',
+        creator: {
+          id: 'user-1',
+          name: 'John Smith',
+        },
+        lastUpdatedBy: {
+          id: 'user-1',
+          name: 'John Smith',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-19',
+          name: 'Downtown Lofts'
+        },
+        project: {
+          id: 'project-16',
+          name: 'Metro Analysis'
+        },
+        portfolio: {
+          id: 'portfolio-12',
+          name: 'Urban Core Properties'
+        }
+      },
+      {
+        id: 'doc-22',
+        name: 'Midtown-OS',
+        type: 'operating_statement',
+        createdAt: '2023-12-20T10:15:00Z',
+        updatedAt: '2023-12-21T13:45:00Z',
+        creator: {
+          id: 'user-1',
+          name: 'John Smith',
+        },
+        lastUpdatedBy: {
+          id: 'user-1',
+          name: 'John Smith',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-20',
+          name: 'Midtown Suites'
+        },
+        project: {
+          id: 'project-16',
+          name: 'Metro Analysis'
+        },
+        portfolio: {
+          id: 'portfolio-12',
+          name: 'Urban Core Properties'
+        }
+      },
+      {
+        id: 'doc-23',
+        name: 'Uptown-OS',
+        type: 'operating_statement',
+        createdAt: '2023-12-20T11:30:00Z',
+        updatedAt: '2023-12-21T15:10:00Z',
+        creator: {
+          id: 'user-1',
+          name: 'John Smith',
