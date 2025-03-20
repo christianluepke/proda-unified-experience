@@ -1,3 +1,4 @@
+
 import { UploadedFile } from './types';
 
 // Mock data for files and documents
@@ -1025,3 +1026,35 @@ export const MOCK_FILES: UploadedFile[] = [
         creator: {
           id: 'user-1',
           name: 'John Smith',
+        },
+        lastUpdatedBy: {
+          id: 'user-1',
+          name: 'John Smith',
+        },
+        status: 'complete',
+        property: {
+          id: 'property-21',
+          name: 'Uptown Heights'
+        },
+        project: {
+          id: 'project-16',
+          name: 'Metro Analysis'
+        },
+        portfolio: {
+          id: 'portfolio-12',
+          name: 'Urban Core Properties'
+        }
+      }
+    ],
+    status: 'complete',
+    // This file demonstrates multiple different properties in documents with no single property assigned at the file level
+    project: {
+      id: 'project-16',
+      name: 'Metro Analysis'
+    },
+    portfolio: {
+      id: 'portfolio-12',
+      name: 'Urban Core Properties'
+    }
+  }
+];
