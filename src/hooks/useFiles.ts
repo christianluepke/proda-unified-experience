@@ -6,6 +6,7 @@ import { useFilesSorting } from './files/useFilesSorting';
 import { useFilesColumns, FILE_COLUMNS } from './files/useFilesColumns';
 import { useFilesSelection } from './files/useFilesSelection';
 import { useFilesPagination } from './files/useFilesPagination';
+import { getFileDocumentTypeLabel } from './files/fileUtils';
 
 export { FILE_COLUMNS } from './files/useFilesColumns';
 
@@ -14,7 +15,6 @@ export function useFiles() {
     files, 
     isLoading, 
     deleteFile, 
-    getFileDocumentTypeLabel, 
     getDocumentTypeLabel,
     formatFileSize
   } = useFilesData();
@@ -46,7 +46,7 @@ export function useFiles() {
     return files
       .filter(applyFilters)
       .sort((a, b) => sortFiles(a, b, getFileDocumentTypeLabel));
-  }, [files, applyFilters, sortFiles, getFileDocumentTypeLabel]);
+  }, [files, applyFilters, sortFiles]);
 
   // Pagination
   const {
@@ -104,7 +104,7 @@ export function useFiles() {
     toggleSelectAll,
     selectedCount,
     bulkDeleteFiles,
-    // New pagination-related items
+    // Pagination-related items
     paginatedFiles,
     paginationOptions,
     updatePageSize,
