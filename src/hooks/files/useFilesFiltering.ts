@@ -1,6 +1,6 @@
 
 import { useState, useMemo } from 'react';
-import { UploadedFile, FileFilters, FilterOptions } from './types';
+import { UploadedFile, FileFilters, FilterOptions, DocumentType, ProcessingStatus } from './types';
 
 export function useFilesFiltering(files: UploadedFile[]) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,12 +15,12 @@ export function useFilesFiltering(files: UploadedFile[]) {
 
   // Get available filter options from the data
   const filterOptions = useMemo<FilterOptions>(() => {
-    const documentTypes = new Set();
+    const documentTypes = new Set<DocumentType>();
     const uploaders = new Set<string>();
     const properties = new Set<string>();
     const projects = new Set<string>();
     const portfolios = new Set<string>();
-    const statuses = new Set();
+    const statuses = new Set<ProcessingStatus>();
 
     files.forEach(file => {
       if (file.uploader.id) uploaders.add(file.uploader.id);
