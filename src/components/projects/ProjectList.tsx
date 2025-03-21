@@ -21,8 +21,8 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectUpload, sel
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/50">
-            <TableHead className="w-[5%]">ID</TableHead>
-            <TableHead className="w-[15%]">Project Name</TableHead>
+            <TableHead className="w-[20%]">Project Name</TableHead>
+            <TableHead className="w-[10%]">Property Count</TableHead>
             {showDatabaseColumn && <TableHead className="w-[15%]">Company & Database</TableHead>}
             <TableHead className="w-[10%]">Property Type</TableHead>
             <TableHead className="w-[15%]">Property Name</TableHead>
@@ -40,15 +40,15 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectUpload, sel
             
             return (
               <TableRow key={project.id} className="hover:bg-muted/30">
-                <TableCell className="font-medium">{project.id}</TableCell>
                 <TableCell className="font-medium">{project.name}</TableCell>
+                <TableCell>{project.properties.length}</TableCell>
                 {showDatabaseColumn && (
                   <TableCell>{project.database || <span className="text-muted-foreground italic">Not specified</span>}</TableCell>
                 )}
                 <TableCell>{project.assetType || <span className="text-muted-foreground italic">Not specified</span>}</TableCell>
                 <TableCell>
                   {hasMultipleProperties 
-                    ? <span>Multiple</span> 
+                    ? <span>Multiple ({project.properties.map(p => p.name).join(', ').substring(0, 20)}...)</span> 
                     : project.properties.length === 1 
                       ? project.properties[0].name 
                       : <span className="text-muted-foreground italic">No properties</span>}
