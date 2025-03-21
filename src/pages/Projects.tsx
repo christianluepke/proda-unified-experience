@@ -8,6 +8,11 @@ import { toast } from "@/components/ui/use-toast";
 import ProjectList from '@/components/projects/ProjectList';
 import CreateProjectDialog from '@/components/projects/CreateProjectDialog';
 
+// Mock selected databases from the Header component
+const mockSelectedDatabases = [
+  { id: 'db1', name: 'Main Database' }
+];
+
 const Projects: React.FC = () => {
   const { projects, createProject } = useProjects();
   const [searchTerm, setSearchTerm] = useState('');
@@ -73,6 +78,7 @@ const Projects: React.FC = () => {
         <ProjectList 
           projects={filteredProjects}
           onSelectUpload={openUploadForProject}
+          selectedDatabases={mockSelectedDatabases}
         />
       )}
     </div>

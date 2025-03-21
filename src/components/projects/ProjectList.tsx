@@ -9,13 +9,13 @@ import { formatDistanceToNow } from 'date-fns';
 interface ProjectListProps {
   projects: Project[];
   onSelectUpload: (projectId: string) => void;
+  selectedDatabases?: { id: string, name: string }[];
 }
 
-const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectUpload }) => {
-  // Check if we have more than one database
-  const databases = [...new Set(projects.map(project => project.database))].filter(Boolean);
-  const showDatabaseColumn = databases.length > 1;
-
+const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectUpload, selectedDatabases = [] }) => {
+  // Check if we have more than one database selected in the header
+  const showDatabaseColumn = selectedDatabases.length > 1;
+  
   return (
     <div className="w-full border rounded-md overflow-hidden">
       <Table>
