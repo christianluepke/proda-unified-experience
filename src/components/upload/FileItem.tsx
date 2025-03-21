@@ -18,6 +18,7 @@ interface FileItemProps {
   onFileTypeChange: (file: File, fileType: 'rent_roll' | 'operating_statement') => void;
   onCreateProject: (name: string) => Project;
   onStartUpload: (file: File) => void;
+  showFileTypeSelector?: boolean;
 }
 
 const FileItem: React.FC<FileItemProps> = ({
@@ -29,7 +30,8 @@ const FileItem: React.FC<FileItemProps> = ({
   onFileProjectChange,
   onFileTypeChange,
   onCreateProject,
-  onStartUpload
+  onStartUpload,
+  showFileTypeSelector = true
 }) => {
   const isProjectRequired = fileObj.fileType === 'operating_statement';
   const showProjectSelection = fileObj.fileType === 'operating_statement' || fileObj.fileType === 'rent_roll';
@@ -82,27 +84,29 @@ const FileItem: React.FC<FileItemProps> = ({
       </div>
       
       <div className="grid grid-cols-1 gap-4 ml-11">
-        {/* File Type Selection - Now First */}
-        <div>
-          <label className="text-sm font-medium mb-1.5 block">File Type</label>
-          <RadioGroup 
-            value={fileObj.fileType || ""} 
-            onValueChange={(value) => onFileTypeChange(fileObj.file, value as 'rent_roll' | 'operating_statement')}
-            className="flex gap-4"
-          >
-            {fileTypes.map(type => (
-              <div key={type.id} className="flex items-center space-x-2">
-                <RadioGroupItem value={type.value} id={`${type.id}-${index}`} />
-                <label 
-                  htmlFor={`${type.id}-${index}`} 
-                  className="text-sm cursor-pointer"
-                >
-                  {type.name}
-                </label>
-              </div>
-            ))}
-          </RadioGroup>
-        </div>
+        {/* File Type Selection - Show only if showFileTypeSelector is true */}
+        {showFileTypeSelector && (
+          <div>
+            <label className="text-sm font-medium mb-1.5 block">File Type</label>
+            <RadioGroup 
+              value={fileObj.fileType || ""} 
+              onValueChange={(value) => onFileTypeChange(fileObj.file, value as 'rent_roll' | 'operating_statement')}
+              className="flex gap-4"
+            >
+              {fileTypes.map(type => (
+                <div key={type.id} className="flex items-center space-x-2">
+                  <RadioGroupItem value={type.value} id={`${type.id}-${index}`} />
+                  <label 
+                    htmlFor={`${type.id}-${index}`} 
+                    className="text-sm cursor-pointer"
+                  >
+                    {type.name}
+                  </label>
+                </div>
+              ))}
+            </RadioGroup>
+          </div>
+        )}
         
         {/* Project Selection with Properties Panel */}
         {showProjectSelection && (

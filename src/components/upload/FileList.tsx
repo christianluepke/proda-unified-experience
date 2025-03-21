@@ -14,6 +14,7 @@ interface FileListProps {
   onFileTypeChange: (file: File, fileType: 'rent_roll' | 'operating_statement') => void;
   onStartUpload: (file: File) => void;
   onCreateProject: (name: string) => Project;
+  showFileTypeSelector?: boolean;
 }
 
 const FileList: React.FC<FileListProps> = ({
@@ -25,13 +26,16 @@ const FileList: React.FC<FileListProps> = ({
   onFileTypeChange,
   onStartUpload,
   onCreateProject,
+  showFileTypeSelector = true,
 }) => {
   if (files.length === 0) return null;
 
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">
-        <h2 className="text-lg font-medium">Assign Projects and File Types</h2>
+        <h2 className="text-lg font-medium">
+          {showFileTypeSelector ? 'Assign Projects and File Types' : 'Assign Projects to Rent Rolls'}
+        </h2>
         <div className="flex items-center bg-primary/10 text-primary rounded-full px-2.5 py-0.5 text-xs font-medium">
           <FileStack className="w-3.5 h-3.5 mr-1" />
           {files.length} {files.length === 1 ? 'file' : 'files'}
@@ -58,6 +62,7 @@ const FileList: React.FC<FileListProps> = ({
                 onFileTypeChange={onFileTypeChange}
                 onStartUpload={onStartUpload}
                 onCreateProject={onCreateProject}
+                showFileTypeSelector={showFileTypeSelector}
               />
             </li>
           ))}

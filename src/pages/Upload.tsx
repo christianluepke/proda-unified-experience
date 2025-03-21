@@ -6,6 +6,7 @@ import FileDropzone from '@/components/upload/FileDropzone';
 import FileList from '@/components/upload/FileList';
 import { useFileUpload } from '@/hooks/useFileUpload';
 import { useProjects } from '@/hooks/useProjects';
+import { useFeatureAccess } from '@/context/FeatureAccessContext';
 
 // Constants
 const FILE_TYPES: FileType[] = [
@@ -24,6 +25,13 @@ const Upload: React.FC = () => {
   } = useFileUpload();
   
   const { projects, createProject } = useProjects();
+  const { accessLevel } = useFeatureAccess();
+
+  // Filter file types based on access level
+  const availableFileTypes = FILE_TYPES.filter(fileType => {
+    if (accessLevel === 'full') return true;
+    return fileType.value === 'rent_roll';
+  });
 
   return (
     <div className="container mx-auto py-10">
@@ -44,12 +52,13 @@ const Upload: React.FC = () => {
           <FileList 
             files={files}
             projects={projects}
-            fileTypes={FILE_TYPES}
+            fileTypes={availableFileTypes}
             onRemoveFile={handleRemoveFile}
             onFileProjectChange={handleFileProjectChange}
             onFileTypeChange={handleFileTypeChange}
             onStartUpload={startUpload}
             onCreateProject={createProject}
+            showFileTypeSelector={accessLevel === 'full'}
           />
         )}
       </div>

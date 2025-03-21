@@ -3,12 +3,50 @@ import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UploadedFile } from '@/components/upload/models';
 import { toast } from "@/components/ui/use-toast";
+import { useFeatureAccess } from '@/context/FeatureAccessContext';
 
 export function useFileUpload() {
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const navigate = useNavigate();
+  const { accessLevel, hasAccess } = useFeatureAccess();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
+    // If we only have access to rent rolls and it's a single file, 
+    // streamline the process for rent roll handling
+    if (accessLevel === 'rent_roll_only' && acceptedFiles.length === 1) {
+      // Create a temporary file ID for rent roll
+      const rentRollId = `rr-${Math.random().toString(36).substring(2, 9)}`;
+      
+      // Start the upload animation
+      const file = acceptedFiles[0];
+      toast({
+        title: "Processing Rent Roll",
+        description: `Uploading ${file.name}...`,
+      });
+
+      // Simulate upload process
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 20;
+        if (progress >= 100) {
+          clearInterval(interval);
+          toast({
+            title: "Upload Complete",
+            description: "Redirecting to table selection...",
+          });
+          
+          // Navigate to select table page after "upload"
+          setTimeout(() => {
+            navigate(`/select-table/${rentRollId}`);
+          }, 500);
+        }
+      }, 200);
+      
+      return;
+    }
+    
+    // For multiple files in rent roll only mode or full access mode,
+    // use the normal file upload process with UI
     setFiles(prevFiles => [
       ...prevFiles,
       ...acceptedFiles.map(file => ({
@@ -16,7 +54,8 @@ export function useFileUpload() {
         progress: 0,
         status: 'uploading' as const,
         projectId: null,
-        fileType: null
+        // If in rent_roll_only mode, pre-select the file type
+        fileType: accessLevel === 'rent_roll_only' ? 'rent_roll' as const : null
       }))
     ]);
 
@@ -54,7 +93,7 @@ export function useFileUpload() {
       };
       reader.readAsArrayBuffer(file);
     });
-  }, []);
+  }, [accessLevel, navigate]);
 
   const handleRemoveFile = (fileToRemove: File) => {
     setFiles(prevFiles => prevFiles.filter(file => file.file !== fileToRemove));
@@ -69,6 +108,16 @@ export function useFileUpload() {
   };
 
   const handleFileTypeChange = (file: File, fileType: 'rent_roll' | 'operating_statement') => {
+    // Only allow changing to file types the user has access to
+    if (!hasAccess(fileType)) {
+      toast({
+        title: "Access Restricted",
+        description: `You don't have access to upload ${fileType === 'operating_statement' ? 'operating statements' : 'rent rolls'}`,
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setFiles(prevFiles => 
       prevFiles.map(f => 
         f.file === file ? { ...f, fileType } : f
