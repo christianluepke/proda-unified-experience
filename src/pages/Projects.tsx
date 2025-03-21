@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -6,7 +7,6 @@ import { useFileUpload } from '@/hooks/useFileUpload';
 import { toast } from "@/components/ui/use-toast";
 import ProjectList from '@/components/projects/ProjectList';
 import CreateProjectDialog from '@/components/projects/CreateProjectDialog';
-import UploadToProjectDialog from '@/components/projects/UploadToProjectDialog';
 
 const Projects: React.FC = () => {
   const { projects, createProject } = useProjects();
@@ -75,15 +75,6 @@ const Projects: React.FC = () => {
           onSelectUpload={openUploadForProject}
         />
       )}
-      
-      <UploadToProjectDialog
-        projects={projects}
-        selectedProject={selectedProject}
-        onUpload={handleUpload}
-        files={files}
-        onDrop={onDrop}
-        handleRemoveFile={handleRemoveFile}
-      />
     </div>
   );
 };
