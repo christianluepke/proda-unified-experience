@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -51,15 +50,6 @@ const Projects: React.FC = () => {
         
         <div className="flex items-center space-x-3">
           <CreateProjectDialog onCreateProject={createProject} />
-          
-          <UploadToProjectDialog
-            projects={projects}
-            selectedProject={selectedProject}
-            onUpload={handleUpload}
-            files={files}
-            onDrop={onDrop}
-            handleRemoveFile={handleRemoveFile}
-          />
         </div>
       </div>
 
@@ -85,6 +75,15 @@ const Projects: React.FC = () => {
           onSelectUpload={openUploadForProject}
         />
       )}
+      
+      <UploadToProjectDialog
+        projects={projects}
+        selectedProject={selectedProject}
+        onUpload={handleUpload}
+        files={files}
+        onDrop={onDrop}
+        handleRemoveFile={handleRemoveFile}
+      />
     </div>
   );
 };
