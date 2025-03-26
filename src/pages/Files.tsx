@@ -8,6 +8,7 @@ import FileList from '@/components/files/FileList';
 import { useFiles } from '@/hooks/useFiles';
 import { Input } from '@/components/ui/input';
 import FileFilters from '@/components/files/FileFilters';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
 
 const Files: React.FC = () => {
   const { 
@@ -81,7 +82,14 @@ const Files: React.FC = () => {
           </Link>
         </Card>
       ) : (
-        <FileList files={paginatedFiles} onDeleteFile={deleteFile} />
+        <ResizablePanelGroup
+          direction="horizontal"
+          className="w-full border rounded-lg overflow-hidden"
+        >
+          <ResizablePanel defaultSize={100} minSize={50}>
+            <FileList files={paginatedFiles} onDeleteFile={deleteFile} />
+          </ResizablePanel>
+        </ResizablePanelGroup>
       )}
     </div>
   );

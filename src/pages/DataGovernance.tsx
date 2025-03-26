@@ -5,7 +5,7 @@ import { ArrowRight, BarChart, Shield, Zap } from 'lucide-react';
 
 const DataGovernance: React.FC = () => {
   return (
-    <div className="max-w-[1200px] mx-auto px-4 py-16 font-['Inter']">
+    <div className="max-w-[1200px] mx-auto px-4 py-16">
       <div className="grid md:grid-cols-2 gap-12 items-center">
         {/* Left column: Main content */}
         <div>

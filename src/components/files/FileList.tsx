@@ -52,7 +52,7 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
   };
 
   return (
-    <div>
+    <div className="w-full h-full overflow-auto">
       {/* Bulk Actions Bar */}
       <BulkActions 
         selectedCount={selectedCount}
@@ -61,10 +61,11 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
         onBulkDelete={bulkDeleteFiles}
       />
 
-      <div className="border rounded-lg overflow-hidden">
-        <div className="p-2 flex justify-end">
-          <ColumnSelector />
-        </div>
+      <div className="p-2 flex justify-end">
+        <ColumnSelector />
+      </div>
+      
+      <div className="overflow-x-auto">
         <Table>
           <FileTableHeader 
             visibleColumns={visibleColumns}
@@ -105,15 +106,15 @@ const FileList: React.FC<FileListProps> = ({ files, onDeleteFile }) => {
             })}
           </TableBody>
         </Table>
-        
-        {/* Pagination */}
-        <TablePagination 
-          paginationOptions={paginationOptions}
-          onPageChange={goToPage}
-          onPageSizeChange={updatePageSize}
-          totalItems={filteredFiles.length}
-        />
       </div>
+      
+      {/* Pagination */}
+      <TablePagination 
+        paginationOptions={paginationOptions}
+        onPageChange={goToPage}
+        onPageSizeChange={updatePageSize}
+        totalItems={filteredFiles.length}
+      />
     </div>
   );
 };
