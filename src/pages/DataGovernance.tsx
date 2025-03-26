@@ -5,20 +5,20 @@ import { ArrowRight, BarChart, Shield, Zap } from 'lucide-react';
 
 const DataGovernance: React.FC = () => {
   return (
-    <div className="max-w-[1200px] mx-auto px-4 py-16">
+    <div className="max-w-[1200px] mx-auto px-4 py-8">
       <div className="grid md:grid-cols-2 gap-12 items-center">
         {/* Left column: Main content */}
         <div>
-          <h1 className="text-5xl font-bold mb-6 tracking-tight text-[#030734]">
+          <h1 className="text-4xl font-bold mb-4 tracking-tight text-[#030734]">
             Put <span className="relative inline-block after:content-[''] after:absolute after:w-full after:h-1 after:bg-[#0018ea] after:bottom-0 after:left-0">data</span> first
           </h1>
           
-          <p className="text-lg mb-8 text-gray-700">
+          <p className="text-lg mb-6 text-gray-700">
             Fast, user-friendly and engaging - transform your data collection process 
             and streamline your operations with automated data governance.
           </p>
           
-          <div className="mb-12">
+          <div className="mb-6">
             <div className="flex items-center gap-4">
               <Button className="px-6 py-3 h-auto bg-[#0018ea] hover:bg-[#0018ea]/90 text-white rounded-md text-base">
                 Book a demo
@@ -28,7 +28,7 @@ const DataGovernance: React.FC = () => {
           </div>
           
           {/* Stats section */}
-          <div className="grid grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-3 gap-6 mb-6">
             <div>
               <h3 className="text-3xl font-bold">97%</h3>
               <p className="text-gray-500 text-sm">Data accuracy improvement</p>
@@ -62,7 +62,7 @@ const DataGovernance: React.FC = () => {
       </div>
       
       {/* Features section */}
-      <div className="grid md:grid-cols-3 gap-8 mt-16">
+      <div className="grid md:grid-cols-3 gap-8 mt-8">
         <div className="bg-white p-6 rounded-lg border border-gray-100 shadow-sm">
           <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
             <Zap className="h-6 w-6 text-[#0018ea]" />
@@ -89,7 +89,7 @@ const DataGovernance: React.FC = () => {
       </div>
       
       {/* CTA Section */}
-      <div className="mt-16 bg-[#f5f7ff] rounded-lg p-8 flex flex-col md:flex-row items-center justify-between">
+      <div className="mt-10 bg-[#f5f7ff] rounded-lg p-8 flex flex-col md:flex-row items-center justify-between">
         <div>
           <h3 className="text-xl font-bold text-[#030734] mb-2">Ready to improve your data governance?</h3>
           <p className="text-[#030734] text-sm">Schedule a demo today and see how we can help streamline your data operations.</p>
