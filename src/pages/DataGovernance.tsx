@@ -87,17 +87,6 @@ const DataGovernance: React.FC = () => {
           <p className="text-gray-600">Make confident decisions based on complete, accurate data from all your sources.</p>
         </div>
       </div>
-      
-      {/* CTA Section */}
-      <div className="mt-10 bg-[#f5f7ff] rounded-lg p-8 flex flex-col md:flex-row items-center justify-between">
-        <div>
-          <h3 className="text-xl font-bold text-[#030734] mb-2">Ready to improve your data governance?</h3>
-          <p className="text-[#030734] text-sm">Schedule a demo today and see how we can help streamline your data operations.</p>
-        </div>
-        <Button size="lg" className="bg-[#0018ea] hover:bg-[#0018ea]/90 text-white mt-4 md:mt-0">
-          Book a demo
-        </Button>
-      </div>
     </div>
   );
 };
