@@ -55,20 +55,19 @@ const Projects: React.FC = () => {
         <h1 className="text-2xl font-bold">Projects</h1>
         
         <div className="flex items-center space-x-3">
+          <div className="relative w-64">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <Search className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <Input
+              className="pl-10"
+              placeholder="Search projects..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
           <CreateProjectDialog onCreateProject={createProject} />
         </div>
-      </div>
-
-      <div className="relative mb-6">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <Search className="h-4 w-4 text-muted-foreground" />
-        </div>
-        <Input
-          className="pl-10"
-          placeholder="Search projects..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
       </div>
 
       {filteredProjects.length === 0 ? (
