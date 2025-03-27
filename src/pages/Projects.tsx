@@ -50,7 +50,7 @@ const Projects: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="w-full max-w-[95%] 2xl:max-w-[90%] mx-auto py-10">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Projects</h1>
         

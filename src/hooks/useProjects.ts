@@ -50,7 +50,7 @@ const PORTFOLIOS = [
 const generateSampleProjects = (): Project[] => {
   const projectTypes = ['Multi-Family', 'Office', 'Retail', 'Industrial', 'Mixed-Use'];
   const databases = ['PRODA Engineering Team', 'Development DB', 'Main Database'];
-  const statuses = ['New', 'Active', 'Closed', 'Sold', 'Lost'];
+  const statuses: Project['status'][] = ['New', 'Active', 'Closed', 'Sold', 'Lost'];
   const projects: Project[] = [];
   
   for (let i = 1; i <= 10; i++) {
