@@ -1,6 +1,6 @@
 
 export type FileType = 'pdf' | 'excel' | 'csv' | 'other';
-export type DocumentType = 'rent_roll' | 'operating_statement' | 'other';
+export type DocumentType = 'rent_roll' | 'operating_statement' | 'budget' | 'other';
 export type ProcessingStatus = 'draft' | 'processing' | 'complete' | 'error';
 
 export interface FileUploader {
