@@ -25,7 +25,7 @@ const Files: React.FC = () => {
   const [showFilters, setShowFilters] = useState(false);
   
   return (
-    <div className="container mx-auto py-8">
+    <div className="w-full max-w-full px-6 py-8">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold">Files</h1>
@@ -47,7 +47,7 @@ const Files: React.FC = () => {
 
       <div className="mb-6">
         <div className="flex gap-4 mb-4">
-          <div className="relative flex-1">
+          <div className="relative flex-1 max-w-md">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
@@ -82,14 +82,16 @@ const Files: React.FC = () => {
           </Link>
         </Card>
       ) : (
-        <ResizablePanelGroup
-          direction="horizontal"
-          className="w-full border rounded-lg overflow-hidden"
-        >
-          <ResizablePanel defaultSize={100} minSize={50}>
-            <FileList files={paginatedFiles} onDeleteFile={deleteFile} />
-          </ResizablePanel>
-        </ResizablePanelGroup>
+        <div className="w-full h-[calc(100vh-250px)]">
+          <ResizablePanelGroup
+            direction="horizontal"
+            className="w-full h-full border rounded-lg overflow-hidden"
+          >
+            <ResizablePanel defaultSize={100} minSize={50}>
+              <FileList files={paginatedFiles} onDeleteFile={deleteFile} />
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </div>
       )}
     </div>
   );
