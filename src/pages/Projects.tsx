@@ -14,9 +14,10 @@ const mockSelectedDatabases = [
 ];
 
 const Projects: React.FC = () => {
-  const { projects, createProject } = useProjects();
+  const { projects, createProject, updateProject, getDatabaseUsers } = useProjects();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const databaseUsers = getDatabaseUsers();
 
   const { 
     files, 
@@ -79,6 +80,8 @@ const Projects: React.FC = () => {
           projects={filteredProjects}
           onSelectUpload={openUploadForProject}
           selectedDatabases={mockSelectedDatabases}
+          updateProject={updateProject}
+          databaseUsers={databaseUsers}
         />
       )}
     </div>

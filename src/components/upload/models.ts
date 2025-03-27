@@ -1,17 +1,20 @@
-
 // If the file doesn't exist, or we need to add to it, we'll create/update it
 export interface Project {
   id: string;
   name: string;
-  description: string;
-  assetType: string;
+  description?: string;
+  assetType?: string;
   database?: string;
-  address: string;
+  address?: string;
   createdAt: string;
   createdBy: string;
   modifiedAt: string | null;
   modifiedBy: string | null;
   properties: Property[];
+  status?: 'New' | 'Active' | 'Closed' | 'Sold' | 'Lost';
+  numberOfUnits?: number;
+  portfolioName?: string;
+  projectOwner?: string;
 }
 
 export interface Property {

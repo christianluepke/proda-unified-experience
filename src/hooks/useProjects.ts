@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Project, Property } from '@/components/upload/models';
 import { toast } from "@/components/ui/use-toast";
@@ -25,10 +26,31 @@ const generateProperties = (count: number, projectName: string): Property[] => {
   return properties;
 };
 
-// Generate sample projects with database field and more realistic data based on the screenshot
+// Mock database users
+const DATABASE_USERS = [
+  'john.doe@proda.ai',
+  'jane.smith@proda.ai',
+  'admin@proda.ai',
+  'alex.johnson@proda.ai',
+  'sarah.williams@proda.ai',
+  'mike.brown@proda.ai'
+];
+
+// Mock portfolios
+const PORTFOLIOS = [
+  'Main Portfolio',
+  'US Residential',
+  'European Commercial',
+  'Asia Pacific Retail',
+  'North America Office',
+  'Global Logistics'
+];
+
+// Generate sample projects with database field and more realistic data
 const generateSampleProjects = (): Project[] => {
   const projectTypes = ['Multi-Family', 'Office', 'Retail', 'Industrial', 'Mixed-Use'];
   const databases = ['PRODA Engineering Team', 'Development DB', 'Main Database'];
+  const statuses = ['New', 'Active', 'Closed', 'Sold', 'Lost'];
   const projects: Project[] = [];
   
   for (let i = 1; i <= 10; i++) {
@@ -36,6 +58,13 @@ const generateSampleProjects = (): Project[] => {
     const createdAt = new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString();
     const propertyCount = Math.floor(Math.random() * 3) + 1; // 1-3 properties
     const id = Math.floor(Math.random() * 500).toString();
+    const portfolioName = PORTFOLIOS[Math.floor(Math.random() * PORTFOLIOS.length)];
+    const projectOwner = DATABASE_USERS[Math.floor(Math.random() * DATABASE_USERS.length)];
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    
+    // Calculate total number of units across all properties
+    const properties = generateProperties(propertyCount, `Project ${i}`);
+    const numberOfUnits = properties.reduce((sum, property) => sum + property.units, 0);
     
     projects.push({
       id,
@@ -45,10 +74,14 @@ const generateSampleProjects = (): Project[] => {
       database: databases[Math.floor(Math.random() * databases.length)],
       address: `${Math.floor(Math.random() * 1000) + 1} ${['Southwark St', 'Main St', 'Oak Ave'][Math.floor(Math.random() * 3)]}, ${['London SE1 0SW', 'New York', 'Chicago'][Math.floor(Math.random() * 3)]}`,
       createdAt,
-      createdBy: ['john.doe@proda.ai', 'jane.smith@proda.ai', 'admin@proda.ai'][Math.floor(Math.random() * 3)],
+      createdBy: DATABASE_USERS[Math.floor(Math.random() * DATABASE_USERS.length)],
       modifiedAt: Math.random() > 0.3 ? new Date(Date.now() - Math.floor(Math.random() * 5000000000)).toISOString() : null,
-      modifiedBy: Math.random() > 0.3 ? ['john.doe@proda.ai', 'jane.smith@proda.ai', 'admin@proda.ai'][Math.floor(Math.random() * 3)] : null,
-      properties: generateProperties(propertyCount, `Project ${i}`)
+      modifiedBy: Math.random() > 0.3 ? DATABASE_USERS[Math.floor(Math.random() * DATABASE_USERS.length)] : null,
+      properties,
+      status,
+      numberOfUnits,
+      portfolioName,
+      projectOwner
     });
   }
   
@@ -75,7 +108,11 @@ export function useProjects() {
       createdBy: 'current.user@proda.ai', // In a real app, this would come from auth
       modifiedAt: null,
       modifiedBy: null,
-      properties: []
+      properties: [],
+      status: 'New',
+      numberOfUnits: 0,
+      portfolioName: '',
+      projectOwner: 'current.user@proda.ai'
     };
     
     setProjects(prevProjects => [...prevProjects, newProject]);
@@ -88,8 +125,29 @@ export function useProjects() {
     return newProject;
   };
 
+  // Function to update project fields
+  const updateProject = (projectId: string, fields: Partial<Project>) => {
+    setProjects(prevProjects => 
+      prevProjects.map(project => 
+        project.id === projectId ? { ...project, ...fields } : project
+      )
+    );
+    
+    toast({
+      title: "Project Updated",
+      description: `Project has been updated successfully.`,
+    });
+  };
+
+  // Get all users from the database
+  const getDatabaseUsers = () => {
+    return DATABASE_USERS;
+  };
+
   return {
     projects,
     createProject: handleCreateProject,
+    updateProject,
+    getDatabaseUsers,
   };
 }
