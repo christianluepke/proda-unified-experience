@@ -16,13 +16,14 @@ const mockSelectedDatabases = [
   { id: 'db1', name: 'Main Database' }
 ];
 
-type GroupByField = '' | 'portfolioName' | 'assetType' | 'status' | 'createdBy' | 'projectOwner';
+// Modified to use "none" instead of empty string for "No grouping"
+type GroupByField = 'none' | 'portfolioName' | 'assetType' | 'status' | 'createdBy' | 'projectOwner';
 
 const Projects: React.FC = () => {
   const { projects, createProject, updateProject, getDatabaseUsers } = useProjects();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
-  const [groupBy, setGroupBy] = useState<GroupByField>('');
+  const [groupBy, setGroupBy] = useState<GroupByField>('none');
   const databaseUsers = getDatabaseUsers();
 
   const { 
@@ -57,7 +58,7 @@ const Projects: React.FC = () => {
 
   // Function to group projects based on the selected field
   const getGroupedProjects = (projects: Project[], groupBy: GroupByField) => {
-    if (!groupBy) return null;
+    if (groupBy === 'none') return null;
 
     const groups: Record<string, Project[]> = {};
     
@@ -100,7 +101,7 @@ const Projects: React.FC = () => {
                 <SelectValue placeholder="Group by..." />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">No grouping</SelectItem>
+                <SelectItem value="none">No grouping</SelectItem>
                 <SelectItem value="portfolioName">Portfolio</SelectItem>
                 <SelectItem value="assetType">Asset Class</SelectItem>
                 <SelectItem value="status">Status</SelectItem>
