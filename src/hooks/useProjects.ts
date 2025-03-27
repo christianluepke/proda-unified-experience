@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Project, Property } from '@/components/upload/models';
 import { toast } from "@/components/ui/use-toast";
@@ -11,9 +12,9 @@ const generateProperties = (count: number, projectName: string): Property[] => {
       id: `property-${Math.random().toString(36).substr(2, 9)}`,
       name: `${projectName} Property ${i}`,
       streetNo: `${Math.floor(Math.random() * 1000) + 1}`,
-      streetName: ['Main St', 'Oak Ave', 'Maple Rd', 'Broadway', 'Park Ave'][Math.floor(Math.random() * 5)],
-      city: ['New York', 'Chicago', 'Los Angeles', 'San Francisco', 'Miami'][Math.floor(Math.random() * 5)],
-      state: ['NY', 'IL', 'CA', 'CA', 'FL'][Math.floor(Math.random() * 5)],
+      streetName: ['Main St', 'Oak Ave', 'Maple Rd', 'Broadway', 'Park Ave', 'Fifth Ave', 'Ocean Blvd', 'Mountain View', 'Sunset Dr', 'Wilshire Blvd'][Math.floor(Math.random() * 10)],
+      city: ['New York', 'Chicago', 'Los Angeles', 'San Francisco', 'Miami', 'Boston', 'Seattle', 'Austin', 'Denver', 'Portland'][Math.floor(Math.random() * 10)],
+      state: ['NY', 'IL', 'CA', 'CA', 'FL', 'MA', 'WA', 'TX', 'CO', 'OR'][Math.floor(Math.random() * 10)],
       country: 'USA',
       zip: `${Math.floor(Math.random() * 90000) + 10000}`,
       units: Math.floor(Math.random() * 200) + 10,
@@ -32,7 +33,11 @@ const DATABASE_USERS = [
   'admin@proda.ai',
   'alex.johnson@proda.ai',
   'sarah.williams@proda.ai',
-  'mike.brown@proda.ai'
+  'mike.brown@proda.ai',
+  'emma.davis@proda.ai',
+  'david.miller@proda.ai',
+  'olivia.wilson@proda.ai',
+  'james.taylor@proda.ai'
 ];
 
 // Mock portfolios
@@ -42,36 +47,53 @@ const PORTFOLIOS = [
   'European Commercial',
   'Asia Pacific Retail',
   'North America Office',
-  'Global Logistics'
+  'Global Logistics',
+  'West Coast Properties',
+  'East Coast Apartments',
+  'Downtown Retail',
+  'Suburban Office Parks',
+  'Value-Add Opportunities',
+  'Core Properties'
 ];
 
 // Generate sample projects with database field and more realistic data
 const generateSampleProjects = (): Project[] => {
-  const projectTypes = ['Multi-Family', 'Office', 'Retail', 'Industrial', 'Mixed-Use'];
-  const databases = ['PRODA Engineering Team', 'Development DB', 'Main Database'];
+  const projectTypes = ['Multi-Family', 'Office', 'Retail', 'Industrial', 'Mixed-Use', 'Hospitality', 'Senior Living', 'Student Housing', 'Self-Storage', 'Data Center'];
+  const databases = ['PRODA Engineering Team', 'Development DB', 'Main Database', 'Analytics Database', 'Legacy System'];
   const statuses: Project['status'][] = ['New', 'Active', 'Closed', 'Sold', 'Lost'];
   const projects: Project[] = [];
   
-  for (let i = 1; i <= 10; i++) {
+  // Generate more projects (20 instead of 10)
+  for (let i = 1; i <= 20; i++) {
     const assetType = projectTypes[Math.floor(Math.random() * projectTypes.length)];
     const createdAt = new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString();
-    const propertyCount = Math.floor(Math.random() * 3) + 1; // 1-3 properties
-    const id = Math.floor(Math.random() * 500).toString();
+    const propertyCount = Math.floor(Math.random() * 5) + 1; // 1-5 properties
+    const id = Math.floor(Math.random() * 1000).toString();
     const portfolioName = PORTFOLIOS[Math.floor(Math.random() * PORTFOLIOS.length)];
     const projectOwner = DATABASE_USERS[Math.floor(Math.random() * DATABASE_USERS.length)];
     const status = statuses[Math.floor(Math.random() * statuses.length)] as Project['status'];
     
+    // Create more descriptive project names
+    const projectNames = [
+      `${assetType} Portfolio ${i}`,
+      `${['Riverside', 'Downtown', 'Uptown', 'Lakeside', 'Highland'][Math.floor(Math.random() * 5)]} ${assetType}`,
+      `${['Pacific', 'Atlantic', 'Mountain', 'Coastal', 'Central'][Math.floor(Math.random() * 5)]} ${assetType} Fund`,
+      `${['Premier', 'Elite', 'Select', 'Prime', 'Core'][Math.floor(Math.random() * 5)]} ${assetType} Properties`,
+      `${['Alpha', 'Beta', 'Gamma', 'Delta', 'Omega'][Math.floor(Math.random() * 5)]} ${assetType} Acquisition`
+    ];
+    const projectName = projectNames[Math.floor(Math.random() * projectNames.length)];
+    
     // Calculate total number of units across all properties
-    const properties = generateProperties(propertyCount, `Project ${i}`);
+    const properties = generateProperties(propertyCount, projectName);
     const numberOfUnits = properties.reduce((sum, property) => sum + property.units, 0);
     
     projects.push({
       id,
-      name: `Project ${i}`,
-      description: `Sample ${assetType} project with ${propertyCount} properties`,
+      name: projectName,
+      description: `${assetType} project with ${propertyCount} properties and ${numberOfUnits} units`,
       assetType,
       database: databases[Math.floor(Math.random() * databases.length)],
-      address: `${Math.floor(Math.random() * 1000) + 1} ${['Southwark St', 'Main St', 'Oak Ave'][Math.floor(Math.random() * 3)]}, ${['London SE1 0SW', 'New York', 'Chicago'][Math.floor(Math.random() * 3)]}`,
+      address: `${Math.floor(Math.random() * 1000) + 1} ${['Southwark St', 'Main St', 'Oak Ave', 'Broadway', 'Park Ave'][Math.floor(Math.random() * 5)]}, ${['London SE1 0SW', 'New York', 'Chicago', 'Los Angeles', 'San Francisco'][Math.floor(Math.random() * 5)]}`,
       createdAt,
       createdBy: DATABASE_USERS[Math.floor(Math.random() * DATABASE_USERS.length)],
       modifiedAt: Math.random() > 0.3 ? new Date(Date.now() - Math.floor(Math.random() * 5000000000)).toISOString() : null,
