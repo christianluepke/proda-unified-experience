@@ -22,7 +22,7 @@ import FileActionsMenu from './FileActionsMenu';
 import { TableColumn } from './models';
 import { Checkbox } from "@/components/ui/checkbox";
 import MultipleEntityDisplay from './MultipleEntityDisplay';
-import { getFileProperties, getFileProjects, getFilePortfolios } from '@/hooks/files/fileUtils';
+import { getFileProperties, getFileProjects, getFilePortfolios, getFileTypeLabel } from '@/hooks/files/fileUtils';
 
 interface FileRowProps {
   file: UploadedFile;
@@ -106,7 +106,7 @@ const FileRow: React.FC<FileRowProps> = ({
       
       {visibleColumns.find(col => col.id === 'type' && col.visible) && (
         <TableCell>
-          {getFileDocumentTypeLabel(file)}
+          {getFileTypeLabel(file.fileType)}
         </TableCell>
       )}
       

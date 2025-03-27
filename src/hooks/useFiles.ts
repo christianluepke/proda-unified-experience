@@ -10,7 +10,8 @@ import {
   getFileDocumentTypeLabel, 
   getFileProperties, 
   getFileProjects, 
-  getFilePortfolios 
+  getFilePortfolios,
+  getFileTypeLabel
 } from './files/fileUtils';
 
 export { FILE_COLUMNS } from './files/useFilesColumns';
@@ -88,6 +89,7 @@ export function useFiles() {
     deleteFile,
     getFileDocumentTypeLabel,
     getDocumentTypeLabel,
+    getFileTypeLabel,
     formatFileSize,
     getFileProperties,
     getFileProjects,

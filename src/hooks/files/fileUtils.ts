@@ -10,8 +10,26 @@ export const getDocumentTypeLabel = (type: DocumentType): string => {
       return 'Rent Roll';
     case 'operating_statement':
       return 'Operating Statement';
+    case 'budget':
+      return 'Budget';
     default:
       return 'Other';
+  }
+};
+
+/**
+ * Gets the file type display label
+ */
+export const getFileTypeLabel = (fileType: string): string => {
+  switch (fileType) {
+    case 'pdf':
+      return 'PDF';
+    case 'excel':
+      return 'Excel';
+    case 'csv':
+      return 'CSV';
+    default:
+      return fileType.toUpperCase();
   }
 };
 
