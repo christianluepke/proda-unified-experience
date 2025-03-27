@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Project, Property } from '@/components/upload/models';
 import { toast } from "@/components/ui/use-toast";
@@ -60,7 +59,7 @@ const generateSampleProjects = (): Project[] => {
     const id = Math.floor(Math.random() * 500).toString();
     const portfolioName = PORTFOLIOS[Math.floor(Math.random() * PORTFOLIOS.length)];
     const projectOwner = DATABASE_USERS[Math.floor(Math.random() * DATABASE_USERS.length)];
-    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    const status = statuses[Math.floor(Math.random() * statuses.length)] as Project['status'];
     
     // Calculate total number of units across all properties
     const properties = generateProperties(propertyCount, `Project ${i}`);
