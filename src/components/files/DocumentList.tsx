@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Document } from './models';
 import { format } from 'date-fns';
@@ -18,7 +19,8 @@ import {
   FileCheck,
   FileClock,
   Clock,
-  User
+  User,
+  Pencil
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { 
@@ -111,6 +113,10 @@ const DocumentList: React.FC<DocumentListProps> = ({ documents }) => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
+                    <DropdownMenuItem className="flex items-center">
+                      <Pencil className="mr-2 h-4 w-4" />
+                      Edit Document
+                    </DropdownMenuItem>
                     <DropdownMenuItem className="flex items-center">
                       <ExternalLink className="mr-2 h-4 w-4" />
                       View Details
