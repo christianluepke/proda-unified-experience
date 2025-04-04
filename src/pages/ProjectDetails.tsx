@@ -37,6 +37,7 @@ const ProjectDetails = () => {
           status: 'Active',
           numberOfUnits: 77,
           projectOwner: 'john.smith@proda.ai',
+          address: '123 Market St, San Francisco, CA 94105',
           properties: [
             {
               id: 'property-sf1',
