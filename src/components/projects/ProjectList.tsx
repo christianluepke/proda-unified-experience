@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from '@/components/ui/button';
-import { Upload, ExternalLink, Check, ChevronDown, Edit } from 'lucide-react';
+import { Upload, ExternalLink, Check, ChevronDown, Edit, Eye } from 'lucide-react';
 import { Project } from '@/components/upload/models';
 import { formatDistanceToNow } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -35,6 +36,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
   updateProject,
   databaseUsers = []
 }) => {
+  const navigate = useNavigate();
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
   const [editingUnits, setEditingUnits] = useState<number>(0);
   
@@ -60,6 +62,10 @@ const ProjectList: React.FC<ProjectListProps> = ({
     if (updateProject) {
       updateProject(projectId, { projectOwner: owner });
     }
+  };
+
+  const viewProject = (projectId: string) => {
+    navigate(`/projects/${projectId}`);
   };
   
   return (
@@ -162,7 +168,17 @@ const ProjectList: React.FC<ProjectListProps> = ({
                     variant="ghost" 
                     size="icon"
                     className="h-7 w-7"
+                    onClick={() => viewProject(project.id)}
+                    title="View project details"
+                  >
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
+                    className="h-7 w-7"
                     onClick={() => onSelectUpload(project.id)}
+                    title="Upload files"
                   >
                     <Upload className="h-4 w-4" /> 
                   </Button>
@@ -170,6 +186,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
                     variant="ghost" 
                     size="icon"
                     className="h-7 w-7"
+                    title="View in Dashboard"
                   >
                     <ExternalLink className="h-4 w-4" />
                   </Button>

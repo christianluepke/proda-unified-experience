@@ -2,8 +2,9 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, FileText, FileSpreadsheet, Upload } from 'lucide-react';
+import { ArrowRight, FileText, FileSpreadsheet, Upload, Eye } from 'lucide-react';
 import { Project } from '@/components/upload/models';
+import { useNavigate } from 'react-router-dom';
 
 interface ProjectCardProps {
   project: Project;
@@ -11,6 +12,12 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, onSelectUpload }) => {
+  const navigate = useNavigate();
+
+  const viewProject = () => {
+    navigate(`/projects/${project.id}`);
+  };
+
   return (
     <Card className="overflow-hidden">
       <CardHeader className="pb-2">
@@ -32,16 +39,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onSelectUpload }) =>
         </div>
       </CardContent>
       <CardFooter className="flex justify-between pt-3 border-t">
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => onSelectUpload(project.id)}
-        >
-          <Upload className="mr-2 h-3 w-3" /> 
-          Upload
-        </Button>
-        <Button variant="ghost" size="sm">
-          View Details <ArrowRight className="ml-1 h-3 w-3" />
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => onSelectUpload(project.id)}
+          >
+            <Upload className="mr-2 h-3 w-3" /> 
+            Upload
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={viewProject}
+          >
+            <Eye className="mr-2 h-3 w-3" /> 
+            View
+          </Button>
+        </div>
+        <Button variant="ghost" size="sm" onClick={viewProject}>
+          Details <ArrowRight className="ml-1 h-3 w-3" />
         </Button>
       </CardFooter>
     </Card>
