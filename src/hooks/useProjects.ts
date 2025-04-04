@@ -58,7 +58,20 @@ const PORTFOLIOS = [
 
 // Generate sample projects with database field and more realistic data
 const generateSampleProjects = (): Project[] => {
-  const projectTypes = ['Multi-Family', 'Office', 'Retail', 'Industrial', 'Mixed-Use', 'Hospitality', 'Senior Living', 'Student Housing', 'Self-Storage', 'Data Center'];
+  // Adjust project type distribution - more Multi-Family, fewer Hospitality
+  const projectTypes = [
+    'Multi-Family', 'Multi-Family', 'Multi-Family', 'Multi-Family', 'Multi-Family', // 5 occurrences (25%)
+    'Office', 'Office', 'Office', // 3 occurrences (15%)
+    'Retail', 'Retail', 'Retail', // 3 occurrences (15%)
+    'Industrial', 'Industrial', // 2 occurrences (10%)
+    'Mixed-Use', 'Mixed-Use', // 2 occurrences (10%)
+    'Hospitality', // 1 occurrence (5%) - reduced from before
+    'Senior Living', 
+    'Student Housing', 
+    'Self-Storage', 
+    'Data Center'
+  ];
+  
   const databases = ['PRODA Engineering Team', 'Development DB', 'Main Database', 'Analytics Database', 'Legacy System'];
   const statuses: Project['status'][] = ['New', 'Active', 'Closed', 'Sold', 'Lost'];
   const projects: Project[] = [];

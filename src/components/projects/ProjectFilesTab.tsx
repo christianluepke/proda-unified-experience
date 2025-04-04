@@ -19,6 +19,7 @@ import FileDropzone from '@/components/upload/FileDropzone';
 import { useFileUpload } from '@/hooks/useFileUpload';
 import { toast } from "@/components/ui/use-toast";
 import { PROJECT_FILES_MOCK_DATA } from '@/hooks/files/mockData/projectFilesMockData';
+import { GENERIC_PROJECT_FILES } from '@/hooks/files/mockData/genericProjectFilesMockData';
 
 interface ProjectFilesTabProps {
   projectId: string;
@@ -46,12 +47,39 @@ const ProjectFilesTab: React.FC<ProjectFilesTabProps> = ({ projectId }) => {
       // Use the predefined project files for this specific project ID
       setProjectFiles(PROJECT_FILES_MOCK_DATA);
     } else {
-      // For other projects, filter from all files
-      const filesForProject = allFiles.filter(file => 
+      // For other projects, use a mix of specific files and generic files
+      
+      // Get some filtered files from allFiles (if any match)
+      const filteredFiles = allFiles.filter(file => 
         file.project?.id === projectId || 
         file.documents.some(doc => doc.project?.id === projectId)
       );
-      setProjectFiles(filesForProject);
+      
+      // Get some random generic files for this project
+      const randomIndex = parseInt(projectId) % GENERIC_PROJECT_FILES.length;
+      const count = 2 + (parseInt(projectId) % 4); // 2-5 files per project
+      
+      // Get random generic files and assign them to this project
+      const genericFiles = [...GENERIC_PROJECT_FILES]
+        .slice(randomIndex, randomIndex + count)
+        .map(file => ({
+          ...file,
+          id: `${file.id}-${projectId}`, // Make ID unique per project
+          project: {
+            id: projectId,
+            name: `Project ${projectId}`
+          },
+          documents: file.documents.map(doc => ({
+            ...doc,
+            id: `${doc.id}-${projectId}`, // Make doc ID unique per project
+            project: {
+              id: projectId,
+              name: `Project ${projectId}`
+            }
+          }))
+        }));
+      
+      setProjectFiles([...filteredFiles, ...genericFiles]);
     }
   }, [allFiles, projectId]);
 
