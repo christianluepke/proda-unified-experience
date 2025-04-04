@@ -48,3 +48,34 @@ export interface UploadStatusResponse {
   nextStep?: string;
   extractionId?: string;
 }
+
+// Add PropertyData interface for property form data
+export interface PropertyData {
+  name?: string;
+  streetNo?: string;
+  streetName?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  zip?: string;
+  units?: number;
+  sqft?: number;
+}
+
+// Add UploadedFile interface for file upload state
+export interface UploadedFile {
+  file: File;
+  projectId?: string | null;
+  fileType: 'rent_roll' | 'operating_statement' | 'budget' | 'other' | null;
+  progress: number;
+  status: 'pending' | 'uploading' | 'success' | 'error';
+}
+
+// Add FileType interface for file type selection
+export interface FileType {
+  id: string;
+  value: string;
+  name: string;
+  label?: string;
+}
