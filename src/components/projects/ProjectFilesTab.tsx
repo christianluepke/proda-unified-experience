@@ -18,6 +18,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import FileDropzone from '@/components/upload/FileDropzone';
 import { useFileUpload } from '@/hooks/useFileUpload';
 import { toast } from "@/components/ui/use-toast";
+import { PROJECT_FILES_MOCK_DATA } from '@/hooks/files/mockData/projectFilesMockData';
 
 interface ProjectFilesTabProps {
   projectId: string;
@@ -40,11 +41,18 @@ const ProjectFilesTab: React.FC<ProjectFilesTabProps> = ({ projectId }) => {
 
   // Filter files associated with this project
   useEffect(() => {
-    const filesForProject = allFiles.filter(file => 
-      file.project?.id === projectId || 
-      file.documents.some(doc => doc.project?.id === projectId)
-    );
-    setProjectFiles(filesForProject);
+    // Check if we're using the mock project ID from the screenshot
+    if (projectId === '313') {
+      // Use the predefined project files for this specific project ID
+      setProjectFiles(PROJECT_FILES_MOCK_DATA);
+    } else {
+      // For other projects, filter from all files
+      const filesForProject = allFiles.filter(file => 
+        file.project?.id === projectId || 
+        file.documents.some(doc => doc.project?.id === projectId)
+      );
+      setProjectFiles(filesForProject);
+    }
   }, [allFiles, projectId]);
 
   const toggleFileExpand = (fileId: string) => {
@@ -96,6 +104,34 @@ const ProjectFilesTab: React.FC<ProjectFilesTabProps> = ({ projectId }) => {
     });
   };
 
+  // Helper function to get file icon
+  const getFileIcon = (fileType: string) => {
+    if (fileType === 'excel') {
+      return <FileSpreadsheet className="h-5 w-5 text-green-600" />;
+    } else if (fileType === 'pdf') {
+      return <FileText className="h-5 w-5 text-red-500" />;
+    } else {
+      return <FileText className="h-5 w-5 text-blue-500" />;
+    }
+  };
+
+  // Helper function to render the status badge
+  const renderStatusBadge = (status: string) => {
+    if (status === 'complete') {
+      return (
+        <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+          Completed
+        </Badge>
+      );
+    } else {
+      return (
+        <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
+          Draft
+        </Badge>
+      );
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -106,7 +142,7 @@ const ProjectFilesTab: React.FC<ProjectFilesTabProps> = ({ projectId }) => {
         
         <Dialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="flex items-center gap-2">
+            <Button className="flex items-center gap-2 bg-primary">
               <Upload className="h-4 w-4" />
               Upload File
             </Button>
@@ -208,17 +244,13 @@ const ProjectFilesTab: React.FC<ProjectFilesTabProps> = ({ projectId }) => {
                               )}
                             </Button>
                           )}
-                          {file.fileType === 'excel' ? (
-                            <FileSpreadsheet className="h-5 w-5 text-green-600" />
-                          ) : (
-                            <FileText className="h-5 w-5 text-blue-500" />
-                          )}
+                          {getFileIcon(file.fileType)}
                           <span className="font-medium">{file.name}</span>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline">
-                          {getFileTypeLabel(file.fileType)}
+                        <Badge variant="outline" className={file.fileType === 'excel' ? 'bg-green-50 text-green-800 border-green-200' : 'bg-red-50 text-red-800 border-red-200'}>
+                          {file.fileType === 'excel' ? 'Excel' : 'PDF'}
                         </Badge>
                       </TableCell>
                       <TableCell>
@@ -231,9 +263,7 @@ const ProjectFilesTab: React.FC<ProjectFilesTabProps> = ({ projectId }) => {
                         {format(new Date(file.uploadDate), 'dd/MM/yyyy')}
                       </TableCell>
                       <TableCell>
-                        <Badge className={file.status === 'complete' ? 'bg-green-100 text-green-800 hover:bg-green-100' : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100'}>
-                          {file.status === 'complete' ? 'Completed' : 'Draft'}
-                        </Badge>
+                        {renderStatusBadge(file.status)}
                       </TableCell>
                       <TableCell>
                         <div className="flex justify-end">

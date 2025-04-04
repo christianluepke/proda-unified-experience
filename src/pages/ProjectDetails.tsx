@@ -19,13 +19,49 @@ const ProjectDetails = () => {
   const [project, setProject] = useState<Project | null>(null);
 
   useEffect(() => {
-    if (projectId && projects.length > 0) {
-      const foundProject = projects.find(p => p.id === projectId);
-      if (foundProject) {
-        setProject(foundProject);
-      } else {
-        // Project not found, redirect to projects list
-        navigate('/projects');
+    if (projectId) {
+      // Handle special case for demo purpose
+      if (projectId === '313') {
+        // Create a mock project for the SF Office Portfolio
+        const mockProject: Project = {
+          id: '313',
+          name: 'SF Office Portfolio',
+          description: 'Commercial real estate portfolio in San Francisco',
+          createdAt: '2023-01-15T10:00:00Z',
+          createdBy: 'John Smith',
+          assetType: 'Office',
+          portfolioName: 'West Coast Commercial',
+          address: '123 Market St, San Francisco, CA',
+          properties: [
+            {
+              id: 'property-sf1',
+              name: 'SF Financial District Tower',
+              address: '123 Market St, San Francisco, CA',
+              sqft: 120000,
+              units: 45,
+              yearBuilt: 2005,
+              assetType: 'Office'
+            },
+            {
+              id: 'property-sf2',
+              name: 'SOMA Office Building',
+              address: '456 Howard St, San Francisco, CA',
+              sqft: 85000,
+              units: 32,
+              yearBuilt: 1998,
+              assetType: 'Office'
+            }
+          ]
+        };
+        setProject(mockProject);
+      } else if (projects.length > 0) {
+        const foundProject = projects.find(p => p.id === projectId);
+        if (foundProject) {
+          setProject(foundProject);
+        } else {
+          // Project not found, redirect to projects list
+          navigate('/projects');
+        }
       }
     }
   }, [projectId, projects, navigate]);
