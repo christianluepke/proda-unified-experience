@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from '@/components/ui/button';
-import { Upload, ExternalLink, Check, ChevronDown, Edit, Eye } from 'lucide-react';
+import { Upload, ExternalLink, Check, ChevronDown, Edit } from 'lucide-react';
 import { Project } from '@/components/upload/models';
 import { formatDistanceToNow } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
@@ -168,15 +168,6 @@ const ProjectList: React.FC<ProjectListProps> = ({
                     variant="ghost" 
                     size="icon"
                     className="h-7 w-7"
-                    onClick={() => viewProject(project.id)}
-                    title="View project details"
-                  >
-                    <Eye className="h-4 w-4" />
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="icon"
-                    className="h-7 w-7"
                     onClick={() => onSelectUpload(project.id)}
                     title="Upload files"
                   >
@@ -186,7 +177,8 @@ const ProjectList: React.FC<ProjectListProps> = ({
                     variant="ghost" 
                     size="icon"
                     className="h-7 w-7"
-                    title="View in Dashboard"
+                    onClick={() => viewProject(project.id)}
+                    title="View project details"
                   >
                     <ExternalLink className="h-4 w-4" />
                   </Button>
