@@ -57,7 +57,7 @@ const ProjectFilesTab: React.FC<ProjectFilesTabProps> = ({ projectId }) => {
       
       // Get some random generic files for this project
       const randomIndex = parseInt(projectId) % GENERIC_PROJECT_FILES.length;
-      const count = 2 + (parseInt(projectId) % 4); // 2-5 files per project
+      const count = 5 + (parseInt(projectId) % 6); // 5-10 files per project (increased from 2-5)
       
       // Get random generic files and assign them to this project
       const genericFiles = [...GENERIC_PROJECT_FILES]
@@ -250,7 +250,7 @@ const ProjectFilesTab: React.FC<ProjectFilesTabProps> = ({ projectId }) => {
             <TableBody>
               {projectFiles.map((file) => {
                 const isExpanded = expandedFiles.has(file.id);
-                const hasDocuments = file.documents.length > 0;
+                const hasDocuments = true; // Ensure all files have expandable rows
                 
                 return (
                   <React.Fragment key={file.id}>
@@ -258,20 +258,18 @@ const ProjectFilesTab: React.FC<ProjectFilesTabProps> = ({ projectId }) => {
                     <TableRow className="hover:bg-muted/50">
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          {hasDocuments && (
-                            <Button 
-                              variant="ghost" 
-                              size="icon" 
-                              className="h-6 w-6 p-0"
-                              onClick={() => toggleFileExpand(file.id)}
-                            >
-                              {isExpanded ? (
-                                <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                              ) : (
-                                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                              )}
-                            </Button>
-                          )}
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-6 w-6 p-0"
+                            onClick={() => toggleFileExpand(file.id)}
+                          >
+                            {isExpanded ? (
+                              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                            ) : (
+                              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                            )}
+                          </Button>
                           {getFileIcon(file.fileType)}
                           <span className="font-medium">{file.name}</span>
                         </div>
@@ -327,7 +325,7 @@ const ProjectFilesTab: React.FC<ProjectFilesTabProps> = ({ projectId }) => {
                     </TableRow>
 
                     {/* Expanded document rows */}
-                    {isExpanded && hasDocuments && (
+                    {isExpanded && (
                       <TableRow className="bg-muted/10 hover:bg-muted/20">
                         <TableCell colSpan={7} className="p-0">
                           <div className="pl-10 pr-4 py-2">
@@ -343,39 +341,106 @@ const ProjectFilesTab: React.FC<ProjectFilesTabProps> = ({ projectId }) => {
                                 </TableRow>
                               </TableHeader>
                               <TableBody>
-                                {file.documents.map((document: Document) => (
-                                  <TableRow key={document.id} className="hover:bg-muted/20">
-                                    <TableCell className="font-medium">{document.name}</TableCell>
+                                {file.documents.length > 0 ? (
+                                  file.documents.map((document: Document) => (
+                                    <TableRow key={document.id} className="hover:bg-muted/20">
+                                      <TableCell className="font-medium">{document.name}</TableCell>
+                                      <TableCell>
+                                        <Badge variant="outline" className={
+                                          document.type === 'rent_roll' 
+                                            ? 'bg-blue-50 text-blue-800 border-blue-200' 
+                                            : document.type === 'operating_statement'
+                                              ? 'bg-purple-50 text-purple-800 border-purple-200'
+                                              : 'bg-gray-50 text-gray-800 border-gray-200'
+                                        }>
+                                          {document.type === 'rent_roll' 
+                                            ? 'Rent Roll' 
+                                            : document.type === 'operating_statement' 
+                                              ? 'Operating Statement'
+                                              : document.type === 'budget'
+                                                ? 'Budget'
+                                                : 'Other'}
+                                        </Badge>
+                                      </TableCell>
+                                      <TableCell>
+                                        {format(new Date(document.createdAt), 'dd/MM/yyyy')}
+                                      </TableCell>
+                                      <TableCell>
+                                        {format(new Date(document.updatedAt), 'dd/MM/yyyy')}
+                                      </TableCell>
+                                      {document.type === 'rent_roll' ? (
+                                        <TableCell colSpan={2}>
+                                          <div className="flex items-center gap-2">
+                                            <span className="text-sm text-muted-foreground">Rent Roll Date:</span>
+                                            <Badge variant="outline" className="text-xs">
+                                              {format(new Date(document.createdAt), 'MMM yyyy')}
+                                            </Badge>
+                                          </div>
+                                        </TableCell>
+                                      ) : (
+                                        <TableCell colSpan={2}>
+                                          <div className="flex items-center gap-2">
+                                            <span className="text-sm text-muted-foreground">Property:</span>
+                                            <Badge variant="outline" className="text-xs">
+                                              {document.property?.name || "Not assigned"}
+                                            </Badge>
+                                          </div>
+                                        </TableCell>
+                                      )}
+                                      <TableCell className="text-right">
+                                        <DropdownMenu>
+                                          <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" size="icon" className="h-7 w-7">
+                                              <svg width="15" height="3" viewBox="0 0 15 3" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-3 w-3">
+                                                <path d="M1.5 1.5C1.5 1.89782 1.65804 2.27936 1.93934 2.56066C2.22064 2.84196 2.60218 3 3 3C3.39782 3 3.77936 2.84196 4.06066 2.56066C4.34196 2.27936 4.5 1.89782 4.5 1.5C4.5 1.10218 4.34196 0.720644 4.06066 0.43934C3.77936 0.158035 3.39782 0 3 0C2.60218 0 2.22064 0.158035 1.93934 0.43934C1.65804 0.720644 1.5 1.10218 1.5 1.5ZM7.5 1.5C7.5 1.89782 7.65804 2.27936 7.93934 2.56066C8.22064 2.84196 8.60218 3 9 3C9.39782 3 9.77936 2.84196 10.0607 2.56066C10.342 2.27936 10.5 1.89782 10.5 1.5C10.5 1.10218 10.342 0.720644 10.0607 0.43934C9.77936 0.158035 9.39782 0 9 0C8.60218 0 8.22064 0.158035 7.93934 0.43934C7.65804 0.720644 7.5 1.10218 7.5 1.5ZM13.5 1.5C13.5 1.89782 13.658 2.27936 13.9393 2.56066C14.2206 2.84196 14.6022 3 15 3C15.3978 3 15.7794 2.84196 16.0607 2.56066C16.342 2.27936 16.5 1.89782 16.5 1.5C16.5 1.10218 16.342 0.720644 16.0607 0.43934C15.7794 0.158035 15.3978 0 15 0C14.6022 0 14.2206 0.158035 13.9393 0.43934C13.658 0.720644 13.5 1.10218 13.5 1.5Z" fill="currentColor"/>
+                                              </svg>
+                                            </Button>
+                                          </DropdownMenuTrigger>
+                                          <DropdownMenuContent align="end">
+                                            <DropdownMenuItem className="flex items-center">
+                                              <FileText className="mr-2 h-4 w-4" />
+                                              View Details
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem className="flex items-center">
+                                              <Download className="mr-2 h-4 w-4" />
+                                              Download Data
+                                            </DropdownMenuItem>
+                                          </DropdownMenuContent>
+                                        </DropdownMenu>
+                                      </TableCell>
+                                    </TableRow>
+                                  ))
+                                ) : (
+                                  // If no documents exist (fallback), create a generic one
+                                  <TableRow className="hover:bg-muted/20">
+                                    <TableCell className="font-medium">{file.name.replace('.xlsx', '').replace('.pdf', '')}</TableCell>
                                     <TableCell>
-                                      <Badge variant="outline">
-                                        {getDocumentTypeLabel(document.type)}
+                                      <Badge variant="outline" className={
+                                        file.name.toLowerCase().includes('rent') 
+                                          ? 'bg-blue-50 text-blue-800 border-blue-200' 
+                                          : 'bg-purple-50 text-purple-800 border-purple-200'
+                                      }>
+                                        {file.name.toLowerCase().includes('rent') ? 'Rent Roll' : 'Operating Statement'}
                                       </Badge>
                                     </TableCell>
                                     <TableCell>
-                                      {format(new Date(document.createdAt), 'dd/MM/yyyy')}
+                                      {format(new Date(file.uploadDate), 'dd/MM/yyyy')}
                                     </TableCell>
                                     <TableCell>
-                                      {format(new Date(document.updatedAt), 'dd/MM/yyyy')}
+                                      {format(new Date(file.uploadDate), 'dd/MM/yyyy')}
                                     </TableCell>
-                                    {document.type === 'rent_roll' ? (
-                                      <TableCell colSpan={2}>
-                                        <div className="flex items-center gap-2">
-                                          <span className="text-sm text-muted-foreground">Rent Roll Date:</span>
-                                          <Badge variant="outline" className="text-xs">
-                                            {format(new Date(document.createdAt), 'MMM yyyy')}
-                                          </Badge>
-                                        </div>
-                                      </TableCell>
-                                    ) : (
-                                      <TableCell colSpan={2}>
-                                        <div className="flex items-center gap-2">
-                                          <span className="text-sm text-muted-foreground">Property:</span>
-                                          <Badge variant="outline" className="text-xs">
-                                            {document.property?.name || "Not assigned"}
-                                          </Badge>
-                                        </div>
-                                      </TableCell>
-                                    )}
+                                    <TableCell colSpan={2}>
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-sm text-muted-foreground">
+                                          {file.name.toLowerCase().includes('rent') ? 'Rent Roll Date:' : 'Property:'}
+                                        </span>
+                                        <Badge variant="outline" className="text-xs">
+                                          {file.name.toLowerCase().includes('rent') 
+                                            ? format(new Date(file.uploadDate), 'MMM yyyy')
+                                            : 'Not assigned'}
+                                        </Badge>
+                                      </div>
+                                    </TableCell>
                                     <TableCell className="text-right">
                                       <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
@@ -398,7 +463,7 @@ const ProjectFilesTab: React.FC<ProjectFilesTabProps> = ({ projectId }) => {
                                       </DropdownMenu>
                                     </TableCell>
                                   </TableRow>
-                                ))}
+                                )}
                               </TableBody>
                             </Table>
                           </div>

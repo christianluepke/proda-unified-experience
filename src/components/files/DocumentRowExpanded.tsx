@@ -4,6 +4,7 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { Document } from './models';
 import DocumentList from './DocumentList';
 import { TableColumn } from './models';
+import { Badge } from '@/components/ui/badge';
 
 interface DocumentRowExpandedProps {
   isExpanded: boolean;

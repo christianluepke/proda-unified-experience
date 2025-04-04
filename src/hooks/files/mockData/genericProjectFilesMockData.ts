@@ -12,10 +12,18 @@ const FILE_NAMES = [
   'Valuation Report.pdf',
   'Due Diligence Summary.pdf',
   'Capital Expenditure Plan.xlsx',
-  'Income Statement.xlsx'
+  'Income Statement.xlsx',
+  'Operating Expenses.pdf',
+  'Tenant Directory.xlsx',
+  'Property Tax Statement.pdf',
+  'Maintenance Reports.xlsx',
+  'Property Insurance Policy.pdf',
+  'Environmental Assessment.pdf',
+  'Management Agreement.pdf',
+  'Building Permits.pdf'
 ];
 
-// Common document types
+// Document types with proper labeling
 const DOCUMENT_TYPES: Array<'rent_roll' | 'operating_statement' | 'budget' | 'other'> = [
   'rent_roll',
   'operating_statement',
@@ -30,7 +38,11 @@ const UPLOADER_NAMES = [
   'Michael Brown',
   'Emma Davis',
   'David Wilson',
-  'Lisa Martinez'
+  'Lisa Martinez',
+  'Robert Taylor',
+  'Jennifer Garcia',
+  'William Anderson',
+  'Elizabeth Thomas'
 ];
 
 // Generate generic files that can be assigned to any project
@@ -41,7 +53,21 @@ export const generateGenericFiles = (count: number): UploadedFile[] => {
     const isExcel = Math.random() > 0.5;
     const randomFileName = FILE_NAMES[Math.floor(Math.random() * FILE_NAMES.length)];
     const randomUploader = UPLOADER_NAMES[Math.floor(Math.random() * UPLOADER_NAMES.length)];
-    const randomDocType = DOCUMENT_TYPES[Math.floor(Math.random() * DOCUMENT_TYPES.length)];
+    
+    // Choose document type based on filename for more realistic matching
+    let randomDocType: 'rent_roll' | 'operating_statement' | 'budget' | 'other';
+    if (randomFileName.toLowerCase().includes('rent') || randomFileName.toLowerCase().includes('tenant')) {
+      randomDocType = 'rent_roll';
+    } else if (randomFileName.toLowerCase().includes('financial') || 
+              randomFileName.toLowerCase().includes('income') || 
+              randomFileName.toLowerCase().includes('operating')) {
+      randomDocType = 'operating_statement';
+    } else if (randomFileName.toLowerCase().includes('budget')) {
+      randomDocType = 'budget';
+    } else {
+      randomDocType = 'other';
+    }
+    
     const randomDate = new Date(Date.now() - Math.floor(Math.random() * 31536000000)).toISOString(); // Within last year
     
     const file: UploadedFile = {
@@ -50,11 +76,11 @@ export const generateGenericFiles = (count: number): UploadedFile[] => {
       fileType: isExcel ? 'excel' : 'pdf',
       uploadDate: randomDate,
       uploader: {
-        id: `user-${i % 6 + 1}`,
+        id: `user-${i % 10 + 1}`,
         name: randomUploader,
       },
       size: Math.floor(Math.random() * 5000000) + 500000, // Random size between 500KB and 5MB
-      documents: Math.random() > 0.3 ? [ // 70% chance to have a document
+      documents: [ // Always include a document for each file
         {
           id: `generic-doc-${i}`,
           name: randomFileName.replace('.xlsx', '').replace('.pdf', ''),
@@ -62,16 +88,20 @@ export const generateGenericFiles = (count: number): UploadedFile[] => {
           createdAt: randomDate,
           updatedAt: new Date(Date.now() - Math.floor(Math.random() * 15768000000)).toISOString(), // Within last 6 months
           creator: {
-            id: `user-${i % 6 + 1}`,
+            id: `user-${i % 10 + 1}`,
             name: randomUploader,
           },
           lastUpdatedBy: {
-            id: `user-${i % 6 + 1}`,
+            id: `user-${i % 10 + 1}`,
             name: randomUploader,
           },
           status: Math.random() > 0.2 ? 'complete' : 'draft',
+          property: Math.random() > 0.5 ? {
+            id: `property-${i % 5}`,
+            name: `Property ${i % 5 + 1}`
+          } : undefined
         }
-      ] : [],
+      ],
       status: Math.random() > 0.2 ? 'complete' : 'draft',
     };
     
@@ -81,5 +111,5 @@ export const generateGenericFiles = (count: number): UploadedFile[] => {
   return files;
 };
 
-// Generate 20 generic files
-export const GENERIC_PROJECT_FILES = generateGenericFiles(20);
+// Generate 30 generic files (increased from 20)
+export const GENERIC_PROJECT_FILES = generateGenericFiles(30);

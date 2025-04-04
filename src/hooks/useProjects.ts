@@ -60,16 +60,15 @@ const PORTFOLIOS = [
 const generateSampleProjects = (): Project[] => {
   // Adjust project type distribution - more Multi-Family, fewer Hospitality
   const projectTypes = [
-    'Multi-Family', 'Multi-Family', 'Multi-Family', 'Multi-Family', 'Multi-Family', // 5 occurrences (25%)
+    'Multi-Family', 'Multi-Family', 'Multi-Family', 'Multi-Family', 'Multi-Family', 
+    'Multi-Family', 'Multi-Family', 'Multi-Family', // 8 occurrences (40%)
     'Office', 'Office', 'Office', // 3 occurrences (15%)
     'Retail', 'Retail', 'Retail', // 3 occurrences (15%)
     'Industrial', 'Industrial', // 2 occurrences (10%)
     'Mixed-Use', 'Mixed-Use', // 2 occurrences (10%)
     'Hospitality', // 1 occurrence (5%) - reduced from before
     'Senior Living', 
-    'Student Housing', 
-    'Self-Storage', 
-    'Data Center'
+    'Student Housing'
   ];
   
   const databases = ['PRODA Engineering Team', 'Development DB', 'Main Database', 'Analytics Database', 'Legacy System'];
