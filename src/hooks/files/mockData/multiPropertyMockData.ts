@@ -5,7 +5,7 @@ import { UploadedFile } from '../types';
 export const MULTI_PROPERTY_FILES: UploadedFile[] = [
   {
     id: 'file-4',
-    name: 'Multi-Property-Analysis.xlsx',
+    name: 'Multi-Property Rent Rolls.xlsx',
     fileType: 'excel',
     uploadDate: '2023-06-10T16:45:00Z',
     uploader: {
@@ -115,7 +115,7 @@ export const MULTI_PROPERTY_FILES: UploadedFile[] = [
   },
   {
     id: 'file-5',
-    name: 'Draft-Import-Test.pdf',
+    name: 'Mountain View Operating Statement Draft.pdf',
     fileType: 'pdf',
     uploadDate: '2023-07-01T08:30:00Z',
     uploader: {
@@ -169,7 +169,7 @@ export const MULTI_PROPERTY_FILES: UploadedFile[] = [
   },
   {
     id: 'file-13',
-    name: 'Portfolio-Wide-Analysis.xlsx',
+    name: 'Portfolio-Wide Rent Rolls.xlsx',
     fileType: 'excel',
     uploadDate: '2023-11-05T09:15:00Z',
     uploader: {
@@ -276,7 +276,7 @@ export const MULTI_PROPERTY_FILES: UploadedFile[] = [
   },
   {
     id: 'file-16',
-    name: 'Mixed-Metro-Properties.pdf',
+    name: 'Metro Properties Operating Statements.pdf',
     fileType: 'pdf',
     uploadDate: '2023-12-20T09:30:00Z',
     uploader: {

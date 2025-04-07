@@ -5,7 +5,7 @@ import { UploadedFile } from '../types';
 export const PORTFOLIO_FILES: UploadedFile[] = [
   {
     id: 'file-8',
-    name: 'Sunset-Gardens-OperationalData.pdf',
+    name: 'Sunset Gardens Operating Statement.pdf',
     fileType: 'pdf',
     uploadDate: '2023-08-20T09:45:00Z',
     uploader: {
@@ -59,7 +59,7 @@ export const PORTFOLIO_FILES: UploadedFile[] = [
   },
   {
     id: 'file-14',
-    name: 'Woodland-Terrace-Report.pdf',
+    name: 'Woodland Terrace Operating Statement.pdf',
     fileType: 'pdf',
     uploadDate: '2023-11-20T11:30:00Z',
     uploader: {

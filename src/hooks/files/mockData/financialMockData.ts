@@ -5,7 +5,7 @@ import { UploadedFile } from '../types';
 export const FINANCIAL_FILES: UploadedFile[] = [
   {
     id: 'file-1',
-    name: 'Q1-2023-Financials.pdf',
+    name: 'Q1-2023 Operating Statement.pdf',
     fileType: 'pdf',
     uploadDate: '2023-03-15T10:30:00Z',
     uploader: {
@@ -59,7 +59,7 @@ export const FINANCIAL_FILES: UploadedFile[] = [
   },
   {
     id: 'file-10',
-    name: 'Meadowbrook-Estate-Report.pdf',
+    name: 'Meadowbrook Estate Operating Statement.pdf',
     fileType: 'pdf',
     uploadDate: '2023-09-25T12:15:00Z',
     uploader: {
@@ -113,7 +113,7 @@ export const FINANCIAL_FILES: UploadedFile[] = [
   },
   {
     id: 'file-12',
-    name: 'Parkview-Gardens-Data.pdf',
+    name: 'Parkview Gardens Operating Statement Q4.pdf',
     fileType: 'pdf',
     uploadDate: '2023-10-18T14:30:00Z',
     uploader: {

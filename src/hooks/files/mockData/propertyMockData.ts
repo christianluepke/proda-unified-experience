@@ -5,7 +5,7 @@ import { UploadedFile } from '../types';
 export const PROPERTY_FILES: UploadedFile[] = [
   {
     id: 'file-3',
-    name: 'Highland-Property-Data.pdf',
+    name: 'Highland Towers Rent Roll.pdf',
     fileType: 'pdf',
     uploadDate: '2023-05-20T09:15:00Z',
     uploader: {
@@ -59,7 +59,7 @@ export const PROPERTY_FILES: UploadedFile[] = [
   },
   {
     id: 'file-6',
-    name: 'Oakview-Property-Analysis.pdf',
+    name: 'Oakview Apartments Operating Statement.pdf',
     fileType: 'pdf',
     uploadDate: '2023-07-15T14:20:00Z',
     uploader: {
@@ -113,7 +113,7 @@ export const PROPERTY_FILES: UploadedFile[] = [
   },
   {
     id: 'file-15',
-    name: 'Hillcrest-Apartments-Data.xlsx',
+    name: 'Hillcrest Apartments Rent Roll.xlsx',
     fileType: 'excel',
     uploadDate: '2023-12-10T13:45:00Z',
     uploader: {

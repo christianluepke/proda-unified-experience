@@ -5,7 +5,7 @@ import { UploadedFile } from '../types';
 export const PROJECT_FILES_MOCK_DATA: UploadedFile[] = [
   {
     id: 'file-101',
-    name: 'Q1 Financial Statement.xlsx',
+    name: 'Q1 Operating Statement.xlsx',
     fileType: 'excel',
     uploadDate: '2023-03-15T10:30:00Z',
     uploader: {
@@ -59,7 +59,7 @@ export const PROJECT_FILES_MOCK_DATA: UploadedFile[] = [
   },
   {
     id: 'file-102',
-    name: 'Rent Roll 2023.xlsx',
+    name: 'SF Office Building Rent Roll 2023.xlsx',
     fileType: 'excel',
     uploadDate: '2023-02-10T09:45:00Z',
     uploader: {
@@ -113,7 +113,7 @@ export const PROJECT_FILES_MOCK_DATA: UploadedFile[] = [
   },
   {
     id: 'file-103',
-    name: 'Lease Agreement.pdf',
+    name: 'SF Office Building Operating Statement Q4.pdf',
     fileType: 'pdf',
     uploadDate: '2023-04-05T14:15:00Z',
     uploader: {
@@ -138,7 +138,7 @@ export const PROJECT_FILES_MOCK_DATA: UploadedFile[] = [
   },
   {
     id: 'file-104',
-    name: 'Annual Report 2023.pdf',
+    name: 'Annual Operating Statement 2023.pdf',
     fileType: 'pdf',
     uploadDate: '2023-05-10T11:30:00Z',
     uploader: {
@@ -192,7 +192,7 @@ export const PROJECT_FILES_MOCK_DATA: UploadedFile[] = [
   },
   {
     id: 'file-105',
-    name: 'Property Portfolio Q2.xlsx',
+    name: 'Property Portfolio Q2 Operating Statement.xlsx',
     fileType: 'excel',
     uploadDate: '2023-06-15T13:20:00Z',
     uploader: {

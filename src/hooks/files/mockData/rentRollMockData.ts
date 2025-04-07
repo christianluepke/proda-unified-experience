@@ -5,7 +5,7 @@ import { UploadedFile } from '../types';
 export const RENT_ROLL_FILES: UploadedFile[] = [
   {
     id: 'file-2',
-    name: 'Skyview-Apartments-Data.xlsx',
+    name: 'Skyview Apartments Rent Roll.xlsx',
     fileType: 'excel',
     uploadDate: '2023-04-05T14:20:00Z',
     uploader: {
@@ -87,7 +87,7 @@ export const RENT_ROLL_FILES: UploadedFile[] = [
   },
   {
     id: 'file-7',
-    name: 'Lakeshore-Heights-RentRoll.xlsx',
+    name: 'Lakeshore Heights Rent Roll Q2.xlsx',
     fileType: 'excel',
     uploadDate: '2023-08-05T11:15:00Z',
     uploader: {
@@ -141,7 +141,7 @@ export const RENT_ROLL_FILES: UploadedFile[] = [
   },
   {
     id: 'file-9',
-    name: 'Cityview-Tower-Analysis.xlsx',
+    name: 'Cityview Tower Rent Roll 2023.xlsx',
     fileType: 'excel',
     uploadDate: '2023-09-10T15:30:00Z',
     uploader: {
@@ -195,7 +195,7 @@ export const RENT_ROLL_FILES: UploadedFile[] = [
   },
   {
     id: 'file-11',
-    name: 'Pinecrest-Plaza-Data.xlsx',
+    name: 'Pinecrest Plaza Rent Roll Q3.xlsx',
     fileType: 'excel',
     uploadDate: '2023-10-07T10:45:00Z',
     uploader: {

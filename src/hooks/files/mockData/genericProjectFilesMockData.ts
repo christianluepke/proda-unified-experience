@@ -1,34 +1,30 @@
 
 import { UploadedFile } from '../types';
 
-// Common file and document names that can be used for any project
-const FILE_NAMES = [
+// Common rent roll file names
+const RENT_ROLL_FILE_NAMES = [
   'Rent Roll.xlsx',
-  'Financial Statement.xlsx',
-  'Budget Report.xlsx',
-  'Lease Agreement.pdf',
-  'Property Analysis.pdf',
-  'Market Study.pdf',
-  'Valuation Report.pdf',
-  'Due Diligence Summary.pdf',
-  'Capital Expenditure Plan.xlsx',
-  'Income Statement.xlsx',
-  'Operating Expenses.pdf',
-  'Tenant Directory.xlsx',
-  'Property Tax Statement.pdf',
-  'Maintenance Reports.xlsx',
-  'Property Insurance Policy.pdf',
-  'Environmental Assessment.pdf',
-  'Management Agreement.pdf',
-  'Building Permits.pdf'
+  'Property Rent Roll.xlsx',
+  'Quarterly Rent Roll.xlsx', 
+  'Annual Rent Roll 2023.xlsx',
+  'Rent Roll Q1.xlsx',
+  'Rent Roll Q2.xlsx',
+  'Rent Roll Q3.xlsx',
+  'Rent Roll Q4.xlsx',
+  'Tenant Rent Roll.xlsx'
 ];
 
-// Document types with proper labeling
-const DOCUMENT_TYPES: Array<'rent_roll' | 'operating_statement' | 'budget' | 'other'> = [
-  'rent_roll',
-  'operating_statement',
-  'budget',
-  'other'
+// Common operating statement file names
+const OPERATING_STATEMENT_FILE_NAMES = [
+  'Operating Statement.xlsx',
+  'Financial Statement.xlsx',
+  'Operating Statement Q1.pdf',
+  'Operating Statement Q2.pdf',
+  'Operating Statement Q3.pdf',
+  'Operating Statement Q4.pdf',
+  'Annual Operating Statement.pdf',
+  'Income Statement.xlsx',
+  'Operating Expenses.pdf'
 ];
 
 // Common uploader names
@@ -50,22 +46,20 @@ export const generateGenericFiles = (count: number): UploadedFile[] => {
   const files: UploadedFile[] = [];
   
   for (let i = 0; i < count; i++) {
-    const isExcel = Math.random() > 0.5;
-    const randomFileName = FILE_NAMES[Math.floor(Math.random() * FILE_NAMES.length)];
+    const isRentRoll = Math.random() > 0.5;
+    const isExcel = Math.random() > 0.3;
+    
+    // Choose file name based on type
+    const fileNames = isRentRoll ? RENT_ROLL_FILE_NAMES : OPERATING_STATEMENT_FILE_NAMES;
+    const randomFileName = fileNames[Math.floor(Math.random() * fileNames.length)];
     const randomUploader = UPLOADER_NAMES[Math.floor(Math.random() * UPLOADER_NAMES.length)];
     
-    // Choose document type based on filename for more realistic matching
-    let randomDocType: 'rent_roll' | 'operating_statement' | 'budget' | 'other';
-    if (randomFileName.toLowerCase().includes('rent') || randomFileName.toLowerCase().includes('tenant')) {
-      randomDocType = 'rent_roll';
-    } else if (randomFileName.toLowerCase().includes('financial') || 
-              randomFileName.toLowerCase().includes('income') || 
-              randomFileName.toLowerCase().includes('operating')) {
-      randomDocType = 'operating_statement';
-    } else if (randomFileName.toLowerCase().includes('budget')) {
-      randomDocType = 'budget';
+    // Set document type based on file name
+    let documentType: 'rent_roll' | 'operating_statement';
+    if (isRentRoll) {
+      documentType = 'rent_roll';
     } else {
-      randomDocType = 'other';
+      documentType = 'operating_statement';
     }
     
     const randomDate = new Date(Date.now() - Math.floor(Math.random() * 31536000000)).toISOString(); // Within last year
@@ -84,7 +78,7 @@ export const generateGenericFiles = (count: number): UploadedFile[] => {
         {
           id: `generic-doc-${i}`,
           name: randomFileName.replace('.xlsx', '').replace('.pdf', ''),
-          type: randomDocType,
+          type: documentType,
           createdAt: randomDate,
           updatedAt: new Date(Date.now() - Math.floor(Math.random() * 15768000000)).toISOString(), // Within last 6 months
           creator: {
@@ -111,5 +105,5 @@ export const generateGenericFiles = (count: number): UploadedFile[] => {
   return files;
 };
 
-// Generate 30 generic files (increased from 20)
+// Generate 30 generic files
 export const GENERIC_PROJECT_FILES = generateGenericFiles(30);
