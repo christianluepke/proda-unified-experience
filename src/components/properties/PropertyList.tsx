@@ -22,8 +22,8 @@ const PropertyList: React.FC<PropertyListProps> = ({ properties, columns, onDele
   }
   
   return (
-    <div className="rounded-md border overflow-hidden">
-      <div className="relative w-full overflow-auto">
+    <div className="w-full rounded-md border overflow-hidden">
+      <div className="w-full overflow-auto">
         <Table>
           <PropertyTableHeader columns={columns} />
           <TableBody>
