@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Upload from "./pages/Upload";
 import Projects from "./pages/Projects";
 import ProjectDetails from "./pages/ProjectDetails";
+import Properties from "./pages/Properties";
 import Dashboard from "./pages/Dashboard";
 import DataGovernance from "./pages/DataGovernance";
 import LeasingCRM from "./pages/LeasingCRM";
@@ -38,6 +39,7 @@ function App() {
               <Route path="/upload" element={<Layout><Upload /></Layout>} />
               <Route path="/projects" element={<Layout><Projects /></Layout>} />
               <Route path="/projects/:projectId" element={<Layout><ProjectDetails /></Layout>} />
+              <Route path="/properties" element={<Layout><Properties /></Layout>} />
               <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
               <Route path="/data-governance" element={<Layout><DataGovernance /></Layout>} />
               <Route path="/leasing-crm" element={<Layout><LeasingCRM /></Layout>} />

@@ -12,6 +12,24 @@ export interface Property {
   sqft: number;
   createdAt: string;
   assetType?: string;
+  projectId?: string;
+  projectName?: string;
+  portfolioName?: string;
+  latestRentRollDate?: string;
+  parkingArea?: number;
+  tenantCount?: number;
+  occupancy?: number;
+  vacancy?: number;
+  contractedRentPA?: number;
+  waltBreak?: number;
+  waltExpiry?: number;
+  propertyManager?: string;
+  assetManager?: string;
+  region?: string;
+  acquisitionDate?: string;
+  saleDate?: string;
+  underwritingStartDate?: string;
+  areaUnit?: 'sqft' | 'sqm';
 }
 
 export interface Project {
