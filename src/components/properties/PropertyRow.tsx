@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Trash2, Eye, AlertCircle } from 'lucide-react';
+import { Trash2, ExternalLink, AlertCircle } from 'lucide-react';
 import { Property } from '@/components/upload/models';
 import { format, parseISO } from 'date-fns';
 import { formatCurrency } from '@/lib/utils';
@@ -138,7 +138,7 @@ const PropertyRow: React.FC<PropertyRowProps> = ({ property, columns, onDelete }
             className="h-8 w-8"
             onClick={handleView}
           >
-            <Eye className="h-4 w-4" />
+            <ExternalLink className="h-4 w-4" />
           </Button>
           <Button 
             variant="ghost" 

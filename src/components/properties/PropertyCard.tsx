@@ -4,7 +4,7 @@ import { Property } from '@/components/upload/models';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Trash2, Eye, Building2, MapPin, Users, CreditCard, CalendarDays } from 'lucide-react';
+import { Trash2, ExternalLink, Building2, MapPin, Users, CreditCard, CalendarDays } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { formatCurrency } from '@/lib/utils';
 import { format, parseISO } from 'date-fns';
@@ -96,7 +96,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onDelete }) => {
       </CardContent>
       <CardFooter className="px-4 py-3 border-t flex justify-between">
         <Button variant="ghost" size="sm" onClick={handleView}>
-          <Eye className="h-4 w-4 mr-1" />
+          <ExternalLink className="h-4 w-4 mr-1" />
           View Details
         </Button>
         <Button variant="ghost" size="sm" onClick={() => onDelete(property.id)} className="text-destructive hover:text-destructive">
