@@ -2,6 +2,7 @@
 import React from 'react';
 import { Building2, MapPin, Calendar, User, FileText } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button'; // Added missing Button import
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { format } from 'date-fns';
 import { Project } from '@/components/upload/models';
