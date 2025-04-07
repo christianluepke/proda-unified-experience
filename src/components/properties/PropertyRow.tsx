@@ -17,7 +17,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useNavigate } from 'react-router-dom';
 
@@ -75,13 +74,13 @@ const PropertyRow: React.FC<PropertyRowProps> = ({ property, columns, onDelete }
   const renderCellContent = (columnId: string) => {
     switch (columnId) {
       case 'name':
-        return <span className="font-medium">{property.name}</span>;
+        return <span className="font-medium truncate block max-w-[180px]">{property.name}</span>;
       case 'assetType':
-        return <Badge variant="outline">{property.assetType || 'N/A'}</Badge>;
+        return <Badge variant="outline" className="truncate max-w-full">{property.assetType || 'N/A'}</Badge>;
       case 'projectName':
-        return property.projectName || 'Not assigned';
+        return <span className="truncate block max-w-[150px]">{property.projectName || 'Not assigned'}</span>;
       case 'portfolioName':
-        return property.portfolioName || 'Not assigned';
+        return <span className="truncate block max-w-[150px]">{property.portfolioName || 'Not assigned'}</span>;
       case 'country':
         return property.country;
       case 'city':
@@ -107,9 +106,9 @@ const PropertyRow: React.FC<PropertyRowProps> = ({ property, columns, onDelete }
       case 'waltExpiry':
         return formatYears(property.waltExpiry);
       case 'propertyManager':
-        return property.propertyManager || 'Not assigned';
+        return <span className="truncate block max-w-[150px]">{property.propertyManager || 'Not assigned'}</span>;
       case 'assetManager':
-        return property.assetManager || 'Not assigned';
+        return <span className="truncate block max-w-[150px]">{property.assetManager || 'Not assigned'}</span>;
       case 'region':
         return property.region || 'N/A';
       case 'acquisitionDate':
@@ -127,27 +126,29 @@ const PropertyRow: React.FC<PropertyRowProps> = ({ property, columns, onDelete }
     <>
       <TableRow className="hover:bg-muted/30">
         {visibleColumns.map((column) => (
-          <TableCell key={column.id}>
+          <TableCell key={column.id} className="py-3 max-w-[200px]">
             {renderCellContent(column.id)}
           </TableCell>
         ))}
-        <TableCell className="text-right space-x-1">
-          <Button 
-            variant="ghost" 
-            size="icon"
-            className="h-8 w-8"
-            onClick={handleView}
-          >
-            <ExternalLink className="h-4 w-4" />
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="icon"
-            className="h-8 w-8 text-destructive hover:text-destructive"
-            onClick={handleDelete}
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
+        <TableCell className="text-right whitespace-nowrap w-[100px]">
+          <div className="flex justify-end">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="h-8 w-8"
+              onClick={handleView}
+            >
+              <ExternalLink className="h-4 w-4" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="h-8 w-8 text-destructive hover:text-destructive-foreground"
+              onClick={handleDelete}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
         </TableCell>
       </TableRow>
       
