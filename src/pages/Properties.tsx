@@ -28,43 +28,47 @@ const Properties = () => {
   });
   
   return (
-    <div className="w-full px-6 py-8 space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-3xl font-bold">Properties</h1>
-        <div className="flex items-center gap-2">
-          <Button
-            variant={viewMode === 'grid' ? 'default' : 'outline'}
-            size="icon"
-            onClick={() => setViewMode('grid')}
-            className="h-9 w-9"
-          >
-            <GridIcon className="h-5 w-5" />
-          </Button>
-          <Button
-            variant={viewMode === 'list' ? 'default' : 'outline'}
-            size="icon"
-            onClick={() => setViewMode('list')}
-            className="h-9 w-9"
-          >
-            <ListIcon className="h-5 w-5" />
-          </Button>
-          {viewMode === 'list' && (
-            <ColumnSelector 
-              columns={columns}
-              toggleColumnVisibility={toggleColumnVisibility}
+    <div className="w-full max-w-[95%] 2xl:max-w-[90%] mx-auto py-10">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Properties</h1>
+        <div className="flex items-center space-x-3">
+          <div className="relative w-48">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <SearchIcon className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <Input
+              className="pl-10"
+              placeholder="Search properties..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-          )}
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <Button
+              variant={viewMode === 'grid' ? 'default' : 'outline'}
+              size="icon"
+              onClick={() => setViewMode('grid')}
+              className="h-9 w-9"
+            >
+              <GridIcon className="h-5 w-5" />
+            </Button>
+            <Button
+              variant={viewMode === 'list' ? 'default' : 'outline'}
+              size="icon"
+              onClick={() => setViewMode('list')}
+              className="h-9 w-9"
+            >
+              <ListIcon className="h-5 w-5" />
+            </Button>
+            {viewMode === 'list' && (
+              <ColumnSelector 
+                columns={columns}
+                toggleColumnVisibility={toggleColumnVisibility}
+              />
+            )}
+          </div>
         </div>
-      </div>
-      
-      <div className="flex items-center border rounded-md px-3 py-2 w-full sm:w-96">
-        <SearchIcon className="h-4 w-4 text-muted-foreground mr-2" />
-        <Input 
-          placeholder="Search properties..." 
-          className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
       </div>
       
       <div className="mb-4">
